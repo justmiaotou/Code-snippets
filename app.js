@@ -18,6 +18,7 @@ var app = module.exports = express.createServer();
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
+  app.set('view options', { layout: false });
   app.register('.html', require('jade'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
@@ -47,7 +48,8 @@ app.all('/*.html', function(req, res, next) {
 });
 app.get('/', routes.index);
 app.get('/snippets', routes.snippets);
-app.get('/new', routes.new);
+app.get('/new-snippet', routes.newSnippet);
+app.post('/snippet-upload', routes.snippetUpload);
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

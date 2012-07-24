@@ -1,0 +1,27 @@
+extends tpl
+
+block style_head
+    link(rel='stylesheet', href='css/snippets.css')
+
+block content
+    section.snippet-upload
+        header
+            hgroup
+                h2.entry-title
+                    b &#10162;
+                    | 代码上传
+        form#snippet-form(action='/snippet-upload', method='POST')
+            ul
+                li
+                    label(for='desc') 描述：
+                    textarea#desc(name='description')
+                li
+                    label(for='html') HTML：
+                    textarea#html(name='html-code')
+                li
+                    label(for='css') CSS：
+                    textarea#css(name='css-code')
+                li
+                    label(for='js') JS：
+                    textarea#js(name='js-code')
+            input#snippet-submit(type='submit')

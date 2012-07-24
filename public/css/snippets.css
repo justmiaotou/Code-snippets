@@ -48,7 +48,7 @@ body {
 .main-nav .list .ch {  }
 
 .entry { padding-bottom:30px; }
-.entry header { box-shadow:0 4px 8px #999; margin-bottom:20px; }
+.snippet-upload header, .entry header { box-shadow:0 4px 8px #999; margin-bottom:20px; }
 .entry-title { padding-left:20px; background:#A0DAE8; border-top:3px solid #777; line-height:43px; font-size:24px; color:#333; }
 .entry-title b { margin-right:10px; }
 .entry .effect-btn { float:right; margin:-43px 0 0; background:#CB8F42; border:0; cursor:pointer; height:43px; font-size:14px; color:#333; width:100px; }
