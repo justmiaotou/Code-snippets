@@ -1,0 +1,17 @@
+html { min-height:100%; }
+.hide { display:none; }
+.clearfix { *zoom:1; }
+.clearfix:after { display:block; content:''; height:0; overflow:hidden; clear:both;  }
+
+.fl { float:left; }
+.fr { float:right; }
+.relative { position:relative; }
+.ib { display:inline-block; *display:inline; *zoom:1; }
+.out-link:after { content:"\00BB"; display:inline; }
+.hover-1:hover { background:#999; box-shadow:inset 0px 0px 4px #333; border-radius:3px; }
+.pointer:hover { cursor:pointer; }
+a { color:#555; }
+table { width:100%; }
+th { font-weight:bold; }
+th, td { position:relative; word-break:break-all; vertical-align:middle; }
+button, input, select { font-family:Microsoft YaHei,Arial,Helvetica,sans-serif; }

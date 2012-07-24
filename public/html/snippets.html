@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>代码片段收集</title>
+		<link rel="stylesheet" href="stylesheets/reset.css" />
+		<link rel="stylesheet" href="stylesheets/common.css" />
+		<link rel="stylesheet" href="stylesheets/snippets.css" />
+        <script src="javascripts/common.js"></script>
+	</head>
+    <body>
+        <div class="mask hide">
+            <p class="av-center">点击隐藏遮罩</p>
+        </div>
+        <nav class="main-nav">
+            <ul class="list">
+            	<li class="selected f4">Effect</li>
+            	<li class="f4">Code</li>
+            </ul>
+        </nav>
+        <section class="con">
+            <section class="effect-block">
+                <article class="entry">
+                    <header>
+                        <hgroup>
+                            <h2 class="entry-title"><b>&#10162;</b>顶层遮罩</h2>
+                            <button class="effect-btn" id="mask-btn">点击看效果</button>
+                        </hgroup>
+                    </header>
+                    <section class="entry-info">
+                        <p class="desc">可作为浮层对底层的隔离</p>
+                    </section>
+                    <section class="HTML code">
+                        <h3 class="">HTML</h3>
+                        <pre>
+    &lt;div class="mask"&gt;&lt;/div&gt;
+                        </pre>
+                    </section>
+                    <section class="CSS code">
+                        <h3 class="">CSS</h3>
+                        <pre>
+    /* 对于IE6、7，使用绝对定位+Js控制；其它浏览器使用fixed即可实现效果 */
+    .mask { 
+        position: fixed;
+        *position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        background: black;
+        opacity: .4;
+        filter: alpha(opacity=40);
+        z-index: 25; /* 视情况更改合适数值 */
+    }
+                        </pre>
+                    </section>
+                    <section class="code JS">
+                        <h3 class="">Javascript</h3>
+                        <pre>
+    // IE6、7针对不支持position:fixed的情况
+    if (getCurrentStyle(mask).position == "absolute"){
+        mask.style.height = getViewportHeight()+'px';
+        window.onscroll = function() {
+            mask.style.top = getScrollTop();
+            mask.style.left = getScrollLeft();
+        }
+        // 防止resize时底部留空白
+        window.onresize = function() {
+            mask.style.height = getViewportHeight()+'px';
+        }
+    }
+                        </pre>
+                    </section>
+                </article>
+                <article class="entry">
+                    <header>
+                        <hgroup>
+                            <h2 class="entry-title"><b>&#10162;</b></h2>
+                            <button class="effect-btn" id="">点击看效果</button>
+                        </hgroup>
+                    </header>
+                    <section class="entry-info">
+                        <p class="desc"></p>
+                    </section>
+                    <section class="HTML code">
+                        <h3 class="">HTML</h3>
+                        <pre>
+                        </pre>
+                    </section>
+                    <section class="CSS code">
+                        <h3 class="">CSS</h3>
+                        <pre>
+                        </pre>
+                    </section>
+                    <section class="code JS">
+                        <h3 class="">Javascript</h3>
+                        <pre>
+                        </pre>
+                    </section>
+                </article>
+            </section>
+            <section class="code-block hide">
+                <article class="entry">
+                    <header>
+                        <hgroup>
+                            <h2 class="entry-title"><b>&#10162;</b>function getCurrentStyle(Object node)</h2>
+                        </hgroup>
+                    </header>
+                    <section class="code JS">
+                        <h3 class="">Javascript</h3>
+                        <pre>
+    /**
+     * @description 获得计算后的样式集合
+     */
+    function getCurrentStyle(node) {
+        var style = null;
+        if (window.getComputedStyle) {
+            style = window.getComputedStyle(node, null);
+        } else {
+            style = node.currentStyle;
+        }
+        return style;
+    }
+                        </pre>
+                    </section>
+                </article>
+                <article class="entry">
+                    <header>
+                        <hgroup>
+                            <h2 class="entry-title"><b>&#10162;</b>function getViewportHeight()</h2>
+                        </hgroup>
+                    </header>
+                    <section class="code JS">
+                        <h3 class="">Javascript</h3>
+                        <pre>
+    /**
+     * @description 获得可视高度
+     */
+    function getViewportHeight() {
+        return document.documentElement.clientHeight || document.body.clientHeight;
+    }
+                        </pre>
+                    </section>
+                </article>
+                <article class="entry">
+                    <header>
+                        <hgroup>
+                            <h2 class="entry-title"><b>&#10162;</b>function getScrollTop()</h2>
+                        </hgroup>
+                    </header>
+                    <section class="code JS">
+                        <h3 class="">Javascript</h3>
+                        <pre>
+    /**
+     * @description 获得上卷的高度
+     */
+    function getScrollTop() {
+        return document.documentElement.scrollTop ||document.body.scrollTop;
+    }
+                        </pre>
+                    </section>
+                </article>
+                <article class="entry">
+                    <header>
+                        <hgroup>
+                            <h2 class="entry-title"><b>&#10162;</b>function getScrollLeft()</h2>
+                        </hgroup>
+                    </header>
+                    <section class="code JS">
+                        <h3 class="">Javascript</h3>
+                        <pre>
+    /**
+     * @description 获得左卷的宽度
+     */
+    function getScrollLeft() {
+        return document.documentElement.scrollLeft ||document.body.scrollLeft;
+    }
+                        </pre>
+                    </section>
+                </article>
+                <article class="entry">
+                    <header>
+                        <hgroup>
+                            <h2 class="entry-title"><b>&#10162;</b>function addEvent(Object node, String type, Function callback)</h2>
+                        </hgroup>
+                    </header>
+                    <section class="code JS">
+                        <h3 class="">Javascript</h3>
+                        <pre>
+    /**
+     * @description 绑定事件
+     */
+    function addEvent(node, type, callback) {
+        if (node.addEventListener) {
+            node.addEventListener(type, callback, false);
+        } else if (node.attachEvent) {
+            node.attachEvent('on'+ type, callback);
+        } else {
+            node['on'+ type] = callback;
+        }
+    }
+                        </pre>
+                    </section>
+                </article>
+                <article class="entry">
+                    <header>
+                        <hgroup>
+                            <h2 class="entry-title"><b>&#10162;</b></h2>
+                        </hgroup>
+                    </header>
+                    <section class="code JS">
+                        <h3 class="">Javascript</h3>
+                        <pre>
+                        </pre>
+                    </section>
+                </article>
+                <article class="entry">
+                    <header>
+                        <hgroup>
+                            <h2 class="entry-title"><b>&#10162;</b></h2>
+                        </hgroup>
+                    </header>
+                    <section class="code JS">
+                        <h3 class="">Javascript</h3>
+                        <pre>
+                        </pre>
+                    </section>
+                </article>
+                <article class="entry">
+                    <header>
+                        <hgroup>
+                            <h2 class="entry-title"><b>&#10162;</b></h2>
+                        </hgroup>
+                    </header>
+                    <section class="code JS">
+                        <h3 class="">Javascript</h3>
+                        <pre>
+                        </pre>
+                    </section>
+                </article>
+                <article class="entry">
+                    <header>
+                        <hgroup>
+                            <h2 class="entry-title"><b>&#10162;</b></h2>
+                        </hgroup>
+                    </header>
+                    <section class="code JS">
+                        <h3 class="">Javascript</h3>
+                        <pre>
+                        </pre>
+                    </section>
+                </article>
+                <article class="entry">
+                    <header>
+                        <hgroup>
+                            <h2 class="entry-title"><b>&#10162;</b></h2>
+                        </hgroup>
+                    </header>
+                    <section class="code JS">
+                        <h3 class="">Javascript</h3>
+                        <pre>
+                        </pre>
+                    </section>
+                </article>
+            </section>
+        </section>
+        <script src="javascripts/snippets.js"></script>
+    </body>
+</html>
