@@ -1,0 +1,37 @@
+extends tpl
+
+block style_head
+    link(rel='stylesheet', href='css/snippets.css')
+
+block script_head
+    script(src='js/common.js')
+
+block nav
+    nav.main-nav
+        ul.list
+            li.selected.f4 Effect
+            li.f4 Code
+
+block content
+    section.effect-block
+        article.entry
+            header
+                hgroup
+                    h2.entry-title
+                        b &#10162;
+                        hahaha
+                    button.effect-btn 点击看效果
+            section.entry-info
+                p.desc
+            section.code.HTML
+                h3 HTML
+                pre
+            section.code.CSS
+                h3 CSS
+                pre
+            section.code.JS
+                h3 Javascript
+                pre
+
+block script_foot
+    script(src='js/snippets.js')

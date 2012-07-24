@@ -1,0 +1,17 @@
+!!! 5
+html
+    head
+        meta(charset='utf-8')
+        title #{title}
+        link(rel='stylesheet', href='css/reset.css')
+        link(rel='stylesheet', href='css/common.css')
+        block style_head
+        script(src='js/common.js')
+        block script_head
+    body
+        block header
+        block nav
+        section.con
+            block content
+        block footer
+        block script_foot

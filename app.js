@@ -46,6 +46,7 @@ app.all('/*.html', function(req, res, next) {
     }
 });
 app.get('/', routes.index);
+app.get('/snippets', routes.snippets);
 app.get('/new', routes.new);
 
 app.listen(3000, function(){
