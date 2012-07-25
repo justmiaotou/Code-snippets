@@ -17,7 +17,8 @@ block content
                     hgroup
                         h2.entry-title
                             b &#10162;
-                            | #{snippet.author}
+                            | #{snippet.title}
+                            span.author #{snippet.author}
                         button.effect-btn 点击看效果
                 section.entry-info
                     p.desc #{snippet.desc}
@@ -30,6 +31,7 @@ block content
                 section.code.JS
                     h3 Javascript
                     pre
+                span.hide.snippet-id #{snippet._id}
 
 block script_foot
     script(src='js/snippets.js')

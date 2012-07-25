@@ -10,8 +10,33 @@ html { min-height:100%; }
 .out-link:after { content:"\00BB"; display:inline; }
 .hover-1:hover { background:#999; box-shadow:inset 0px 0px 4px #333; border-radius:3px; }
 .pointer:hover { cursor:pointer; }
+.center { text-align:center; }
 a { color:#555; }
 table { width:100%; }
 th { font-weight:bold; }
 th, td { position:relative; word-break:break-all; vertical-align:middle; }
 button, input, select { font-family:Microsoft YaHei,Arial,Helvetica,sans-serif; }
+
+/* 文本框样式 */
+.txt { height:30px; padding-left:3px; border:1px solid #CCC; }
+.txt:focus { background:#FFFCE5; }
+
+/* 按钮样式 */
+.btn_1 { border:3px solid #7CC0D3; background:lightblue; padding:10px 30px; font-size:18px; border-radius:8px; cursor:pointer; }
+.btn_1:hover { background:#B3E5AE; }
+.btn_1:active {}
+
+body {
+    background:linear-gradient(top, #F8F5F2 40%, #D0CBC4);
+    background:-webkit-linear-gradient(top, #F8F5F2 40%, #D0CBC4);
+    background:-moz-linear-gradient(top, #F8F5F2 40%, #D0CBC4);
+    background:-ms-linear-gradient(top, #F8F5F2 40%, #D0CBC4);
+    background:-o-linear-gradient(top, #F8F5F2 40%, #D0CBC4);
+}
+
+.con { position:relative; margin:20px auto; width:800px; background:white; box-shadow:0 5px 10px; }
+
+.entry { padding-bottom:30px; }
+.snippet-upload header, .entry header { box-shadow:0 4px 8px #999; margin-bottom:20px; }
+.entry-title { padding-left:20px; background:#A0DAE8; border-top:3px solid #777; line-height:43px; font-size:24px; color:#333; }
+.entry-title b { margin-right:10px; }

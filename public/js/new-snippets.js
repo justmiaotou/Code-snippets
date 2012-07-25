@@ -5,6 +5,7 @@
         ajax({
             url: '/snippet-upload'
             , form: form
+            , blackList: ['select-one']
             , on : {
                 complete: function(o, args) {
                     var res = JSON.parse(o.responseText);

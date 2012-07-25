@@ -1,0 +1,6 @@
+/* code snippet upload */
+#snippet-form { padding:20px 30px; }
+#snippet-form li { margin:10px 0; }
+#snippet-form label { width:100px; text-align:right; }
+#snippet-form textarea { width:600px; min-height:100px; vertical-align:top; }
+#author { width:200px; }

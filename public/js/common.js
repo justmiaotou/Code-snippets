@@ -194,6 +194,7 @@ function getCurrentStyle(node) {
  *      , isAsync: false // default: true
  *      , form: form
  *      , useDisabled: true // default: false
+ *      , blackList: ['select-one']
  *      , data: {   // data: 'a=1&b=2'
  *            a: 1
  *          , b: 2
@@ -237,15 +238,27 @@ var ajax = (function(){
      * @description 对表单进行序列化
      * 修改自《Javascript高级程序设计》 P356
      */
-    function serialize(form, useDisabled) {
+    function serialize(form, useDisabled, blackList) {
         var parts = [],
-            field = null;
+            field = null,
+            inBlackList;
         for (var i = 0, l = form.elements.length; i < l; ++i) {
+            inBlackList = false;
             field = form.elements[i];
             // 默认不包含disabled的元素
             // 若想包含disabled元素，则设置useDisabled = true
             if (field.disabled && !useDisabled) {
                 continue;
+            }
+            // 若元素类型属于黑名单中，则不包含该元素
+            if (blackList && blackList.length > 0) {
+                for (var j = 0, k = blackList.length; j < k; ++j) {
+                    if (field.type == blackList[j]) {
+                        inBlackList = true;
+                        break;
+                    }
+                }
+                if (inBlackList) continue;
             }
             switch(field.type) {
                 case 'select-one':
@@ -295,7 +308,7 @@ var ajax = (function(){
         config.arguments || (config.arguments = {});
 
         var form = config.form,
-            data = form ? serialize(form, config.useDisabled) : '';
+            data = form ? serialize(form, config.useDisabled, config.blackList) : '';
         if (config.data) {
             if (Object.prototype.toString.call(config.data) == '[object String]') {
                 data == '' ? (data = config.data) : (data += '&' + config.data);

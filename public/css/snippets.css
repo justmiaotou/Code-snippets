@@ -30,16 +30,6 @@
 .f3 { font-family:'Mr Bedfort',cursive; }
 .f4 { font-family: 'Merienda One', cursive; }
 
-body {
-    background:linear-gradient(top, #F8F5F2 40%, #D0CBC4);
-    background:-webkit-linear-gradient(top, #F8F5F2 40%, #D0CBC4);
-    background:-moz-linear-gradient(top, #F8F5F2 40%, #D0CBC4);
-    background:-ms-linear-gradient(top, #F8F5F2 40%, #D0CBC4);
-    background:-o-linear-gradient(top, #F8F5F2 40%, #D0CBC4);
-}
-
-.con { position:relative; margin:20px auto; width:800px; background:white; box-shadow:0 5px 10px; }
-
 .main-nav { position:fixed; top:100px; margin-left:390px; left:50%; }
 .main-nav .list {  }
 .main-nav .list li { padding:15px 30px; width:105px; margin-bottom:-3px; border:3px dashed #555; border-radius:12px; cursor:pointer; font-size:30px; }
@@ -47,10 +37,6 @@ body {
 .main-nav .list .en { padding-right:10px; font-size:30px; }
 .main-nav .list .ch {  }
 
-.entry { padding-bottom:30px; }
-.snippet-upload header, .entry header { box-shadow:0 4px 8px #999; margin-bottom:20px; }
-.entry-title { padding-left:20px; background:#A0DAE8; border-top:3px solid #777; line-height:43px; font-size:24px; color:#333; }
-.entry-title b { margin-right:10px; }
 .entry .effect-btn { float:right; margin:-43px 0 0; background:#CB8F42; border:0; cursor:pointer; height:43px; font-size:14px; color:#333; width:100px; }
 .entry .effect-btn:hover { background:#c58c42; }
 .entry .effect-btn:active { background:#ac814a; }
@@ -64,7 +50,7 @@ body {
 .JS pre:before { content:"Javascript"; }
 .code h3 { position:absolute; background:#99d035; width:80px; padding:3px 10px; top:-3px; left:-3px; border-radius:0 0 5px; color:white; font-size:16px; }
 
+/* 遮罩效果 */
 .mask { position:fixed; *position:absolute; height:100%; width:100%; top:0; background:black; opacity:.4; filter:alpha(opacity=40); z-index:5; }
 .mask p { padding:0 20px; font-size:50px; color:#CCC; width:320px; line-height:1.5; border:5px solid; text-align:center; }
-
 .av-center { position:absolute; left:50%; top:50%; margin:-44px 0 0 -165px; }

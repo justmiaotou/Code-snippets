@@ -1,7 +1,7 @@
 extends tpl
 
 block style_head
-    link(rel='stylesheet', href='css/snippets.css')
+    link(rel='stylesheet', href='css/new-snippet.css')
 
 block content
     section.snippet-upload
@@ -10,31 +10,27 @@ block content
                 h2.entry-title
                     b &#10162;
                     | 代码上传
-        form#snippet-form(action='/snippet-upload', method='POST')
+        form#snippet-form
             ul
                 li
-                    label(for='author') 作者:
-                    input#author(type='text', name='author')
+                    label.ib(for='author') 作者：
+                    input.txt#author(type='text', name='author')
                 li
-                    label 代码语言：
-                    select(name='type')
-                        option('value=1') HTML
-                        option('value=2', selected) CSS
-                        option('value=3') Javascript
-                        option('value=4') Java
+                    label.ib(for='desc') 描述：
+                    textarea.txt#desc(name='description')
                 li
-                    label(for='desc') 描述：
-                    textarea#desc(name='description')
+                    label.ib(for='html') HTML：
+                    textarea.code.txt#html(name='html-code')
                 li
-                    label(for='html') HTML：
-                    textarea#html(name='html-code')
-                li
-                    label(for='css') CSS：
-                    textarea#css(name='css-code')
-                li
-                    label(for='js') JS：
-                    textarea#js(name='js-code')
-            input#snippet-submit(type='submit')
+                    label.ib 代码语言：
+                    select
+                        option(selected) HTML
+                        option CSS
+                        option Javascript
+                        option Java
+                    button.add-code-btn 添加
+            .center
+                input.btn_1#snippet-submit(type='submit')
 
 block script_foot
     script(src='js/new-snippets.js')
