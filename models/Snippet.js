@@ -7,11 +7,11 @@ var Code = new Schema({
     , desc: String
     , code: String
 });
-var Article = new Schema({
+var Snippet = new Schema({
     author: String
     , desc: String
-    , Codes: [Code]
+    , codes: [Code]
     , hasEffect: Boolean
 });
 
-mongoose.model('Article', Article);
+mongoose.model('Snippet', Snippet);

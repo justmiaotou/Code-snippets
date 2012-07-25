@@ -11,24 +11,25 @@ block nav
 
 block content
     section.effect-block
-        article.entry
-            header
-                hgroup
-                    h2.entry-title
-                        b &#10162;
-                        | hahaha
-                    button.effect-btn 点击看效果
-            section.entry-info
-                p.desc
-            section.code.HTML
-                h3 HTML
-                pre
-            section.code.CSS
-                h3 CSS
-                pre
-            section.code.JS
-                h3 Javascript
-                pre
+        - each snippet in snippets
+            article.entry
+                header
+                    hgroup
+                        h2.entry-title
+                            b &#10162;
+                            | #{snippet.author}
+                        button.effect-btn 点击看效果
+                section.entry-info
+                    p.desc #{snippet.desc}
+                section.code.HTML
+                    h3 HTML
+                    pre
+                section.code.CSS
+                    h3 CSS
+                    pre
+                section.code.JS
+                    h3 Javascript
+                    pre
 
 block script_foot
     script(src='js/snippets.js')

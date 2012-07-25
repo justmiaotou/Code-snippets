@@ -22,6 +22,8 @@
         }
     });
 })();
+
+// 遮罩效果演示
 (function() {
     var fragment = document.createDocumentFragment();
     var elt = document.createElement('div');

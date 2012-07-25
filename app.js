@@ -40,7 +40,7 @@ app.all('/*.html', function(req, res, next) {
     //console.log(path.extname('req.url:'+req.url));
     var realPath = __dirname + '/public/html' + url.parse(req.url).pathname;
     //console.log('real path:'+realPath);
-    if (path.existsSync(realPath)) {
+    if (fs.existsSync(realPath)) {
         res.end(fs.readFileSync(realPath));
     } else {
         res.end('404');

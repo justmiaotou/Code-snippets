@@ -13,6 +13,16 @@ block content
         form#snippet-form(action='/snippet-upload', method='POST')
             ul
                 li
+                    label(for='author') 作者:
+                    input#author(type='text', name='author')
+                li
+                    label 代码语言：
+                    select(name='type')
+                        option('value=1') HTML
+                        option('value=2', selected) CSS
+                        option('value=3') Javascript
+                        option('value=4') Java
+                li
                     label(for='desc') 描述：
                     textarea#desc(name='description')
                 li
@@ -25,3 +35,6 @@ block content
                     label(for='js') JS：
                     textarea#js(name='js-code')
             input#snippet-submit(type='submit')
+
+block script_foot
+    script(src='js/new-snippets.js')

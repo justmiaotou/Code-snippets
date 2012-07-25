@@ -1,7 +1,13 @@
+/**
+ * @description 通过操作className使节点隐藏
+ */
 function hide(node) {
     addClass(node, 'hide');
 }
 
+/**
+ * @description 通过操作className使节点显示
+ */
 function show(node) {
     removeClass(node, 'hide');
 }
@@ -62,6 +68,22 @@ function nodes(className, p) {
         }
     }
     return arr;
+}
+
+function preventDefault(e) {
+    if (e.preventDefault) {
+        e.preventDefault();
+    } else {
+        e.returnValue = false;
+    }
+}
+
+function stopPropagation(e) {
+    if (e.stopPropagation) {
+        e.stopPropagation();
+    } else {
+        e.cancelBubble = true;
+    }
 }
 
 /**
@@ -160,3 +182,153 @@ function getCurrentStyle(node) {
     }
     return style;
 }
+
+/*========================
+ * Ajax 相关
+ *========================*/
+/**
+ * @description 封装ajax的相关操作
+ * ajax({
+ *        method: 'get' // default: 'post'
+ *      , url: '/example'
+ *      , isAsync: false // default: true
+ *      , form: form
+ *      , useDisabled: true // default: false
+ *      , data: {   // data: 'a=1&b=2'
+ *            a: 1
+ *          , b: 2
+ *      }
+ *      , on: {
+ *            start: function() {}
+ *          , complete: function() {}
+ *      }
+ *      arguments: {
+ *          start: 'hey'
+ *          , complete: [1, 2]
+ *      }
+ * });
+ */
+var ajax = (function(){
+    /**
+     * @description 获得XMLHttpRequest对象。
+     * 摘自《Javascript高级程序设计》 P444
+     */
+    function createXHR() {
+        if (typeof window.XMLHttpRequest != 'undefined') {
+            return new window.XMLHttpRequest();
+        } else if (typeof ActiveXObject != 'undefined') {
+            if (typeof arguments.callee.activeXString != 'string') {
+                var version = ['MSXML2.XMLHttp.6.0', 'MSXML2.XMLHttp.3.0', 'MSXML2.XMLHttp'];
+                for (var i = 0, l = versins.length; i < l; ++i) {
+                    try {
+                        var xhr = new ActiveXObject(version[i]);
+                        arguments.callee.activeXString = version[i];
+                        return xhr;
+                    } catch(ex) { }
+                }
+            }
+
+            return new ActiveXObject(arguments.callee.activeXString);
+        } else {
+            throw new Error("No XHR object available.");
+        }
+    }
+    /**
+     * @description 对表单进行序列化
+     * 修改自《Javascript高级程序设计》 P356
+     */
+    function serialize(form, useDisabled) {
+        var parts = [],
+            field = null;
+        for (var i = 0, l = form.elements.length; i < l; ++i) {
+            field = form.elements[i];
+            // 默认不包含disabled的元素
+            // 若想包含disabled元素，则设置useDisabled = true
+            if (field.disabled && !useDisabled) {
+                continue;
+            }
+            switch(field.type) {
+                case 'select-one':
+                case 'select-multiple':
+                    var option = null;
+                    for (var j = 0, optLen = field.options.length; j < optLen; ++j) {
+                        option = field.options[j];
+                        if (option.selected) {
+                            var optValue = '';
+                            if (option.hasAttribute) {
+                                optValue = (option.hasAttribute('value') ?
+                                           option.value : option.text);
+                            } else {
+                                optValue = (option.attributes['value'].specified ?
+                                           option.value : option.text);
+                            }
+                            parts.push(encodeURIComponent(field.name) + '=' +
+                                       encodeURIComponent(optValue));
+                        }
+                    }
+                    break;
+                case undefined:
+                case 'file':
+                case 'submit':
+                case 'reset':
+                case 'button':
+                    break;
+                case 'radio':
+                case 'checkbox':
+                    if (!field.checked) {
+                        break;
+                    }
+                default:
+                    parts.push(encodeURIComponent(field.name) + '=' +
+                               encodeURIComponent(field.value));
+            }
+        }
+        return parts.join('&');
+    }
+
+    var xhr = createXHR();
+
+    return function (config) {
+        config.method || (config.method = 'post');
+        config.isAsync || (config.isAsync = true);
+        config.on || (config.on = {});
+        config.arguments || (config.arguments = {});
+
+        var form = config.form,
+            data = form ? serialize(form, config.useDisabled) : '';
+        if (config.data) {
+            if (Object.prototype.toString.call(config.data) == '[object String]') {
+                data == '' ? (data = config.data) : (data += '&' + config.data);
+            } else {
+                var tmp = [];
+                for (var i in config.data) {
+                    tmp.push(i + '=' + config[i]);
+                }
+                tmp = tmp.join('&');
+                data == '' ? (data = tmp) : (data += '&' + tmp);
+            }
+        }
+
+        // XHR对象重用小技巧：open放在onreadystatechange事件之前
+        // http://keelypavan.blogspot.com/2006/03/reusing-xmlhttprequest-object-in-ie.html
+        xhr.open(config.method, config.url, config.isAsync);
+        if (form) {
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        }
+        xhr.onreadystatechange = function() {
+            switch (xhr.readyState) {
+                case 1:
+                    config.on.start && config.on.start(xhr, config.arguments.start);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    config.on.complete && config.on.complete(xhr, config.arguments.complete);
+                    break;
+            }
+        }
+        xhr.send(data);
+    }
+}());
