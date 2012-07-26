@@ -9,25 +9,52 @@ block content
             hgroup
                 h2.entry-title
                     b &#10162;
-                    | 代码上传
+                    | 代码片段编辑
         form#snippet-form
-            ul
+            ul.form-list
                 li
-                    label.ib(for='author') 作者：
+                    label.th.ib(for='author')
+                        b.red *
+                        | 作者：
                     input.txt#author(type='text', name='author')
+                li 
+                    label.th.ib(for='title')
+                        b.red *
+                        | 标题：
+                    input.txt#title(type='text', name='title')
                 li
-                    label.ib(for='desc') 描述：
+                    label.th.ib
+                        b.red *
+                        | 片段类型：
+                    select(name='type')
+                        option(value='1', selected) 效果实现
+                        option(value='2') 功能函数
+                        option(value='3') 基本API
+                    label.ib.v-divide
+                    input#show-effect(type='checkbox', name='showEffect')
+                    label.ib(for='show-effect') 提供显示效果按钮
+                    label.ib.v-divide
+                    label.ib(for='effect-btn-id') 按钮id：
+                    input#effect-btn-id.txt(type='text', name='effectBtnId', disabled)
+                li
+                    label.th.ib(for='desc')
+                        b.red *
+                        | 描述：
                     textarea.txt#desc(name='description')
+                li 
+                    label.th.ib(for='tags') tags：
+                    input.txt#tags(type='text', name='tags')
                 li
-                    label.ib(for='html') HTML：
-                    textarea.code.txt#html(name='html-code')
-                li
-                    label.ib 代码语言：
-                    select
+                    label.th.ib 代码语言：
+                    select(name='codetype')
                         option(selected) HTML
                         option CSS
                         option Javascript
                         option Java
+                        option C++
+                        option C
+                        option Python
+                        option Ruby
                     button.add-code-btn 添加
             .center
                 input.btn_1#snippet-submit(type='submit')

@@ -5,6 +5,8 @@ html { min-height:100%; }
 
 .fl { float:left; }
 .fr { float:right; }
+.tr { text-align:right; }
+.tl { text-align:left; }
 .relative { position:relative; }
 .ib { display:inline-block; *display:inline; *zoom:1; }
 .out-link:after { content:"\00BB"; display:inline; }
@@ -16,6 +18,15 @@ table { width:100%; }
 th { font-weight:bold; }
 th, td { position:relative; word-break:break-all; vertical-align:middle; }
 button, input, select { font-family:Microsoft YaHei,Arial,Helvetica,sans-serif; }
+
+/* 颜色 */
+.red { color:#FF6000; }
+
+/* 宽度 */
+.w100 { width:100px; }
+.w200 { width:200px; }
+.w400 { width:400px; }
+.w600 { width:600px; }
 
 /* 文本框样式 */
 .txt { height:30px; padding-left:3px; border:1px solid #CCC; }

@@ -9,9 +9,14 @@ var Code = new Schema({
 });
 var Snippet = new Schema({
     author: String
+    , title: String
     , desc: String
+    , type: Number
+    , date: Date
+    , tags: [String]
     , codes: [Code]
-    , hasEffect: Boolean
+    , hasEffectBtn: Boolean
+    , effectBtnId: String
 });
 
 mongoose.model('Snippet', Snippet);

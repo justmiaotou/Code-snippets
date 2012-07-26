@@ -1,9 +1,20 @@
 (function() {
+    var urlParam = parseURL().params;
     var effectBlock = obj('.effect-block')[0],
         codeBlock = obj('.code-block')[0],
         mainNav = obj('.main-nav')[0],
         navList = obj('.list', mainNav)[0];
-    addEvent(navList, 'click', function(e) {
+    if (urlParam.type) {
+        switch(urlParam.type) {
+            case 'function':
+                break;
+            case 'api':
+                removeClass(obj('.selected', navList)[0], 'selected');
+                addClass(navList.childNodes[1], 'selected');
+                break;
+        }
+    }
+    /*addEvent(navList, 'click', function(e) {
         if (e.target.tagName.toLowerCase() == 'li' && !hasClass(e.target, 'selected')) {
             removeClass(obj('.selected', navList)[0], 'selected');
             addClass(e.target, 'selected');
@@ -20,7 +31,7 @@
                     break;
             }
         }
-    });
+    });*/
 })();
 
 // 遮罩效果演示

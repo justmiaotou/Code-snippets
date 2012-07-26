@@ -1,3 +1,20 @@
+function append(parent, node) {
+    parent.appendChild(node);
+}
+
+function prepend(parent, node) {
+    parent.insertBefore(node, parent.childNodes[0]);
+}
+
+/**
+ * @description 对数组的指定连续部分进行修改
+ */
+function modArrItem(arr, callback, from, to) {
+    !from && (from=0);
+    !to && (to=arr.length);
+    for (;from < to; from++) callback(arr, from);
+}
+
 /**
  * @description 通过操作className使节点隐藏
  */
@@ -250,10 +267,10 @@ var ajax = (function(){
             if (field.disabled && !useDisabled) {
                 continue;
             }
-            // 若元素类型属于黑名单中，则不包含该元素
+            // 若元素名称属于黑名单中，则不包含该元素
             if (blackList && blackList.length > 0) {
                 for (var j = 0, k = blackList.length; j < k; ++j) {
-                    if (field.type == blackList[j]) {
+                    if (field.name == blackList[j]) {
                         inBlackList = true;
                         break;
                     }
@@ -331,7 +348,8 @@ var ajax = (function(){
         xhr.onreadystatechange = function() {
             switch (xhr.readyState) {
                 case 1:
-                    config.on.start && config.on.start(xhr, config.arguments.start);
+                    // TODO 第二次调用才进入处理函数？？？？start函数中使用xhr.abort()将导致Dom Exception
+                    config.on.start && config.on.start(xhr, data, config.arguments.start);
                     break;
                 case 2:
                     break;
@@ -342,6 +360,7 @@ var ajax = (function(){
                     break;
             }
         }
+        console.log(data);
         xhr.send(data);
     }
 }());

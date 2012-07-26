@@ -1,6 +1,12 @@
-/* code snippet upload */
+select { width:100px; height:34px; border:1px solid #CCC; }
+
 #snippet-form { padding:20px 30px; }
 #snippet-form li { margin:10px 0; }
-#snippet-form label { width:100px; text-align:right; }
+#snippet-form .th { width:100px; text-align:right; }
 #snippet-form textarea { width:600px; min-height:100px; vertical-align:top; }
 #author { width:200px; }
+#title, #tags { width:400px; }
+#snippet-form .add-code-btn { border:none; background:#555; padding:0 14px; height:34px; color:white; cursor:pointer; }
+#show-effect { margin-right:10px; }
+
+.v-divide { margin:0 35px; background:#999; background:linear-gradient(top, white, #999 50%, white); background:-webkit-linear-gradient(top, white, #999 50%, white); background:-moz-linear-gradient(top, white, #999 50%, white); background:-o-linear-gradient(top, white, #999 50%, white); background:-ms-linear-gradient(top, white, #999 50%, white); width:2px; height:34px; vertical-align:top; }

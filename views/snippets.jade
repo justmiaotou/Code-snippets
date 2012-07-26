@@ -6,8 +6,10 @@ block style_head
 block nav
     nav.main-nav
         ul.list
-            li.selected.f4 Effect
-            li.f4 Code
+            li.selected.f4 
+                a.ib(href='/snippets') Effect
+            li.f4 
+                a.ib(href='/snippets?type=api') Code
 
 block content
     section.effect-block
@@ -17,20 +19,19 @@ block content
                     hgroup
                         h2.entry-title
                             b &#10162;
-                            | #{snippet.title}
+                            span.title #{snippet.title}
                             span.author #{snippet.author}
-                        button.effect-btn 点击看效果
+                        - if (snippet.hasEffectBtn)
+                            - var effectBtn = '<button class="effect-btn" id="' + snippet.effectBtnId + '">点击看效果</button>'
+                            | !{effectBtn}
                 section.entry-info
-                    p.desc #{snippet.desc}
-                section.code.HTML
-                    h3 HTML
-                    pre
-                section.code.CSS
-                    h3 CSS
-                    pre
-                section.code.JS
-                    h3 Javascript
-                    pre
+                    - if (snippet.desc)
+                        p.desc #{snippet.desc}
+                - each code in snippet.codes
+                    section.code
+                        h3 #{code.type}
+                        pre #{code.code}
+                        b.type-bg #{code.type}
                 span.hide.snippet-id #{snippet._id}
 
 block script_foot
