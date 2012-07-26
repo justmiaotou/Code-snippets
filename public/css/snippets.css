@@ -38,6 +38,7 @@
 .main-nav .list .en { padding-right:10px; font-size:30px; }
 .main-nav .list .ch {  }
 
+.entry .author { margin-left:20px; font-size:18px; color:#555; text-decoration:underline; }
 .entry .effect-btn { float:right; margin:-46px 0 0; background:#CB8F42; border:0; cursor:pointer; height:46px; font-size:14px; color:#333; width:100px; }
 .entry .effect-btn:hover { background:#c58c42; }
 .entry .effect-btn:active { background:#ac814a; }
