@@ -16,12 +16,12 @@ block content
                     label.th.ib(for='author')
                         b.red *
                         | 作者：
-                    input.txt#author(type='text', name='author')
+                    input.txt#author(type='text', name='author', required)
                 li 
                     label.th.ib(for='title')
                         b.red *
                         | 标题：
-                    input.txt#title(type='text', name='title')
+                    input.txt#title(type='text', name='title', required)
                 li
                     label.th.ib
                         b.red *
@@ -40,7 +40,7 @@ block content
                     label.th.ib(for='desc')
                         b.red *
                         | 描述：
-                    textarea.txt#desc(name='description')
+                    textarea.txt#desc(name='description', required)
                 li 
                     label.th.ib(for='tags') tags：
                     input.txt#tags(type='text', name='tags')
@@ -58,6 +58,7 @@ block content
                     button.add-code-btn 添加
             .center
                 input.btn_1#snippet-submit(type='submit')
+                input.btn_1(type='reset')
 
 block script_foot
     script(src='js/new-snippets.js')

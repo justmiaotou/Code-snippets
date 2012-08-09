@@ -42,7 +42,7 @@
 .entry .effect-btn { float:right; margin:-46px 0 0; background:#CB8F42; border:0; cursor:pointer; height:46px; font-size:14px; color:#333; width:100px; }
 .entry .effect-btn:hover { background:#c58c42; }
 .entry .effect-btn:active { background:#ac814a; }
-.entry-info .desc { position:relative; margin:22px 22px 10px; padding:26px 10px 10px; border:3px solid #D6D4AE; text-indent:2em; }
+.entry-info .desc { position:relative; margin:22px 22px 10px; padding:36px 10px 10px; border:3px solid #D6D4AE; text-indent:2em; line-height:1.5; }
 .entry-info .desc:before { content:"Description"; font-family:'Mr Bedfort',cursive; position:absolute; top:-10px; left:-10px; background:white; color:#555; font-weight:bold; font-size:30px; text-indent:0; }
 .code { position:relative; margin:0 22px -3px; border:3px dashed #99d035; }
 .code pre { position:relative; padding:40px 30px; line-height:1.2; word-wrap:break-word; }

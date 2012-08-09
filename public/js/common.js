@@ -1,3 +1,39 @@
+/**
+ * @description *兼容* 获得事件对象
+ */
+function getEvent(event) {
+    return event ? event : window.event;
+}
+
+/**
+ * @description *兼容* 获得事件的target对象
+ */
+function getTarget(event) {
+    return event.target || event.srcElement;
+}
+
+/**
+ * @description 获得mouseover、mouseout事件中的关联元素
+ */
+function getRelatedTarget(e) {
+    if (event.relatedTarget) {
+        return event.relatedTarget;
+    } else if (event.toElement) {
+        return event.toElement;
+    } else if (event.fromElement) {
+        return event.fromElement;
+    }
+}
+
+/**
+ * @description 判断parentNode是否包含childNode；注：parentNode == childNode时返回false
+ */
+function contain(parentNode, childNode) {
+    return parentNode.contains ?
+        parentNode != childNode && parentNode.contains(childNode) :
+        !!(parentNode.compareDocumentPosition(childNode) & 16);
+}
+
 function append(parent, node) {
     parent.appendChild(node);
 }
@@ -7,12 +43,23 @@ function prepend(parent, node) {
 }
 
 /**
- * @description 对数组的指定连续部分进行修改
+ * @description 对数组的指定连续部分进行修改。
+ * 若有回调函数的返回值为false，则不对余下的数组成员调用回调函数而直接返回false。
+ * @param {Array} arr 操作的对象数组
+ * @param {Function} callback 应用于对象数组每个成员的回调函数，this值为相应成员
+ * @param {Number} from [option]应用回调的起始成员序号
+ * @param {Number} to [option]应用回调的结束成员序号
  */
 function modArrItem(arr, callback, from, to) {
     !from && (from=0);
     !to && (to=arr.length);
-    for (;from < to; from++) callback(arr, from);
+    for (;from < to; from++) {
+        // 回调函数通过返回值控制流程
+        if (callback.call(arr[from]) === false) {
+            return false;
+        }
+    }
+    return true;
 }
 
 /**
@@ -87,6 +134,9 @@ function nodes(className, p) {
     return arr;
 }
 
+/**
+ * @description 取消默认行为
+ */
 function preventDefault(e) {
     if (e.preventDefault) {
         e.preventDefault();
@@ -95,6 +145,9 @@ function preventDefault(e) {
     }
 }
 
+/**
+ * @description 取消事件冒泡
+ */
 function stopPropagation(e) {
     if (e.stopPropagation) {
         e.stopPropagation();
@@ -360,7 +413,6 @@ var ajax = (function(){
                     break;
             }
         }
-        console.log(data);
         xhr.send(data);
     }
 }());

@@ -1,4 +1,7 @@
+@charset 'utf-8';
+
 html { min-height:100%; }
+body { font-family:Microsoft YaHei,Arial,Helvetica,sans-serif; }
 .hide { display:none; }
 .clearfix { *zoom:1; }
 .clearfix:after { display:block; content:''; height:0; overflow:hidden; clear:both;  }

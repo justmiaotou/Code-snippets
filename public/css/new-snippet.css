@@ -1,7 +1,12 @@
+@charset 'utf-8';
+
 select { width:100px; height:34px; border:1px solid #CCC; }
 
 #snippet-form { padding:20px 30px; }
 #snippet-form li { margin:10px 0; }
+#snippet-form li .del-field-btn { display:inline-block; *display:inline; *zoom:1; margin-left:-18px; width:18px; height:18px; line-height:15px; background:#555; color:white; text-align:center; border-radius:0 0 0 8px; opacity:.6; cursor:pointer; }
+#snippet-form li .del-field-btn:hover { opacity:.8; }
+#snippet-form li .del-field-btn:active { opacity:1; }
 #snippet-form .th { width:100px; text-align:right; }
 #snippet-form textarea { width:600px; min-height:100px; vertical-align:top; }
 #author { width:200px; }
