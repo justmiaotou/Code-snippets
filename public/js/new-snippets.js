@@ -2,7 +2,7 @@
     var getByTag = function(tagName) {
         return Array.prototype.slice.call(document.getElementsByTagName(tagName));
     };
-    var form = obj('#snippet-form');
+    var form = $('#snippet-form');
     addEvent(form, 'click', function(e) {
         var target = getTarget(getEvent(e));
         if (/del-field-btn/.test(target.className)) {
@@ -10,18 +10,18 @@
             p.parentNode.removeChild(p);
         }
     });
-    addEvent(obj('.add-code-btn', form)[0], 'click', function(e) {
+    addEvent($('.add-code-btn', form)[0], 'click', function(e) {
         preventDefault(e);
         var fragment = document.createDocumentFragment(),
             li = document.createElement('li'),
             type = form.codetype.value;
         li.innerHTML = '<label class="ib th">' + type + '：</label><textarea name="' + type.toLowerCase() + '-code" class="code txt"></textarea><span class="del-field-btn">x</span>';
         fragment.appendChild(li);
-        obj('.form-list', form)[0].insertBefore(fragment, this.parentNode);
+        $('.form-list', form)[0].insertBefore(fragment, this.parentNode);
     });
 
-    addEvent(obj('#show-effect'), 'click', function() {
-        var idInput = obj('#effect-btn-id');
+    addEvent($('#show-effect'), 'click', function() {
+        var idInput = $('#effect-btn-id');
         if (this.checked) {
             idInput.disabled = false;
         } else {
@@ -29,7 +29,7 @@
         }
     });
 
-    addEvent(obj('#snippet-submit'), 'click', function(e) {
+    addEvent($('#snippet-submit'), 'click', function(e) {
         preventDefault(e);
         checkForm() && ajax({
             url: '/snippet-upload'

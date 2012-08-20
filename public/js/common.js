@@ -34,10 +34,16 @@ function contain(parentNode, childNode) {
         !!(parentNode.compareDocumentPosition(childNode) & 16);
 }
 
+/**
+ * @description 将节点插入父节点末尾
+ */
 function append(parent, node) {
     parent.appendChild(node);
 }
 
+/**
+ * @description 将节点插入父节点首部
+ */
 function prepend(parent, node) {
     parent.insertBefore(node, parent.childNodes[0]);
 }
@@ -98,10 +104,10 @@ function parseURL() {
 /**
  * @description 由id或class来获取p节点下的子节点，若不指定p，则p默认为document
  */
-function obj(idOrClass, p) {
+function $(idOrClass, p) {
     p || (p = document);
     if (idOrClass.charAt(0) == '.') {
-        return nodes(idOrClass.substring(1), p);
+        return getByClass(idOrClass.substring(1), p);
     } else if (idOrClass.charAt(0) == '#') {
         return document.getElementById(idOrClass.substring(1));
     } else {
@@ -114,18 +120,10 @@ function obj(idOrClass, p) {
  * @param {String} className 返回节点需具备的className
  * @param {Node} p 返回的子节点属于该节点
  */
-function nodes(className, p) {
-    /*var children = p.childNodes,
-        arr = [];
-    for (var i = 0, l = children.length; i < l; ++i) {
-        if (children[i].className == className) {
-            arr.push(children[i]);
-        }
-    }
-    return arr;*/
+function getByClass(className, p) {
     var all = p.getElementsByTagName('*'),
         arr = [],
-        reg = new RegExp(className);
+        reg = new RegExp(' ' + className + ' |^' + className + '$| ' + className + '$|^' + className + ' ');
     for (var i = 0, l = all.length; i < l; ++i) {
         if (reg.test(all[i].className)) {
             arr.push(all[i]);
@@ -192,8 +190,7 @@ function removeClass(node, className) {
  * @description 添加class
  */
 function addClass(node, className){
-    var reg = new RegExp(className);
-    if (!reg.test(node.className)) {
+    if (!hasClass(node, node.className)) {
         node.className = node.className + ' ' + className;
     }
 }
@@ -202,12 +199,8 @@ function addClass(node, className){
  * @description 检测是否包含某class
  */
 function hasClass(node, className) {
-    var reg = new RegExp(className);
-    if (reg.test(node.className)) {
-        return true;
-    } else {
-        return false;
-    }
+    var reg = new RegExp(' ' + className + ' |^' + className + '$| ' + className + '$|^' + className + ' ');
+    return reg.test(node.className);
 }
 
 /**
