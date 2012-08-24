@@ -3,14 +3,6 @@ extends tpl
 block style_head
     link(rel='stylesheet', href='css/snippets.css')
 
-block nav
-    nav.main-nav
-        ul.list
-            li.selected.f4 
-                a.ib(href='/snippets') Effect
-            li.f4 
-                a.ib(href='/snippets?type=api') Code
-
 block content
     section.effect-block
         - each snippet in snippets
@@ -35,4 +27,6 @@ block content
                 span.hide.snippet-id #{snippet._id}
 
 block script_foot
-    script(src='js/snippets.js')
+    case type
+        when 1: script(src='js/effect-snippets.js')
+        when 3: script(src='js/code-snippets.js')

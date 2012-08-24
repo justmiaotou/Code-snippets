@@ -10,7 +10,36 @@ html
         block script_head
     body
         block header
+            header.main-header
+                hgroup
+                    h1.site-title Code Snippets }
         block nav
+            nav.main-nav
+                ul.list2.list
+                    li.f4
+                        a.new-btn.ib(href='/new-snippet') + New
+                    - if (type==1)
+                        li.f4.selected
+                            a.ib(href='/snippets') Effect
+                    - else
+                        li.f4
+                            a.ib(href='/snippets') Effect
+                    - if (type==3)
+                        li.f4.selected
+                            a.ib(href='/snippets?type=api') Code
+                            ul.sub.list
+                                each val, key in codeTypeList
+                                    if (val)
+                                        //- className = ['selected']
+                                        li.selected
+                                            a(href='###')= key
+                                    else 
+                                        //- className = []
+                                        li
+                                            a(href='/snippets?type=api&codetype='+key)= key
+                    - else
+                        li.f4
+                            a.ib(href='/snippets?type=api') Code
         section.con
             block content
         block footer

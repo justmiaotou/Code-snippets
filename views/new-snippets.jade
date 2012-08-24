@@ -47,14 +47,8 @@ block content
                 li
                     label.th.ib 代码语言：
                     select(name='codetype')
-                        option(selected) HTML
-                        option CSS
-                        option Javascript
-                        option Java
-                        option C++
-                        option C
-                        option Python
-                        option Ruby
+                        each val, key in codeTypeList
+                            option= key
                     button.add-code-btn 添加
             .center
                 input.btn_1#snippet-submit(type='submit')
