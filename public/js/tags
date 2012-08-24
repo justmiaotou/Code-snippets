@@ -1,0 +1,83 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+a.onreadystatechange	common.t.min.js	/^d=d.join("&");""==h?h=d:h+="&"+d}a.open(b.method,b.url,b.isAsync);c&&a.setRequestHeader("Content-Type","application\/x-www-form-urlencoded");a.onreadystatechange=function(){switch(a.readyState){case 1:b.on.start&&b.on.start(a,h,b.arguments.start);break;case 4:b.on.complete&&b.on.complete(a,b.arguments.complete)}};a.send(h)}}();$/;"	f
+addClass	common.js	/^function addClass(node, className){$/;"	f
+addClass	common.t.js	/^function addClass(node, className){$/;"	f
+addEvent	common.js	/^function addEvent(o, t, f) {$/;"	f
+addEvent	common.t.js	/^function addEvent(o, t, f) {$/;"	f
+addEvent.addClass	common.t.min.js	/^function addEvent(a,b,c){a.addEventListener?a.addEventListener(b,c,!1):a.attachEvent?a.attachEvent("on"+b,c):a["on"+b]=c}function replaceClass(a,b,c){var d=a.className;RegExp(b).test(d)&&(d=d.replace(b,c),a.className=d)}function removeClass(a,b){replaceClass(a,b,"")}function addClass(a,b){RegExp(b).test(a.className)||(a.className=a.className+" "+b)}function hasClass(a,b){return RegExp(b).test(a.className)?!0:!1}$/;"	f
+addEvent.getScrollLeft	common.t.min.js	/^function getViewportHeight(){return document.documentElement.clientHeight||document.body.clientHeight}function getScrollTop(){return document.documentElement.scrollTop||document.body.scrollTop}function getScrollLeft(){return document.documentElement.scrollLeft||document.body.scrollLeft}function getTotalTop(){var a=document.documentElement,b=document.body;return(a.scrollTop||b.scrollTop)+(a.clientHeight||b.clientHeight)}$/;"	f
+addEvent.getScrollTop	common.t.min.js	/^function getViewportHeight(){return document.documentElement.clientHeight||document.body.clientHeight}function getScrollTop(){return document.documentElement.scrollTop||document.body.scrollTop}function getScrollLeft(){return document.documentElement.scrollLeft||document.body.scrollLeft}function getTotalTop(){var a=document.documentElement,b=document.body;return(a.scrollTop||b.scrollTop)+(a.clientHeight||b.clientHeight)}$/;"	f
+addEvent.getTotalTop	common.t.min.js	/^function getViewportHeight(){return document.documentElement.clientHeight||document.body.clientHeight}function getScrollTop(){return document.documentElement.scrollTop||document.body.scrollTop}function getScrollLeft(){return document.documentElement.scrollLeft||document.body.scrollLeft}function getTotalTop(){var a=document.documentElement,b=document.body;return(a.scrollTop||b.scrollTop)+(a.clientHeight||b.clientHeight)}$/;"	f
+addEvent.getViewportHeight	common.t.min.js	/^function getViewportHeight(){return document.documentElement.clientHeight||document.body.clientHeight}function getScrollTop(){return document.documentElement.scrollTop||document.body.scrollTop}function getScrollLeft(){return document.documentElement.scrollLeft||document.body.scrollLeft}function getTotalTop(){var a=document.documentElement,b=document.body;return(a.scrollTop||b.scrollTop)+(a.clientHeight||b.clientHeight)}$/;"	f
+addEvent.hasClass	common.t.min.js	/^function addEvent(a,b,c){a.addEventListener?a.addEventListener(b,c,!1):a.attachEvent?a.attachEvent("on"+b,c):a["on"+b]=c}function replaceClass(a,b,c){var d=a.className;RegExp(b).test(d)&&(d=d.replace(b,c),a.className=d)}function removeClass(a,b){replaceClass(a,b,"")}function addClass(a,b){RegExp(b).test(a.className)||(a.className=a.className+" "+b)}function hasClass(a,b){return RegExp(b).test(a.className)?!0:!1}$/;"	f
+addEvent.removeClass	common.t.min.js	/^function addEvent(a,b,c){a.addEventListener?a.addEventListener(b,c,!1):a.attachEvent?a.attachEvent("on"+b,c):a["on"+b]=c}function replaceClass(a,b,c){var d=a.className;RegExp(b).test(d)&&(d=d.replace(b,c),a.className=d)}function removeClass(a,b){replaceClass(a,b,"")}function addClass(a,b){RegExp(b).test(a.className)||(a.className=a.className+" "+b)}function hasClass(a,b){return RegExp(b).test(a.className)?!0:!1}$/;"	f
+addEvent.replaceClass	common.t.min.js	/^function addEvent(a,b,c){a.addEventListener?a.addEventListener(b,c,!1):a.attachEvent?a.attachEvent("on"+b,c):a["on"+b]=c}function replaceClass(a,b,c){var d=a.className;RegExp(b).test(d)&&(d=d.replace(b,c),a.className=d)}function removeClass(a,b){replaceClass(a,b,"")}function addClass(a,b){RegExp(b).test(a.className)||(a.className=a.className+" "+b)}function hasClass(a,b){return RegExp(b).test(a.className)?!0:!1}$/;"	f
+append	common.js	/^function append(parent, node) {$/;"	f
+append	common.t.js	/^function append(parent, node) {$/;"	f
+checkForm	new-snippets.js	/^    function checkForm() {$/;"	f
+contain	common.js	/^function contain(parentNode, childNode) {$/;"	f
+contain	common.t.js	/^function contain(parentNode, childNode) {$/;"	f
+contain	common.t.min.js	/^function getEvent(a){return a?a:window.event}function getTarget(a){return a.target||a.srcElement}function getRelatedTarget(){if(event.relatedTarget)return event.relatedTarget;if(event.toElement)return event.toElement;if(event.fromElement)return event.fromElement}function contain(a,b){return a.contains?a!=b&&a.contains(b):!!(a.compareDocumentPosition(b)&16)}function append(a,b){a.appendChild(b)}function prepend(a,b){a.insertBefore(b,a.childNodes[0])}$/;"	f
+contain.append	common.t.min.js	/^function getEvent(a){return a?a:window.event}function getTarget(a){return a.target||a.srcElement}function getRelatedTarget(){if(event.relatedTarget)return event.relatedTarget;if(event.toElement)return event.toElement;if(event.fromElement)return event.fromElement}function contain(a,b){return a.contains?a!=b&&a.contains(b):!!(a.compareDocumentPosition(b)&16)}function append(a,b){a.appendChild(b)}function prepend(a,b){a.insertBefore(b,a.childNodes[0])}$/;"	f
+contain.hide	common.t.min.js	/^function modArrItem(a,b,c,d){!c&&(c=0);for(!d&&(d=a.length);c<d;){if(!1===b.call(a[c]))return!1;c++}return!0}function hide(a){addClass(a,"hide")}function show(a){removeClass(a,"hide")}function parseURL(){for(var a=location.href,a=a.substring(a.indexOf("?")+1).split("&"),b={},c=null,d=0,g=a.length;d<g;++d)c=a[d].split("="),b[c[0]]=c[1];return{path:location.pathname,protocol:location.protocol,params:b}}$/;"	f
+contain.modArrItem	common.t.min.js	/^function modArrItem(a,b,c,d){!c&&(c=0);for(!d&&(d=a.length);c<d;){if(!1===b.call(a[c]))return!1;c++}return!0}function hide(a){addClass(a,"hide")}function show(a){removeClass(a,"hide")}function parseURL(){for(var a=location.href,a=a.substring(a.indexOf("?")+1).split("&"),b={},c=null,d=0,g=a.length;d<g;++d)c=a[d].split("="),b[c[0]]=c[1];return{path:location.pathname,protocol:location.protocol,params:b}}$/;"	f
+contain.parseURL	common.t.min.js	/^function modArrItem(a,b,c,d){!c&&(c=0);for(!d&&(d=a.length);c<d;){if(!1===b.call(a[c]))return!1;c++}return!0}function hide(a){addClass(a,"hide")}function show(a){removeClass(a,"hide")}function parseURL(){for(var a=location.href,a=a.substring(a.indexOf("?")+1).split("&"),b={},c=null,d=0,g=a.length;d<g;++d)c=a[d].split("="),b[c[0]]=c[1];return{path:location.pathname,protocol:location.protocol,params:b}}$/;"	f
+contain.prepend	common.t.min.js	/^function getEvent(a){return a?a:window.event}function getTarget(a){return a.target||a.srcElement}function getRelatedTarget(){if(event.relatedTarget)return event.relatedTarget;if(event.toElement)return event.toElement;if(event.fromElement)return event.fromElement}function contain(a,b){return a.contains?a!=b&&a.contains(b):!!(a.compareDocumentPosition(b)&16)}function append(a,b){a.appendChild(b)}function prepend(a,b){a.insertBefore(b,a.childNodes[0])}$/;"	f
+contain.show	common.t.min.js	/^function modArrItem(a,b,c,d){!c&&(c=0);for(!d&&(d=a.length);c<d;){if(!1===b.call(a[c]))return!1;c++}return!0}function hide(a){addClass(a,"hide")}function show(a){removeClass(a,"hide")}function parseURL(){for(var a=location.href,a=a.substring(a.indexOf("?")+1).split("&"),b={},c=null,d=0,g=a.length;d<g;++d)c=a[d].split("="),b[c[0]]=c[1];return{path:location.pathname,protocol:location.protocol,params:b}}$/;"	f
+effectBlock	snippets.js	/^    var effectBlock = obj('.effect-block')[0],$/;"	v
+elt	snippets.js	/^    var elt = document.createElement('div');$/;"	v
+form	new-snippets.js	/^    var form = obj('#snippet-form');$/;"	v
+getCurrentStyle	common.js	/^function getCurrentStyle(node) {$/;"	f
+getCurrentStyle	common.t.js	/^function getCurrentStyle(node) {$/;"	f
+getCurrentStyle.ajax	common.t.min.js	/^var ajax=function(){var a=function(){if("undefined"!=typeof window.XMLHttpRequest)return new window.XMLHttpRequest;if("undefined"!=typeof ActiveXObject){if("string"!=typeof arguments.callee.activeXString)for(var a=["MSXML2.XMLHttp.6.0","MSXML2.XMLHttp.3.0","MSXML2.XMLHttp"],c=0,d=versins.length;c<d;++c)try{var g=new ActiveXObject(a[c]);arguments.callee.activeXString=a[c];return g}catch(i){}return new ActiveXObject(arguments.callee.activeXString)}throw Error("No XHR object available.");}();return function(b){b.method||$/;"	f
+getCurrentStyle.ajax.a	common.t.min.js	/^var ajax=function(){var a=function(){if("undefined"!=typeof window.XMLHttpRequest)return new window.XMLHttpRequest;if("undefined"!=typeof ActiveXObject){if("string"!=typeof arguments.callee.activeXString)for(var a=["MSXML2.XMLHttp.6.0","MSXML2.XMLHttp.3.0","MSXML2.XMLHttp"],c=0,d=versins.length;c<d;++c)try{var g=new ActiveXObject(a[c]);arguments.callee.activeXString=a[c];return g}catch(i){}return new ActiveXObject(arguments.callee.activeXString)}throw Error("No XHR object available.");}();return function(b){b.method||$/;"	f
+getEvent	common.js	/^function getEvent(event) {$/;"	f
+getEvent	common.t.js	/^function getEvent(event) {$/;"	f
+getEvent	common.t.min.js	/^function getEvent(a){return a?a:window.event}function getTarget(a){return a.target||a.srcElement}function getRelatedTarget(){if(event.relatedTarget)return event.relatedTarget;if(event.toElement)return event.toElement;if(event.fromElement)return event.fromElement}function contain(a,b){return a.contains?a!=b&&a.contains(b):!!(a.compareDocumentPosition(b)&16)}function append(a,b){a.appendChild(b)}function prepend(a,b){a.insertBefore(b,a.childNodes[0])}$/;"	f
+getRelatedTarget	common.js	/^function getRelatedTarget(e) {$/;"	f
+getRelatedTarget	common.t.js	/^function getRelatedTarget(e) {$/;"	f
+getRelatedTarget	common.t.min.js	/^function getEvent(a){return a?a:window.event}function getTarget(a){return a.target||a.srcElement}function getRelatedTarget(){if(event.relatedTarget)return event.relatedTarget;if(event.toElement)return event.toElement;if(event.fromElement)return event.fromElement}function contain(a,b){return a.contains?a!=b&&a.contains(b):!!(a.compareDocumentPosition(b)&16)}function append(a,b){a.appendChild(b)}function prepend(a,b){a.insertBefore(b,a.childNodes[0])}$/;"	f
+getScrollLeft	common.js	/^function getScrollLeft() {$/;"	f
+getScrollLeft	common.t.js	/^function getScrollLeft() {$/;"	f
+getScrollTop	common.js	/^function getScrollTop() {$/;"	f
+getScrollTop	common.t.js	/^function getScrollTop() {$/;"	f
+getTarget	common.js	/^function getTarget(event) {$/;"	f
+getTarget	common.t.js	/^function getTarget(event) {$/;"	f
+getTarget	common.t.min.js	/^function getEvent(a){return a?a:window.event}function getTarget(a){return a.target||a.srcElement}function getRelatedTarget(){if(event.relatedTarget)return event.relatedTarget;if(event.toElement)return event.toElement;if(event.fromElement)return event.fromElement}function contain(a,b){return a.contains?a!=b&&a.contains(b):!!(a.compareDocumentPosition(b)&16)}function append(a,b){a.appendChild(b)}function prepend(a,b){a.insertBefore(b,a.childNodes[0])}$/;"	f
+getTotalTop	common.js	/^function getTotalTop() {$/;"	f
+getTotalTop	common.t.js	/^function getTotalTop() {$/;"	f
+getViewportHeight	common.js	/^function getViewportHeight() {$/;"	f
+getViewportHeight	common.t.js	/^function getViewportHeight() {$/;"	f
+hasClass	common.js	/^function hasClass(node, className) {$/;"	f
+hasClass	common.t.js	/^function hasClass(node, className) {$/;"	f
+hide	common.js	/^function hide(node) {$/;"	f
+hide	common.t.js	/^function hide(node) {$/;"	f
+mask	snippets.js	/^    var mask = obj('.mask')[0],$/;"	v
+modArrItem	common.js	/^function modArrItem(arr, callback, from, to) {$/;"	f
+modArrItem	common.t.js	/^function modArrItem(arr, callback, from, to) {$/;"	f
+nodes	common.js	/^function nodes(className, p) {$/;"	f
+nodes	common.t.js	/^function nodes(className, p) {$/;"	f
+obj	common.js	/^function obj(idOrClass, p) {$/;"	f
+obj	common.t.js	/^function obj(idOrClass, p) {$/;"	f
+obj.nodes	common.t.min.js	/^function obj(a,b){b||(b=document);return"."==a.charAt(0)?nodes(a.substring(1),b):"#"==a.charAt(0)?document.getElementById(a.substring(1)):document.getElementById(a)}function nodes(a,b){for(var c=b.getElementsByTagName("*"),d=[],g=RegExp(a),i=0,f=c.length;i<f;++i)g.test(c[i].className)&&d.push(c[i]);return d}function preventDefault(a){a.preventDefault?a.preventDefault():a.returnValue=!1}function stopPropagation(a){a.stopPropagation?a.stopPropagation():a.cancelBubble=!0}$/;"	f
+parseURL	common.js	/^function parseURL() {$/;"	f
+parseURL	common.t.js	/^function parseURL() {$/;"	f
+prepend	common.js	/^function prepend(parent, node) {$/;"	f
+prepend	common.t.js	/^function prepend(parent, node) {$/;"	f
+preventDefault	common.js	/^function preventDefault(e) {$/;"	f
+preventDefault	common.t.js	/^function preventDefault(e) {$/;"	f
+removeClass	common.js	/^function removeClass(node, className) {$/;"	f
+removeClass	common.t.js	/^function removeClass(node, className) {$/;"	f
+replaceClass	common.js	/^function replaceClass(node, className, newClassName) {$/;"	f
+replaceClass	common.t.js	/^function replaceClass(node, className, newClassName) {$/;"	f
+return	new-snippets.js	/^    var getByTag = function(tagName) {$/;"	c
+return.slice	new-snippets.js	/^        return Array.prototype.slice.call(document.getElementsByTagName(tagName));$/;"	m
+show	common.js	/^function show(node) {$/;"	f
+show	common.t.js	/^function show(node) {$/;"	f
+stopPropagation	common.js	/^function stopPropagation(e) {$/;"	f
+stopPropagation	common.t.js	/^function stopPropagation(e) {$/;"	f
