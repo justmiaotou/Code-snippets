@@ -22,8 +22,10 @@ app.configure(function(){
   app.register('.html', require('jade'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(app.router);
+  // 下面两句写反了将使静态资源链接引向404页面
+  // 但如果不定义后面的404处理app.get('*' ,...})则不会……
   app.use(express.static(__dirname + '/public'));
+  app.use(app.router);
 });
 
 app.configure('development', function(){
@@ -48,8 +50,14 @@ app.all('/*.html', function(req, res, next) {
 });
 app.get('/', routes.index);
 app.get('/snippets', routes.snippets);
+
 app.get('/new-snippet', routes.newSnippet);
 app.post('/snippet-upload', routes.snippetUpload);
+
+app.get('/mod-snippet', routes.snippetModifyGet);
+app.post('/mod-snippet', routes.snippetModifyPost);
+
+app.get('*', routes['404']);
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

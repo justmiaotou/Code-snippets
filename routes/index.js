@@ -1,3 +1,7 @@
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema,
+    ObjectId = Schema.ObjectId;
+
 var models = require('../models'),
     url = require('url'),
     M = require('../public/js/common.js'),
@@ -14,6 +18,13 @@ function getCodeTypeList() {
         python: 0,
         ruby: 0
     };
+}
+
+function render404(res, html) {
+    res.render('chicken-page', {
+        title: 'Code Snippets',
+        html: html || '凡人，404密境不是你该来的地方。',
+    });
 }
 
 exports.index = function(req, res){
@@ -42,14 +53,47 @@ exports.snippets = function(req, res) {
         default:
             dbQuery = {type:1};
     }
+    // 
+    if (params.snippetid) {
+        dbQuery['_id'] = params.snippetid;
+        delete dbQuery.type;
+    }
     Snippet.find(dbQuery, function(err, docs) {
         if (docs.length > 0) {
             res.render('snippets', { title: 'Code Snippets', snippets:docs, type:dbQuery.type, codeTypeList: codeTypeList});
         } else {
-            res.render('no-snippets', { title: 'Code Snippets', type:dbQuery.type, codeTypeList: codeTypeList});
+            res.render('chicken-page', {
+                title: 'Code Snippets',
+                type: dbQuery.type,
+                codeTypeList: codeTypeList,
+                html: 'You could <a href="/new-snippet" class="btn_2">submit</a> the first piece of code snippet!',
+            });
         }
     });
 }
+
+exports.snippetModifyGet = function(req, res) {
+    var params = M.parseQuery(url.parse(req.url).query),
+        dbQuery = {},
+        codeTypeList = getCodeTypeList();
+
+    if (params.snippetid) {
+        dbQuery['_id'] = params.snippetid;
+        Snippet.find(dbQuery, function(err, docs) {
+            if (docs.length > 0) {
+                console.log(docs[0]);
+                res.render('mod-snippet', {title: '修改Snippet', codeTypeList: getCodeTypeList(), snippet:docs[0]});
+            } else {
+                render404(res, '我说，你想修改的条目真的存在吗……')
+            }
+        });
+    } else {
+        render404(res);
+    }
+};
+exports.snippetModifyPost = function(req, res) {
+
+};
 
 exports.snippetUpload = function(req, res) {
     var body = req.body;
@@ -107,3 +151,7 @@ exports.snippetUpload = function(req, res) {
         }
     });
 }
+
+exports['404'] = function (req, res) {
+   render404(res); 
+};

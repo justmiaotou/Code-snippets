@@ -18,13 +18,13 @@ html
                 ul.list2.list
                     li.f4
                         a.new-btn.ib(href='/new-snippet') + New
-                    - if (type==1)
+                    - if (typeof type != 'undefined' && type==1)
                         li.f4.selected
                             a.ib(href='/snippets') Effect
                     - else
                         li.f4
                             a.ib(href='/snippets') Effect
-                    - if (type==3)
+                    - if (typeof type != 'undefined' && type==3)
                         li.f4.selected
                             a.ib(href='/snippets?type=api') Code
                             ul.sub.list

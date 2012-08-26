@@ -11,7 +11,7 @@ block content
                     hgroup
                         h2.entry-title
                             b &#10162;
-                            span.title #{snippet.title}
+                            a.title(target='_blank',href='/snippets?snippetid='+snippet._id) #{snippet.title}
                             span.author #{snippet.author}
                         - if (snippet.hasEffectBtn)
                             - var effectBtn = '<button class="effect-btn" id="' + snippet.effectBtnId + '">点击看效果</button>'
@@ -20,7 +20,8 @@ block content
                     - if (snippet.desc)
                         p.desc #{snippet.desc}
                 - each code in snippet.codes
-                    section.code
+                    - var secClass = ['code', code.type + '-code']
+                    section(class=secClass)
                         h3 #{code.type}
                         pre #{code.code}
                         b.type-bg #{code.type}
