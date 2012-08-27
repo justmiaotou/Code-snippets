@@ -98,7 +98,7 @@ body {
 }
 
 .main-header { position:relative; width:800px; margin:10px auto; }
-.main-header .site-title { font:70px Aubrey; color:#EEE; text-shadow:#999 2px 2px 2px, #333 -2px -2px 2px; }
+.main-header .site-title { font:70px Aubrey; color:#EEE; text-shadow:#999 2px 2px 2px, #333 -2px -2px 2px; text-decoration:none; }
 
 .con { position:relative; margin:10px auto; width:800px; background:white; box-shadow:0 5px 10px; }
 

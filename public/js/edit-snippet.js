@@ -1,4 +1,4 @@
-(function() {
+(function(config) {
     var getByTag = function(tagName) {
         return Array.prototype.slice.call(document.getElementsByTagName(tagName));
     };
@@ -32,7 +32,8 @@
     addEvent($('#snippet-submit'), 'click', function(e) {
         preventDefault(e);
         checkForm() && ajax({
-            url: '/snippet-upload'
+            // url: '/snippet-upload'
+            url: config.url
             , form: form
             , blackList: ['codetype']
             , on : {
@@ -71,4 +72,4 @@
             }
         });
     }
-})();
+})(editConfig);

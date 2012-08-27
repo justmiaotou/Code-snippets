@@ -412,7 +412,7 @@ function modArrItem(arr, callback, from, to) {
     !to && (to=arr.length);
     for (;from < to; from++) {
         // 回调函数通过返回值控制流程
-        if (callback.call(arr[from]) === false) {
+        if (callback.call(arr[from], arr[from], from, arr) === false) {
             return false;
         }
     }

@@ -1,7 +1,7 @@
 extends tpl
 
 block style_head
-    link(rel='stylesheet', href='css/snippets.css')
+    link(rel='stylesheet', href='/css/snippets.css')
 
 block content
     section.effect-block
@@ -11,11 +11,13 @@ block content
                     hgroup
                         h2.entry-title
                             b &#10162;
-                            a.title(target='_blank',href='/snippets?snippetid='+snippet._id) #{snippet.title}
+                            a.title(target='_blank',href='/snippets/'+snippet._id) #{snippet.title}
                             span.author #{snippet.author}
                         - if (snippet.hasEffectBtn)
                             - var effectBtn = '<button class="effect-btn" id="' + snippet.effectBtnId + '">点击看效果</button>'
                             | !{effectBtn}
+                .mod-btn
+                    a(href='/mod-snippet/'+snippet._id, title='修改该条目', target='_blank') 修改
                 section.entry-info
                     - if (snippet.desc)
                         p.desc #{snippet.desc}
@@ -23,11 +25,13 @@ block content
                     - var secClass = ['code', code.type + '-code']
                     section(class=secClass)
                         h3 #{code.type}
-                        pre #{code.code}
+                        - var preClass = ['brush:'+code.type+';', 'toolbar:false;gutter:false;']
+                        pre(class=preClass) #{code.code}
                         b.type-bg #{code.type}
                 span.hide.snippet-id #{snippet._id}
 
 block script_foot
+    include syntaxhighlighter
     case type
-        when 1: script(src='js/effect-snippets.js')
-        when 3: script(src='js/code-snippets.js')
+        when 1: script(src='/js/effect-snippets.js')
+        when 3: script(src='/js/code-snippets.js')

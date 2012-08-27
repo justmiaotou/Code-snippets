@@ -48,13 +48,14 @@ app.all('/*.html', function(req, res, next) {
         res.end('404');
     }
 });
-app.get('/', routes.index);
+app.get('/', routes.snippets);
 app.get('/snippets', routes.snippets);
+app.get('/snippets/:id', routes.snippets);
 
 app.get('/new-snippet', routes.newSnippet);
 app.post('/snippet-upload', routes.snippetUpload);
 
-app.get('/mod-snippet', routes.snippetModifyGet);
+app.get('/mod-snippet/:id', routes.snippetModifyGet);
 app.post('/mod-snippet', routes.snippetModifyPost);
 
 app.get('*', routes['404']);

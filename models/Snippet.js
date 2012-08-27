@@ -13,6 +13,7 @@ var Snippet = new Schema({
     , desc: String
     , type: Number
     , date: Date
+    , lastUpdateDate: Date
     , tags: [String]
     , codes: [Code]
     , hasEffectBtn: Boolean

@@ -3,16 +3,17 @@ html
     head
         meta(charset='utf-8')
         title #{title}
-        link(rel='stylesheet', href='css/reset.css')
-        link(rel='stylesheet', href='css/common.css')
+        link(rel='stylesheet', href='/css/reset.css')
+        link(rel='stylesheet', href='/css/common.css')
         block style_head
-        script(src='js/common.js')
+        script(src='/js/common.js')
         block script_head
     body
         block header
             header.main-header
                 hgroup
-                    h1.site-title Code Snippets }
+                    h1
+                        a.site-title(href="/") Code Snippets }
         block nav
             nav.main-nav
                 ul.list2.list
@@ -20,10 +21,10 @@ html
                         a.new-btn.ib(href='/new-snippet') + New
                     - if (typeof type != 'undefined' && type==1)
                         li.f4.selected
-                            a.ib(href='/snippets') Effect
+                            a.ib(href='/snippets?type=effect') Effect
                     - else
                         li.f4
-                            a.ib(href='/snippets') Effect
+                            a.ib(href='/snippets?type=effect') Effect
                     - if (typeof type != 'undefined' && type==3)
                         li.f4.selected
                             a.ib(href='/snippets?type=api') Code

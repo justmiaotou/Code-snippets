@@ -27,77 +27,8 @@ function render404(res, html) {
     });
 }
 
-exports.index = function(req, res){
-  res.render('index', { title: 'Express' })
-};
-
-exports.newSnippet = function(req, res) {
-    res.render('new-snippets', { title: '编辑新代码段', type: 0, codeTypeList: getCodeTypeList() });
-}
-
-exports.snippets = function(req, res) {
-    var params = M.parseQuery(url.parse(req.url).query),
-        dbQuery = null,
-        codeTypeList = getCodeTypeList();
-    switch(params.type) {
-        case 'function':
-            dbQuery = {type:2};
-            break;
-        case 'api':
-            dbQuery = {type:3};
-            if (params.codetype in codeTypeList) {
-                codeTypeList[params.codetype] = true;
-                dbQuery.tags = params.codetype;
-            }
-            break;
-        default:
-            dbQuery = {type:1};
-    }
-    // 
-    if (params.snippetid) {
-        dbQuery['_id'] = params.snippetid;
-        delete dbQuery.type;
-    }
-    Snippet.find(dbQuery, function(err, docs) {
-        if (docs.length > 0) {
-            res.render('snippets', { title: 'Code Snippets', snippets:docs, type:dbQuery.type, codeTypeList: codeTypeList});
-        } else {
-            res.render('chicken-page', {
-                title: 'Code Snippets',
-                type: dbQuery.type,
-                codeTypeList: codeTypeList,
-                html: 'You could <a href="/new-snippet" class="btn_2">submit</a> the first piece of code snippet!',
-            });
-        }
-    });
-}
-
-exports.snippetModifyGet = function(req, res) {
-    var params = M.parseQuery(url.parse(req.url).query),
-        dbQuery = {},
-        codeTypeList = getCodeTypeList();
-
-    if (params.snippetid) {
-        dbQuery['_id'] = params.snippetid;
-        Snippet.find(dbQuery, function(err, docs) {
-            if (docs.length > 0) {
-                console.log(docs[0]);
-                res.render('mod-snippet', {title: '修改Snippet', codeTypeList: getCodeTypeList(), snippet:docs[0]});
-            } else {
-                render404(res, '我说，你想修改的条目真的存在吗……')
-            }
-        });
-    } else {
-        render404(res);
-    }
-};
-exports.snippetModifyPost = function(req, res) {
-
-};
-
-exports.snippetUpload = function(req, res) {
-    var body = req.body;
-    var snippet = new Snippet();
+function fillSnippet(body, doc) {
+    var snippet = doc || new Snippet();
 
     var codes = [],
         tags = [],
@@ -125,6 +56,8 @@ exports.snippetUpload = function(req, res) {
             case 'effectBtnId':
                 snippet.effectBtnId = body[field];
                 break;
+            case 'lastUpdateDate':
+                snippet.lastUpdateDate = body[field];
             default:
                 if (/.*code/.test(field)) {
                     codeType = field.split('-')[0];
@@ -132,16 +65,114 @@ exports.snippetUpload = function(req, res) {
                         type: codeType,
                         code: body[field]
                     });
-                    if (body.type == 3) tags.push(codeType);
+                    if (body.type == 3) {
+                        if (M.modArrItem(tags, function(tag) {
+                            if (tag == codeType) return false;
+                        })) {
+                            tags.push(codeType);
+                        }
+                    }
                 }
         }
     }
-    snippet.date = new Date();
+    //snippet.date = new Date(); // 第一次提交日期手动设置
     snippet.codes = codes;
-    M.modArrItem(tags, function(arr, index) {
-        arr[index] = arr[index].trim();
+    M.modArrItem(tags, function(tag, index, arr) {
+        arr[index] = tag.trim();
     });
     snippet.tags = tags;
+
+    return snippet;
+}
+
+exports.newSnippet = function(req, res) {
+    res.render('edit-snippet', { title: '编辑新代码段', action: 'new', codeTypeList: getCodeTypeList() });
+}
+
+exports.snippets = function(req, res) {
+    // 若直接使用req.query，则‘c++’会被默认转换了……
+    var params = M.parseQuery(url.parse(req.url).query),
+        dbQuery = null,
+        codeTypeList = getCodeTypeList();
+        console.log(params);
+    switch(params.type) {
+        case 'function':
+            dbQuery = {type:2};
+            break;
+        case 'api':
+            dbQuery = {type:3};
+            if (params.codetype in codeTypeList) {
+                codeTypeList[params.codetype] = true;
+                dbQuery.tags = params.codetype;
+            }
+            break;
+        case 'effect':
+            dbQuery = {type:1};
+            break;
+        default:
+            dbQuery = {};
+    }
+    // 只查看特定条目
+    if (req.params.id) {
+        dbQuery['_id'] = req.params.id;
+        delete dbQuery.type;
+    }
+    Snippet.find(dbQuery, function(err, docs) {
+        if (docs && docs.length > 0) {
+            res.render('snippets', { title: 'Code Snippets', snippets:docs, type:dbQuery.type, codeTypeList: codeTypeList});
+        } else {
+            res.render('chicken-page', {
+                title: 'Code Snippets',
+                type: dbQuery.type,
+                codeTypeList: codeTypeList,
+                html: 'You could <a href="/new-snippet" class="btn_2">submit</a> the first piece of code snippet!',
+            });
+        }
+    });
+}
+
+exports.snippetModifyGet = function(req, res) {
+    var dbQuery = {},
+        codeTypeList = getCodeTypeList();
+
+    if (req.params.id) {
+        dbQuery['_id'] = req.params.id;
+        Snippet.find(dbQuery, function(err, docs) {
+            if (docs && docs.length > 0) {
+                //console.log(docs[0]);
+                res.render('edit-snippet', {title: '修改Snippet', action:'mod', snippet:docs[0], codeTypeList: getCodeTypeList()});
+            } else {
+                render404(res, '我说，你想修改的条目真的存在吗……')
+            }
+        });
+    } else {
+        render404(res);
+    }
+};
+exports.snippetModifyPost = function(req, res) {
+    Snippet.findById(req.body.snippetid, function(err, doc) {
+        if (!err) {
+            req.body.lastUpdateDate = new Date();
+            fillSnippet(req.body, doc);
+            console.log(doc);
+            console.log(req.body);
+            doc.save(function(err) {
+                res.header('Content-type', 'application/json');
+                if (err) {
+                    res.end(JSON.stringify({status: 0, msg:'保存失败，请重试'}));
+                } else {
+                    res.end(JSON.stringify({status: 1}));
+                }
+            });
+        }
+    });
+};
+
+exports.snippetUpload = function(req, res) {
+    var body = req.body,
+        snippet = fillSnippet(body);
+
+    snippet.date = new Date();
     snippet.save(function(err) {
         res.header('Content-type', 'application/json');
         if (err) {
