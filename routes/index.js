@@ -50,7 +50,7 @@ function fillSnippet(body, doc) {
             case 'tags':
                 tags = tags.concat(body.tags.split(','));
                 break;
-            case 'showEffect':
+            case 'hasEffectBtn':
                 snippet.hasEffectBtn = body[field];
                 break;
             case 'effectBtnId':
@@ -153,9 +153,12 @@ exports.snippetModifyPost = function(req, res) {
     Snippet.findById(req.body.snippetid, function(err, doc) {
         if (!err) {
             req.body.lastUpdateDate = new Date();
-            fillSnippet(req.body, doc);
-            console.log(doc);
+            if (!req.body.hasEffectBtn) {
+                req.body.hasEffectBtn = false;
+                req.body.effectBtnId = '';
+            }
             console.log(req.body);
+            fillSnippet(req.body, doc);
             doc.save(function(err) {
                 res.header('Content-type', 'application/json');
                 if (err) {

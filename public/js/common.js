@@ -38,6 +38,23 @@ if (typeof module !== 'undefined' && module.exports) {
             !!(parentNode.compareDocumentPosition(childNode) & 16);
     }
 
+    function parent(node, idOrClass) {
+        if (!node.parentNode) return null;
+        if (idOrClass.charAt(0) == '.') {
+            if (hasClass(node.parentNode, idOrClass.substring(1))) {
+                return node.parentNode;
+            } else {
+                return parent(node.parentNode, idOrClass);
+            }
+        } else if (idOrClass.charAt(0) == '#') {
+            if (node.parentNode.id == idOrClass.substring(1)) {
+                return node.parentNode;
+            } else {
+                return parent(node.parentNode, idOrClass);
+            }
+        }
+    }
+
     /**
      * @description 将节点插入父节点末尾
      */

@@ -6,14 +6,15 @@ html
         link(rel='stylesheet', href='/css/reset.css')
         link(rel='stylesheet', href='/css/common.css')
         block style_head
-        script(src='/js/common.js')
         block script_head
     body
         block header
             header.main-header
                 hgroup
                     h1
-                        a.site-title(href="/") Code Snippets }
+                        a.site-title(href="/") 
+                            | Code Snippets }
+                            //- sup v 0.1
         block nav
             nav.main-nav
                 ul.list2.list
@@ -44,4 +45,5 @@ html
         section.con
             block content
         block footer
+        script(src='/js/common.js')
         block script_foot
