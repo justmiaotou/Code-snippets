@@ -7,7 +7,7 @@ var models = require('../models'),
     M = require('../public/js/common.js'),
     Snippet = models.Snippet;
 
-// 以函数的方式获得，避免共用一份导致的互相影响
+// 以函数的方式获得，避免修改造成的互相影响
 function getCodeTypeList() {
     return {
         html: 0,

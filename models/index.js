@@ -1,5 +1,6 @@
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/code_snippet');
+var mongoose = require('mongoose'),
+    config = require('../config');
+mongoose.connect(config.db);
 
 require('./Snippet');
 
