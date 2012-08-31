@@ -53,6 +53,13 @@ app.all('/*.html', function(req, res, next) {
         res.end('404');
     }
 });
+
+app.get('/login', routes.loginGet);
+app.post('/login', routes.loginPost);
+
+app.get('/register', routes.registerGet);
+app.post('/register', routes.registerPost);
+
 app.get('/', routes.snippets);
 app.get('/snippets', routes.snippets);
 app.get('/snippets/:id', routes.snippets);

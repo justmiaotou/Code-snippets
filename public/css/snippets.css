@@ -14,9 +14,7 @@
 .code h3 { position:absolute; background:#99d035; width:80px; padding:3px 10px; top:-3px; left:-3px; border-radius:0 0 5px; color:white; font-size:16px; }
 
 .mod-btn-con { position:absolute; padding:3px; left:-100px; }
-.mod-btn-con .mod-btn { display:inline-block; opacity:0; visibility:hidden; text-decoration:none; background:url(/img/pencil.png) center; box-shadow:inset 0 0 5px; border-radius:40px; width:80px; height:80px;
-    -webkit-transition: all .2s ease-in-out;
-    transition: all .2s ease-in-out; }
+.mod-btn-con .mod-btn { display:inline-block; opacity:0; visibility:hidden; text-decoration:none; background:url(/img/pencil.png) center; box-shadow:inset 0 0 5px; border-radius:40px; width:80px; height:80px; }
 .mod-btn-con .mod-btn:hover { box-shadow:inset 0 0 10px; }
 .mod-btn-con .mod-btn:active { box-shadow:inset 0 0 15px; }
 

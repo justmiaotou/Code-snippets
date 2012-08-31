@@ -100,6 +100,13 @@ body {
 .main-header { position:relative; width:800px; margin:10px auto; }
 .login-hd .name, .main-header .site-title { font:70px Aubrey; color:#EEE; text-shadow:#999 2px 2px 2px, #333 -2px -2px 2px; text-decoration:none; }
 .main-header .site-title sup { font-size:46px; vertical-align:top; margin-left:10px; }
+.main-header hgroup, .main-header h1 { display:inline; }
+.main-header .h-nav { position:absolute; right:0px; bottom:0px; }
+.main-header .h-nav li { border-radius:3px; }
+.main-header .h-nav li:hover { background:#999; box-shadow:inset 0px 0px 4px #333; }
+.main-header .h-nav li a { -webkit-transition:all .1s ease-in; }
+.main-header .h-nav li:hover a { color:#EEE; }
+.main-header .h-nav li a { display:block; padding:0 10px; text-decoration:none; color:#555; height:22px; line-height:22px }
 
 .con { position:relative; margin:10px auto; width:800px; background:white; box-shadow:0 5px 10px; }
 
@@ -140,3 +147,19 @@ body {
 }
 .main-nav .list2 .new-btn:hover { box-shadow: inset 0 0 8px #333; }
 .main-nav .list2 .new-btn:active { box-shadow: inset 0 0 10px #000; }
+
+/* CSS3 */
+.tst-all-01 {
+    transition: all .1s ease-in-out;
+    -webkit-transition: all .1s ease-in-out;
+    -moz-transition: all .1s ease-in-out;
+    -ms-transition: all .1s ease-in-out;
+    -o-transition: all .1s ease-in-out;
+}
+.tst-all-02 {
+    transition: all .2s ease-in-out;
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    -ms-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+}

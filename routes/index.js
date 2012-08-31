@@ -85,6 +85,18 @@ function fillSnippet(body, doc) {
     return snippet;
 }
 
+exports.loginGet = function(req, res) {
+    res.render('login', {title:'登录Code Snippet'});
+}
+exports.loginPost = function(req, res) {
+}
+
+exports.registerGet = function(req, res) {
+    res.render('register', {title:'注册Code Snippet'});
+}
+exports.registerPost = function(req, res) {
+}
+
 exports.newSnippet = function(req, res) {
     res.render('edit-snippet', { title: '编辑新代码段', action: 'new', codeTypeList: getCodeTypeList() });
 }
