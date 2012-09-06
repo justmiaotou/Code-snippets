@@ -14,9 +14,9 @@
     background:-moz-linear-gradient(top, #C3DCF4 0%, #C5DEF7 50%, #AFCDEA 100%); 
     background:-ms-linear-gradient(top, #C3DCF4 0%, #C5DEF7 50%, #AFCDEA 100%);
     background:-o-linear-gradient(top, #C3DCF4 0%, #C5DEF7 50%, #AFCDEA 100%); }
-.login-wrapper { position:absolute; width:450px; top:50%; left:50%; margin-left:-220px; margin-top:-225px; overflow:hidden; }
-.login-hd { height:60px; margin-bottom:20px; }
-.login-bd { height:290px; width:440px; margin:auto; background:white; box-shadow:inset 0 0 25px gray, -2px -1px 3px #555, 2px 2px 4px white; border-radius:10px; }
+.wrapper { position:absolute; width:450px; top:50%; left:50%; margin-left:-220px; margin-top:-225px; overflow:hidden; }
+.main-hd { height:60px; margin-bottom:20px; }
+.main-bd { height:290px; width:440px; margin:auto; background:white; box-shadow:inset 0 0 25px gray, -2px -1px 3px #555, 2px 2px 4px white; border-radius:10px; }
 .login-bd #login-form { width:380px; margin:auto; padding-top:30px; }
 .login-bd ul { margin-bottom:5px; }
 .login-bd li { line-height:3; }

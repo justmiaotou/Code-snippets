@@ -1,0 +1,26 @@
+!!! 5
+html
+    head
+        meta(charset='utf-8')
+        title #{title}
+        link(rel='stylesheet', href='/css/reset.css')
+        link(rel='stylesheet', href='/css/common.css')
+        link(rel='stylesheet', href='/css/register.css')
+    body
+        section.register-wrapper
+            header.login-hd
+                a.name(href='/') Code Snippet
+            section.content
+                .register-bd
+                    form#register-form(action="/register", method="post")
+                        ul
+                            li
+                                label.ib(for="username") 用户名
+                                input#username.txt(name="username", type="text")
+                            li
+                                label.ib(for="passwd") 密&nbsp;&nbsp;&nbsp;码
+                                input#passwd.txt(name="password", type="text")
+                            .seperate
+                            a.signup(href="/register", title="还没有Code Snippet账号？立即注册！") 
+                                label 注册
+                            input.submit(type="button", value="登&nbsp;录")
