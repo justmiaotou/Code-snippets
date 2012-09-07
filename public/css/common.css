@@ -98,7 +98,7 @@ body {
 }
 
 .main-header { position:relative; width:800px; margin:10px auto; }
-.login-hd .name, .main-header .site-title { font:70px Aubrey; color:#EEE; text-shadow:#999 2px 2px 2px, #333 -2px -2px 2px; text-decoration:none; }
+.main-hd .name, .main-header .site-title { font:70px Aubrey; color:#EEE; text-shadow:#999 2px 2px 2px, #333 -2px -2px 2px; text-decoration:none; }
 .main-header .site-title sup { font-size:46px; vertical-align:top; margin-left:10px; }
 .main-header hgroup, .main-header h1 { display:inline; }
 .main-header .h-nav { position:absolute; right:0px; bottom:0px; }

@@ -5,21 +5,23 @@ html
         title #{title}
         link(rel='stylesheet', href='/css/reset.css')
         link(rel='stylesheet', href='/css/common.css')
-        link(rel='stylesheet', href='/css/login.css')
+        link(rel='stylesheet', href='/css/single-form.css')
+        style
+            .seperate { width:310px; }
     body
         section.wrapper
             header.main-hd
                 a.name(href='/') Code Snippet
             section.content
                 .main-bd
-                    form#login-form(action="/login", method="post")
+                    form#main-form(action="/login", method="post")
                         ul
                             li
                                 label.ib(for="username") 邮&nbsp;&nbsp;&nbsp;箱
                                 input#username.txt(name="username", type="text", placeholder="name@example.com", tabindex="1")
                             li
                                 label.ib(for="passwd") 密&nbsp;&nbsp;&nbsp;码
-                                input#passwd.txt(name="password", type="text", tabindex="2")
+                                input#passwd.txt(name="password", type="password", tabindex="2")
                             .seperate
                             a.signup(href="/register", title="还没有Code Snippet账号？立即注册！") 
                                 label 注册
