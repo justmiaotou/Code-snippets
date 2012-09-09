@@ -16,7 +16,7 @@ html
                         ul
                             li
                                 label.ib(for="username") 用户名
-                                input#username.txt(name="username", type="text", placeholder="/\w[\w._-]{4,}\w/", tabindex="1")
+                                input#username.txt(name="username", type="text", placeholder="/^[a-zA-Z][\\w.-]{4,}[a-zA-Z]$/", tabindex="1")
                             li
                                 label.ib(for="email") 邮&nbsp;&nbsp;&nbsp;箱
                                 input#email.txt(name="email", type="email", placeholder="name@example.com", tabindex="2")
