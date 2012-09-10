@@ -26,7 +26,20 @@ module.exports = {
 	},
 
 	// [ [ plugin_name, options ], ... ]
-	plugins: []
+	plugins: [],
+
+    // 以函数的方式获得，避免修改造成的互相影响
+    getCodeTypeList: function() {
+        return {
+            html: 0,
+            javascript: 0,
+            css: 0,
+            java: 0,
+            'c++': 0,
+            python: 0,
+            ruby: 0
+        };
+    }
 };
 
 var host = module.exports.host;

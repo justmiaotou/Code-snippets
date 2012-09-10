@@ -8,7 +8,6 @@ var express = require('express')
     , path = require('path')
     , fs = require('fs')
     , url = require('url')
-    , routes = require('./routes')
     , db = require('./db')
     , config = require('./config');
 
@@ -44,33 +43,7 @@ app.configure('production', function(){
 });
 
 // Routes
-app.all('/*.html', function(req, res, next) {
-    var realPath = __dirname + '/public/html' + url.parse(req.url).pathname;
-    //console.log('real path:'+realPath);
-    if (fs.existsSync(realPath)) {
-        res.end(fs.readFileSync(realPath));
-    } else {
-        res.end('404');
-    }
-});
-
-app.get('/login', routes.loginGet);
-app.post('/login', routes.loginPost);
-
-app.get('/register', routes.registerGet);
-app.post('/register', routes.registerPost);
-
-app.get('/', routes.snippets);
-app.get('/snippets', routes.snippets);
-app.get('/snippets/:id', routes.snippets);
-
-app.get('/new-snippet', routes.newSnippet);
-app.post('/snippet-upload', routes.snippetUpload);
-
-app.get('/mod-snippet/:id', routes.snippetModifyGet);
-app.post('/mod-snippet', routes.snippetModifyPost);
-
-app.get('*', routes['404']);
+require('./routes');
 
 app.listen(3000, function(){
     console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
