@@ -16,7 +16,7 @@ html
                         ul
                             li
                                 label.ib(for="username") 用户名
-                                input#username.txt(name="username", type="text", placeholder="^[a-zA-Z][&#92;w.-]{1,14}[a-zA-Z]$", pattern="^[a-zA-Z][&#92;w&#92;.-]{1,14}[a-zA-Z]$", tabindex="1", required)
+                                input#username.txt(name="username", type="text", placeholder="^[a-zA-Z][&#92;w.-]{1,14}[a-zA-Z]$", pattern="^[a-zA-Z][&#92;w.-]{1,14}[a-zA-Z]$", tabindex="1", required)
                             li
                                 label.ib(for="email") 邮&nbsp;&nbsp;&nbsp;箱
                                 input#email.txt(name="email", type="email", placeholder="name@example.com", tabindex="2", required)
@@ -25,7 +25,7 @@ html
                                 input#passwd.txt(name="password", type="password", tabindex="3", required)
                             li
                                 label.ib(for="passwd-confirm") 密码确认
-                                input#passwd-confirm.txt(type="password", tabindex="4", required)
+                                input#passwd-confirm.txt(type="password", name="pw-confirm", tabindex="4", required)
                             .seperate
                             input.submit(type="submit", value="注&nbsp;册", tabindex="5")
             script(src="/js/common.js")

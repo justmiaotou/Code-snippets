@@ -6,7 +6,7 @@ var app = require('../app'),
     fs = require('fs'),
     models = require('../models'),
     url = require('url'),
-    M = require('../public/js/common.js'),
+    M = require('../util.js'),
     Snippet = models.Snippet;
 
 var rLogin = require('./login')

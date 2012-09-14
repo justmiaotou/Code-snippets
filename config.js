@@ -17,8 +17,8 @@ module.exports = {
 	site_static_host: '', // 静态文件存储域名
 
 	db: 'mongodb://localhost/code_snippet',
-	session_secret: 'memo_lois',
-	auth_cookie_name: 'snippet_it',
+	auth_secret: 'memo_lois',
+    session_secret: 'snippet_it',
 	port: 80,
 
 	// RSS

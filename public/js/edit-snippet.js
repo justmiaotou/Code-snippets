@@ -1,7 +1,4 @@
 (function(config) {
-    var getByTag = function(tagName) {
-        return Array.prototype.slice.call(document.getElementsByTagName(tagName));
-    };
     var form = $('#snippet-form');
     addEvent(form, 'click', function(e) {
         var target = getTarget(getEvent(e));
@@ -63,13 +60,4 @@
             }
         });
     });
-
-    function checkForm() {
-        return modArrItem(getByTag('input').concat(getByTag('textarea')), function() {
-            if (this.hasAttribute('required') && this.value == '') {
-                alert('请将必填项补充完整。');
-                return false;
-            }
-        });
-    }
 })(editConfig);

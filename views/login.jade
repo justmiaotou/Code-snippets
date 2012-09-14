@@ -18,11 +18,13 @@ html
                         ul
                             li
                                 label.ib(for="email") 用户名
-                                input#email.txt(name="login_field", type="text", placeholder="用户名或邮箱", tabindex="1")
+                                input#email.txt(name="login_field", type="text", placeholder="用户名或邮箱", tabindex="1", required)
                             li
                                 label.ib(for="passwd") 密&nbsp;&nbsp;&nbsp;码
-                                input#passwd.txt(name="password", type="password", tabindex="2")
+                                input#passwd.txt(name="password", type="password", tabindex="2", required)
                             .seperate
                             a.signup(href="/register", title="还没有Code Snippet账号？立即注册！") 
                                 label 注册
                             input.submit(type="button", value="登&nbsp;录", tabindex="3")
+            script(src="/js/common.js")
+            script(src="/js/login.js")

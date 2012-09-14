@@ -1,6 +1,6 @@
 var models = require('../models'),
     url = require('url'),
-    M = require('../public/js/common.js'),
+    M = require('../util.js'),
     Snippet = models.Snippet,
     config = require('../config');
 

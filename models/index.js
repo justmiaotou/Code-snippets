@@ -3,5 +3,7 @@ var mongoose = require('mongoose'),
 mongoose.connect(config.db);
 
 require('./Snippet');
+require('./User');
 
 exports.Snippet = mongoose.model('Snippet');
+exports.User = mongoose.model('User');

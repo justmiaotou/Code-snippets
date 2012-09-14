@@ -1,5 +1,3 @@
-
-
 exports['404'] = function (res, html) {
     res.render('chicken-page', {
         title: 'Code Snippets',
