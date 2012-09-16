@@ -13,6 +13,10 @@
             modBtn.style.visibility = 'hidden';
         }
         modBtn = $('.mod-btn', snippet)[0];
+        if (!modBtn) {
+            preSnippet = null;
+            return;
+        }
         modBtn.style.opacity = 1;
         modBtn.style.visibility = 'visible';
         preSnippet = snippet;
