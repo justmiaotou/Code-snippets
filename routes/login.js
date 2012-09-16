@@ -13,17 +13,22 @@ exports.get = function(req, res) {
 }
 
 exports.post = function(req, res) {
-    User.find({$or : [{ username: req.body.login_field}, { email: req.body.login_field }]}, function(err, docs) {
-        console.log(docs);
-        if (docs.length == 1) {
-            if (M.md5WithSalt(req.body.password, config.auth_secret) == docs[0]['password']) {
-                res.cookie('SESSION_ID', M.encryptSessionId(docs[0]['password']), { maxAge: 900000 });
-                res.redirect('/');
-            } else {
+    models.getUser(req.body.login_field, M.md5WithSalt(req.body.password, config.auth_secret), function(user) {
+        genSession(res, user, { maxAge: 1000*60*60*24*7 });
+        res.redirect('/');
+    }, function(errorType) {
+        switch(errorType) {
+            case 'pw_error':
                 res.redirect('/login?error=pw');
-            }
-        } else {
-            res.redirect('/login?error=un');
+                break;
+            case 'un_error':
+                res.redirect('/login?error=un');
+                break;
         }
     });
+}
+
+function genSession(res, user, option) {
+    var authToken = M.encryptSessionId(user.username + '\t' + user.email + '\t' + user.password + '\t', user._id);
+    res.cookie(config.auth_cookie_name, authToken, option);
 }

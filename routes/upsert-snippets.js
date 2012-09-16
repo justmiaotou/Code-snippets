@@ -95,7 +95,7 @@ exports.modifyPost = function(req, res) {
                 req.body.hasEffectBtn = false;
                 req.body.effectBtnId = '';
             }
-            console.log(req.body);
+            //console.log(req.body);
             fillSnippet(req.body, doc);
             doc.save(function(err) {
                 res.header('Content-type', 'application/json');

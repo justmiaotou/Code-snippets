@@ -15,8 +15,9 @@ block content
                     - if (snippet.hasEffectBtn)
                         - var effectBtn = '<button class="effect-btn" id="' + snippet.effectBtnId + '">点击看效果</button>'
                         | !{effectBtn}
-            .mod-btn-con
-                a.mod-btn.tst-all-02(href='/mod-snippet/'+snippet._id, title='修改该条目', target='_blank')
+            - if (typeof user != 'undefined' && user.username === snippet.author)
+                .mod-btn-con
+                    a.mod-btn.tst-all-02(href='/mod-snippet/'+snippet._id, title='修改该条目', target='_blank')
             section.entry-info
                 - if (snippet.desc)
                     p.desc #{snippet.desc}

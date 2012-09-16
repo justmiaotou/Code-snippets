@@ -7,3 +7,5 @@ require('./User');
 
 exports.Snippet = mongoose.model('Snippet');
 exports.User = mongoose.model('User');
+
+require('./db-utils');

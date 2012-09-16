@@ -19,6 +19,7 @@ module.exports = {
 	db: 'mongodb://localhost/code_snippet',
 	auth_secret: 'memo_lois',
     session_secret: 'snippet_it',
+    auth_cookie_name: 'si',
 	port: 80,
 
 	// RSS

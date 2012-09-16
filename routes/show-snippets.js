@@ -34,13 +34,14 @@ exports.snippets = function(req, res) {
     }
     Snippet.find(dbQuery, function(err, docs) {
         if (docs && docs.length > 0) {
-            res.render('snippets', { title: 'Code Snippets', snippets:docs, type:dbQuery.type, codeTypeList: codeTypeList});
+            res.render('snippets', { title: 'Code Snippets', snippets:docs, type:dbQuery.type, codeTypeList: codeTypeList, user: req.user});
         } else {
             res.render('chicken-page', {
                 title: 'Code Snippets',
                 type: dbQuery.type,
                 codeTypeList: codeTypeList,
                 html: 'You could <a href="/new-snippet" class="btn_2">submit</a> the first piece of code snippet!',
+                user: req.user
             });
         }
     });

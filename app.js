@@ -24,14 +24,19 @@ app.configure(function(){
     app.use(express.responseTime());
     app.use(express.bodyParser());
     app.use(express.cookieParser());
-    app.use(express.session({
+    /*app.use(express.session({
         secret: config.session_secret,
-    }));
-    app.use(express.methodOverride());
+    }));*/
+    //app.use(express.methodOverride());
     // 下面两句写反了将使静态资源链接引向404页面
     // 但如果不定义后面的404处理app.get('*' ,...})则不会……
     app.use(express.static(__dirname + '/public'));
+
+    // 验证用户
+    app.use(require('./middleware').authUser);
+
     app.use(app.router);
+
 });
 
 app.configure('development', function(){
