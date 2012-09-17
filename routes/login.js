@@ -29,6 +29,6 @@ exports.post = function(req, res) {
 }
 
 function genSession(res, user, option) {
-    var authToken = M.encryptSessionId(user.username + '\t' + user.email + '\t' + user.password + '\t', user._id);
+    var authToken = M.encryptSessionId(user.username + '\t' + user.email + '\t' + user.password + '\t' + user._id);
     res.cookie(config.auth_cookie_name, authToken, option);
 }

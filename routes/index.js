@@ -10,6 +10,7 @@ var app = require('../app'),
     Snippet = models.Snippet;
 
 var rLogin = require('./login')
+    , rLogout = require('./logout')
     , rRegister = require('./register')
     , rUpsertSnippets = require('./upsert-snippets')
     , rShowSnippets = require('./show-snippets')
@@ -27,6 +28,8 @@ app.all('/*.html', function(req, res, next) {
 
 app.get('/login', rLogin.get);
 app.post('/login', rLogin.post);
+
+app.get('/logout', rLogout.get);
 
 app.get('/register', rRegister.get);
 app.post('/register', rRegister.post);

@@ -71,6 +71,11 @@ exports.new= function(req, res) {
 }
 
 exports.modifyGet = function(req, res) {
+    if (!req.user) {
+        res.render('warning', { title:'', html:'亲，你不<a href="/login">登录</a>我怎么知道你有没有权限修改这个条目呢。' });
+        return;
+    }
+
     var dbQuery = {};
 
     if (req.params.id) {
@@ -78,7 +83,11 @@ exports.modifyGet = function(req, res) {
         Snippet.find(dbQuery, function(err, docs) {
             if (docs && docs.length > 0) {
                 //console.log(docs[0]);
-                res.render('edit-snippet', {title: '修改Snippet', action:'mod', snippet:docs[0], codeTypeList: config.getCodeTypeList()});
+                if (docs[0].author == req.user.username) {
+                    res.render('edit-snippet', {title: '修改Snippet', action:'mod', snippet:docs[0], codeTypeList: config.getCodeTypeList(), user:req.user});
+                } else {
+                    res.render('warning', { title: '', html: '你只能修改你自己的条目啊', user:req.user});
+                }
             } else {
                 render404(res, '我说，你想修改的条目真的存在吗……')
             }

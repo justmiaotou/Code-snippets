@@ -46,7 +46,7 @@ function parseQuery(query) {
 }
 
 /**
- * md5加密 （不可逆）
+ * md5加密
  * @param {String} str 需要加密的字符串
  */
 function md5(str) {
@@ -56,7 +56,7 @@ function md5(str) {
 }
 
 /**
- * 加盐版md5加密 （不可逆）
+ * 加盐版md5加密
  * @param {String} str 需要加密的字符串
  */
 function md5WithSalt(str, salt) {
@@ -87,9 +87,20 @@ function decrypt(str,secret) {
     return (dec + decipher.final('utf8'));
 }
 
+/**
+ * 将会话cookie字段进行加密
+ * @param {String} str 需要加密字符串
+ * @return {String} 加密后字符串
+ */
 function encryptSessionId(str) {
     return encrypt(str, config.session_secret);
 }
+
+/**
+ * 将会话cookie字段进行解密
+ * @param {String} str 需要解密字符串
+ * @return {String} 解密后字符串
+ */
 function decryptSessionId(str) {
     return decrypt(str, config.session_secret);
 }
