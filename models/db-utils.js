@@ -21,18 +21,17 @@ model.getUser = function(loginField, password, suc, fail) {
     });
 };
 
-var userPool = new UserPool();
+var userPool = new UserPool(config.userPool); // LRU策略对象缓冲池
 model.getUserById = function(id, suc, fail) {
     var user = userPool.get(id);
-    //console.log(userPool);
     if (user) {
+        // userPool.logLink('username');
         suc(user);
         return;
     };
 
     this.User.find({'_id': id}, function(err, docs) {
         if (docs && docs.length == 1) {
-            // TODO limit the amount of the object
             userPool.set(docs[0]);
             suc(docs[0]);
         } else {

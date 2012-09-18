@@ -67,7 +67,12 @@ function fillSnippet(body, doc) {
 }
 
 exports.new= function(req, res) {
-    res.render('edit-snippet', { title: '编辑新代码段', action: 'new', codeTypeList: config.getCodeTypeList() });
+    if (!req.user) {
+        res.redirect('/login?error=not_login&redirect='+req.url);
+        return;
+    }
+
+    res.render('edit-snippet', { title: '编辑新代码段', action: 'new', codeTypeList: config.getCodeTypeList(), user: req.user });
 }
 
 exports.modifyGet = function(req, res) {
@@ -121,6 +126,11 @@ exports.modifyPost = function(req, res) {
 exports.upload = function(req, res) {
     var body = req.body,
         snippet = fillSnippet(body);
+
+    if (!req.user) {
+        res.redirect('/login?error=not_login&redirect='+req.url);
+        return;
+    }
 
     snippet.date = new Date();
     snippet.save(function(err) {

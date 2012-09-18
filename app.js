@@ -8,7 +8,6 @@ var express = require('express')
     , path = require('path')
     , fs = require('fs')
     , url = require('url')
-    , db = require('./db')
     , config = require('./config');
 
 var app = module.exports = express.createServer();
@@ -22,6 +21,8 @@ app.configure(function(){
     app.register('.html', require('jade'));
     // header中添加X-Response-Time字段
     app.use(express.responseTime());
+    // 浏览器会请求favicon.ico，这里拦截住可防止多一次用户验证
+    app.use(express.favicon());
     app.use(express.bodyParser());
     app.use(express.cookieParser());
     /*app.use(express.session({

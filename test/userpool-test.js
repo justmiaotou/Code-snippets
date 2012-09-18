@@ -3,8 +3,6 @@ var UserPool = require('../models/LRUPool').LRUPool;
 var userPool = new UserPool()
     insCount = 10;
 
-console.log(userPool);
-
 for (var i = 0; i < insCount; ++i) {
     userPool.set({_id: i});
 }
@@ -20,10 +18,14 @@ userPool.set({_id: 100});
 logLink();
 console.log(userPool.getCount());
 
-/*console.log('=========First=======');
+userPool.reduce(2);
+logLink();
+console.log(userPool.getCount());
+
+console.log('=========First=======');
 console.log(userPool.getFirst());
 console.log('=========Last=======');
-console.log(userPool.getLast());*/
+console.log(userPool.getLast());
 //console.log(userPool.pool);
 function logLink() {
     console.log('=========Link=======');

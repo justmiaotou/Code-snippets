@@ -5,32 +5,36 @@
 function LRUPool(option) {
     option = option || {};
 
-    var count = 0, 
+    var pool = {},
+        count = 0, 
         indexName = option.indexName || '_id',
         maxCount = option.maxCount || 100000,
         reduceTo = option.reduceTo || (maxCount / 5),
         first = null,
         last = null;
 
-    this.pool = {};
-
+    this.getPool = function() { return pool; };
     this.getCount = function() { return count; };
     this.getFirst = function() { return first; };
     this.getLast = function() { return last; };
 
     // 调整或插入节点
     this.upsertIns = function(ins) {
-        if (this.count == 0) {
+        if (count == 0) {
             last = ins;
         }
         // 若不存在于池中，直接添加为first节点
-        if (!this.pool[ins[indexName]]) {
-            this.pool[ins[indexName]] = ins;
+        if (!pool[ins[indexName]]) {
+            pool[ins[indexName]] = ins;
             count++;
             ins.next = first;
             ins.pre = null;
             first && (first.pre = ins);
             first = ins;
+            if (count > maxCount) {
+                // 池中实例超过上限，进行清除
+                this.reduce(reduceTo);
+            }
             return ins;
         } else {
             if (ins.pre) {
@@ -50,6 +54,7 @@ function LRUPool(option) {
             ins.next = first;
             first = ins;
             ins.pre = null;
+            return ins;
         }
     };
     // 将池中对象减少至to个
@@ -57,7 +62,8 @@ function LRUPool(option) {
         to = to || reduceTo;
         if (count <= to) return;
         for (var i = 0, l = count - to; i < l; ++i) {
-            delete this.pool[last[indexName]];
+            delete pool[last[indexName]];
+            count--;
             last = last.pre;
             last.next = null;
         }
@@ -67,12 +73,27 @@ function LRUPool(option) {
 LRUPool.prototype.set = function(ins) {
     this.upsertIns(ins);
 };
+
 LRUPool.prototype.get = function(id) {
-    if (this.pool[id]) {
-        return this.upsertIns(this.pool[id]);
+    if (this.getPool()[id]) {
+        return this.upsertIns(this.getPool()[id]);
     } else {
         return false;
     }
 };
+
+// 调试用
+LRUPool.prototype.logLink = function(param) {
+    console.log('=========Link=======');
+    var first = this.getFirst(),
+        str = first[param];
+    first = first.next;
+    while(first) {
+        str += '->' + first[param];
+        first = first.next;
+    }
+    console.log(str);
+    console.log('=========End========');
+}
 
 exports.LRUPool = LRUPool;

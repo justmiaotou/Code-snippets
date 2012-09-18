@@ -2,7 +2,12 @@
  * 修改版的document.getElementsByTagName，返回的为数组而非NodeList对象
  */
 var getByTag = function(tagName) {
-    return Array.prototype.slice.call(document.getElementsByTagName(tagName));
+    var arr = [],
+        tags = document.getElementsByTagName(tagName);
+    for (var i = 0, l = tags.length; i < l; ++i) {
+        arr.push(tags[i]);
+    }
+    return arr;
 };
 /**
  * @description *兼容* 获得事件对象
@@ -244,7 +249,7 @@ function getCurrentStyle(node) {
  */
 function parseURL() {
     var url = location.href,
-        query = url.substring(url.indexOf('?')+1).split('&'),
+        query = url.substring(url.indexOf('?')+1),
         params = parseQuery(query);
     return {
         path: location.pathname,
@@ -318,7 +323,7 @@ var ajax = (function(){
         } else if (typeof ActiveXObject != 'undefined') {
             if (typeof arguments.callee.activeXString != 'string') {
                 var version = ['MSXML2.XMLHttp.6.0', 'MSXML2.XMLHttp.3.0', 'MSXML2.XMLHttp'];
-                for (var i = 0, l = versins.length; i < l; ++i) {
+                for (var i = 0, l = version.length; i < l; ++i) {
                     try {
                         var xhr = new ActiveXObject(version[i]);
                         arguments.callee.activeXString = version[i];

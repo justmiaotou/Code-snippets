@@ -3,6 +3,7 @@ var config = require('../config'),
     models = require('../models');
 
 exports.auth = function (req, res, next) {
+    // console.log(req.url);
     if (req.cookies[config.auth_cookie_name]) {
         var authInfos = M.decryptSessionId(req.cookies[config.auth_cookie_name]).split('\t');
         if (authInfos.length == 4) {

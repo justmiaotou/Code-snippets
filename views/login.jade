@@ -15,6 +15,7 @@ html
             section.content
                 .main-bd
                     form#main-form(action="/login", method="post", autocomplete="on")
+                        input#redirect(type="hidden", name="redirect")
                         ul
                             li
                                 label.ib(for="email") 用户名
@@ -25,6 +26,6 @@ html
                             .seperate
                             a.signup(href="/register", title="还没有Code Snippet账号？立即注册！") 
                                 label 注册
-                            input.submit(type="button", value="登&nbsp;录", tabindex="3")
+                            input.submit(type="submit", value="登&nbsp;录", tabindex="3")
             script(src="/js/common.js")
             script(src="/js/login.js")

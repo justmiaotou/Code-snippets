@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
 
 var models = require('../models'),
     url = require('url'),
+    qs = require('querystring'),
     M = require('../util'),
     config = require('../config'),
     User = models.User;
@@ -15,7 +16,12 @@ exports.get = function(req, res) {
 exports.post = function(req, res) {
     models.getUser(req.body.login_field, M.md5WithSalt(req.body.password, config.auth_secret), function(user) {
         genSession(res, user, { maxAge: 1000*60*60*24*7 });
-        res.redirect('/');
+        // 自动跳转登录前页面
+        if (req.body['redirect']) {
+            res.redirect(req.body['redirect']);
+        } else {
+            res.redirect('/');
+        }
     }, function(errorType) {
         switch(errorType) {
             case 'pw_error':

@@ -29,6 +29,13 @@ module.exports = {
 	// [ [ plugin_name, options ], ... ]
 	plugins: [],
 
+    // 用户缓冲池配置
+    // 效果应该有比MongoDb的索引好吧……
+    userPool: {
+        indexName: '_id', // 用作索引的属性名
+        maxCount: 100000,
+        reduceTo: 20000
+    },
     // 以函数的方式获得，避免修改造成的互相影响
     getCodeTypeList: function() {
         return {
