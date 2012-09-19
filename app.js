@@ -4,6 +4,7 @@
  */
 
 var express = require('express')
+    , https = require('https')
     , mongoose = require('mongoose')
     , path = require('path')
     , fs = require('fs')

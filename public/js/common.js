@@ -1,30 +1,41 @@
+()();
+function Cookie() {
+}
+Cookie.prototype.isEnabled = function() {
+    return navigator.cookieEnabled;
+}
+
 /**
  * 修改版的document.getElementsByTagName，返回的为数组而非NodeList对象
+ * 注：Array.prototype.slice.call(document.getElementsByTagName(tagName)) IE6/7不支持
  */
-var getByTag = function(tagName) {
+function getByTag(tagName) {
     var arr = [],
         tags = document.getElementsByTagName(tagName);
     for (var i = 0, l = tags.length; i < l; ++i) {
         arr.push(tags[i]);
     }
     return arr;
-};
+}
 /**
- * @description *兼容* 获得事件对象
+ * 获得事件对象
+ * @param {Event} event
  */
 function getEvent(event) {
     return event ? event : window.event;
 }
 
 /**
- * @description *兼容* 获得事件的target对象
+ * 获得事件的target对象
+ * @param {Event} event
  */
 function getTarget(event) {
     return event.target || event.srcElement;
 }
 
 /**
- * @description 获得mouseover、mouseout事件中的关联元素
+ * 获得mouseover、mouseout事件中的关联元素
+ * @param {Event} e
  */
 function getRelatedTarget(e) {
     if (event.relatedTarget) {
@@ -37,7 +48,10 @@ function getRelatedTarget(e) {
 }
 
 /**
- * @description 判断parentNode是否包含childNode；注：parentNode == childNode时返回false
+ * 判断parentNode是否包含childNode
+ * 注：parentNode == childNode时返回false
+ * @param {Object} parentNode
+ * @param {Object} childNode
  */
 function contain(parentNode, childNode) {
     return parentNode.contains ?
@@ -45,6 +59,12 @@ function contain(parentNode, childNode) {
         !!(parentNode.compareDocumentPosition(childNode) & 16);
 }
 
+/**
+ * 获得父节点。若指定父节点的class或id，则会逐级向上查找
+ * 直到找到并返回，或返回null
+ * @param {Object} node 子节点
+ * @param {String} idOrClass 父节点的class或id
+ */
 function parent(node, idOrClass) {
     if (!node.parentNode) return null;
     if (idOrClass.charAt(0) == '.') {
@@ -60,10 +80,11 @@ function parent(node, idOrClass) {
             return parent(node.parentNode, idOrClass);
         }
     }
+    return node.parentNode;
 }
 
 /**
- * @description 将节点插入父节点末尾
+ * 将节点插入父节点末尾
  */
 function append(parent, node) {
     parent.appendChild(node);
@@ -122,6 +143,27 @@ function getByClass(className, p) {
 }
 
 /**
+ * @description 替换className中的某[几]个class
+ */
+function replaceClass(node, className, newClassName) {
+    var fullClass = node.className,
+        reg0 = new RegExp(' ' + className + ' '),
+        reg1 = new RegExp('^' + className + '$'),
+        reg2 = new RegExp(' ' + className + '$'),
+        reg3 = new RegExp('^' + className + ' ');
+    if (reg0.test(fullClass)) {
+        fullClass = fullClass.replace(reg0, ' ' + newClassName + ' ');
+    } else if (reg1.test(fullClass)) {
+        fullClass = fullClass.replace(reg1, newClassName);
+    } else if (reg2.test(fullClass)) {
+        fullClass = fullClass.replace(reg2, ' ' + newClassName);
+    } else if (reg3.test(fullClass)) {
+        fullClass = fullClass.replace(reg3, newClassName + ' ');
+    }
+    node.className = fullClass;
+}
+
+/**
  * @description 取消默认行为
  */
 function preventDefault(e) {
@@ -154,27 +196,6 @@ function addEvent(o, t, f) {
     } else {
         o['on'+ t] = f;
     }
-}
-
-/**
- * @description 替换className中的某[几]个class
- */
-function replaceClass(node, className, newClassName) {
-    var fullClass = node.className,
-        reg0 = new RegExp(' ' + className + ' '),
-        reg1 = new RegExp('^' + className + '$'),
-        reg2 = new RegExp(' ' + className + '$'),
-        reg3 = new RegExp('^' + className + ' ');
-    if (reg0.test(fullClass)) {
-        fullClass = fullClass.replace(reg0, ' ' + newClassName + ' ');
-    } else if (reg1.test(fullClass)) {
-        fullClass = fullClass.replace(reg1, newClassName);
-    } else if (reg2.test(fullClass)) {
-        fullClass = fullClass.replace(reg2, ' ' + newClassName);
-    } else if (reg3.test(fullClass)) {
-        fullClass = fullClass.replace(reg3, newClassName + ' ');
-    }
-    node.className = fullClass;
 }
 
 /**

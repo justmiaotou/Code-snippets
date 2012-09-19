@@ -16,9 +16,9 @@ function fillSnippet(body, doc) {
         codeType = '';
     for (var field in body) {
         switch(field) {
-            case 'author':
+            /*case 'author':
                 snippet.author = body[field];
-                break;
+                break;*/
             case 'description':
                 snippet.desc = body[field];
                 break;

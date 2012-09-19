@@ -12,14 +12,15 @@ block content
                     | 代码片段编辑
         form#snippet-form
             ul.form-list
-                li
-                    label.th.ib(for='author')
-                        b.red *
-                        | 作者：
-                    - if (action=='mod')
-                        input.txt#author(type='text', name='author', required, value=snippet.author)
-                    - else
-                        input.txt#author(type='text', name='author', required)
+                //
+                    li
+                        label.th.ib(for='author')
+                            b.red *
+                            | 作者：
+                        - if (action=='mod')
+                            input.txt#author(type='text', name='author', required, value=snippet.author)
+                        - else
+                            input.txt#author(type='text', name='author', required)
                 li 
                     label.th.ib(for='title')
                         b.red *
