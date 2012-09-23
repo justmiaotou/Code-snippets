@@ -8,7 +8,7 @@ var Code = new Schema({
     , code: String
 });
 var Snippet = new Schema({
-    author: String
+    authorId: String
     , title: String
     , desc: String
     , type: Number

@@ -1,5 +1,5 @@
 {
-    "name": "Snippet It"
+    "name": "SnippetIt"
   , "author": "Memo Zhou"
   , "version": "0.0.1"
   , "private": true
@@ -7,5 +7,6 @@
       "express": "2.5.8"
     , "jade": ">= 0.0.1"
     , "mongoose": ">= 2.7.0"
+    , "wind": ""
   }
 }

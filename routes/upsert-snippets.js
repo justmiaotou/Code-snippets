@@ -77,7 +77,7 @@ exports.new= function(req, res) {
 
 exports.modifyGet = function(req, res) {
     if (!req.user) {
-        res.render('warning', { title:'', html:'亲，你不<a href="/login">登录</a>我怎么知道你有没有权限修改这个条目呢。' });
+        res.redirect('/login?redirect=' + req.url);
         return;
     }
 
@@ -88,7 +88,7 @@ exports.modifyGet = function(req, res) {
         Snippet.find(dbQuery, function(err, docs) {
             if (docs && docs.length > 0) {
                 //console.log(docs[0]);
-                if (docs[0].author == req.user.username) {
+                if (docs[0].authorId == req.user._id) {
                     res.render('edit-snippet', {title: '修改Snippet', action:'mod', snippet:docs[0], codeTypeList: config.getCodeTypeList(), user:req.user});
                 } else {
                     res.render('warning', { title: '', html: '你只能修改你自己的条目啊', user:req.user});
@@ -132,6 +132,7 @@ exports.upload = function(req, res) {
         return;
     }
 
+    snippet.authorId = req.user._id;
     snippet.date = new Date();
     snippet.save(function(err) {
         res.header('Content-type', 'application/json');

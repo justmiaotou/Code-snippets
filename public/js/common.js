@@ -1,4 +1,4 @@
-()();
+//()();
 function Cookie() {
 }
 Cookie.prototype.isEnabled = function() {

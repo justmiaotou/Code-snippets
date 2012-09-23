@@ -9,7 +9,6 @@ exports.snippets = function(req, res) {
     var params = M.parseQuery(url.parse(req.url).query),
         dbQuery = null,
         codeTypeList = config.getCodeTypeList();
-    //console.log(params);
     switch(params.type) {
         case 'function':
             dbQuery = {type:2};
@@ -34,7 +33,19 @@ exports.snippets = function(req, res) {
     }
     Snippet.find(dbQuery, function(err, docs) {
         if (docs && docs.length > 0) {
-            res.render('snippets', { title: 'Code Snippets', snippets:docs, type:dbQuery.type, codeTypeList: codeTypeList, user: req.user});
+            var finishedCount = 0;
+            for (var i = 0, l = docs.length; i < l; ++i) {
+                (function(index) {
+                    models.getUserById(docs[index].authorId, function(user) {
+                        finishedCount++;
+                        docs[index].author = user;
+                        // 全部数据获取完毕，则可发送给用户
+                        if (finishedCount == docs.length) {
+                            res.render('snippets', { title: 'Code Snippets', snippets:docs, type:dbQuery.type, codeTypeList: codeTypeList, user: req.user});
+                        }
+                    });
+                })(i);
+            }
         } else {
             res.render('chicken-page', {
                 title: 'Code Snippets',

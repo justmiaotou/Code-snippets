@@ -11,11 +11,11 @@ block content
                     h2.entry-title
                         b &#10162;
                         a.title(target='_blank',href='/snippets/'+snippet._id) #{snippet.title}
-                        span.author #{snippet.author}
+                        span.author #{snippet.author.username}
                     - if (snippet.hasEffectBtn)
                         - var effectBtn = '<button class="effect-btn" id="' + snippet.effectBtnId + '">点击看效果</button>'
                         | !{effectBtn}
-            - if (typeof user != 'undefined' && user.username === snippet.author)
+            - if (typeof user != 'undefined' && user._id == snippet.authorId)
                 .mod-btn-con
                     a.mod-btn.tst-all-02(href='/mod-snippet/'+snippet._id, title='修改该条目', target='_blank')
             section.entry-info

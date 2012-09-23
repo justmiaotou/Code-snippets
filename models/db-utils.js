@@ -22,18 +22,19 @@ model.getUser = function(loginField, password, suc, fail) {
 };
 
 var userPool = new UserPool(config.userPool); // LRU策略对象缓冲池
+
 model.getUserById = function(id, suc, fail) {
     var user = userPool.get(id);
     if (user) {
         // userPool.logLink('username');
-        suc(user);
+        suc && suc(user);
         return;
     };
 
-    this.User.find({'_id': id}, function(err, docs) {
-        if (docs && docs.length == 1) {
-            userPool.set(docs[0]);
-            suc(docs[0]);
+    this.User.findById(id, function(err, doc) {
+        if (doc) {
+            userPool.set(doc);
+            suc && suc(doc);
         } else {
             fail && fail();
         }
