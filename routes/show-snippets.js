@@ -36,6 +36,9 @@ exports.snippets = function(req, res) {
             var finishedCount = 0;
             for (var i = 0, l = docs.length; i < l; ++i) {
                 (function(index) {
+                    if (!docs[index].authorId) {
+                        console.error('No. ' + index + ' snippet was error in db.');
+                    }
                     models.getUserById(docs[index].authorId, function(user) {
                         finishedCount++;
                         docs[index].author = user;

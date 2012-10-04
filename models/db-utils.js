@@ -26,7 +26,7 @@ var userPool = new UserPool(config.userPool); // LRU策略对象缓冲池
 model.getUserById = function(id, suc, fail) {
     var user = userPool.get(id);
     if (user) {
-        // userPool.logLink('username');
+        userPool.logLink('username');
         suc && suc(user);
         return;
     };

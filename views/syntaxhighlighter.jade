@@ -1,10 +1,10 @@
-link(href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css", rel="stylesheet")
-link(href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeDefault.css", rel="stylesheet")
+link(href="/js/syntaxhighlighter_3.0.83/styles/shCore.css", rel="stylesheet")
+link(href="/js/syntaxhighlighter_3.0.83/styles/shThemeDefault.css", rel="stylesheet")
 style
     .syntaxhighlighter { overflow-y: hidden !important; }
 
-script(src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js")
-script(src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js")
+script(src="/js/syntaxhighlighter_3.0.83/scripts/shCore.js")
+script(src="/js/syntaxhighlighter_3.0.83/scripts/shAutoloader.js")
 script
     function shPath()
     {
@@ -12,7 +12,7 @@ script
           result = [];
            
       for(var i = 0; i < args.length; i++)
-          result.push(args[i].replace('@', 'http://alexgorbatchev.com/pub/sh/current/scripts/'));
+          result.push(args[i].replace('@', '/js/syntaxhighlighter_3.0.83/scripts/'));
            
       return result;
     };
