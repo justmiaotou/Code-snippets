@@ -6,6 +6,7 @@ var models = require('../models'),
     url = require('url'),
     M = require('../util.js'),
     Snippet = models.Snippet,
+    //DelSnippet =  models.Snippet,
     config = require('../config');
 
 function fillSnippet(body, doc) {
@@ -142,4 +143,28 @@ exports.upload = function(req, res) {
             res.end(JSON.stringify({status: 1}));
         }
     });
-}
+};
+
+exports.del = function(req, res) {
+    if (!req.user) {
+        res.end(JSON.stringify({status: 0, msg: '请先登录'}));
+        return;
+    }
+    if (req.params.id) {
+        Snippet.findById(req.params.id, function(err, doc) {
+            if (err) {
+                render404(res);
+                return;
+            }
+            doc.remove(function(err, product) {
+                if (err) {
+                    res.end(JSON.stringify({status: 0, msg:'删除失败，请重试'}));
+                } else {
+                    res.end(JSON.stringify({status:1}));
+                }
+            });
+        });
+    } else {
+        render404(res);
+    }
+};

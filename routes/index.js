@@ -44,6 +44,8 @@ app.post('/snippet-upload', rUpsertSnippets.upload);
 app.get('/mod-snippet/:id', rUpsertSnippets.modifyGet);
 app.post('/mod-snippet', rUpsertSnippets.modifyPost);
 
+app.post('/del/:id', rUpsertSnippets.del);
+
 app.get('*', function(req, res) {
     rExceptions['404'](res);
 });

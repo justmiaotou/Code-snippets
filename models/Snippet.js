@@ -21,3 +21,4 @@ var Snippet = new Schema({
 });
 
 mongoose.model('Snippet', Snippet);
+//mongoose.model('DelSnippet', Snippet);
