@@ -189,6 +189,7 @@ function stopPropagation(e) {
  * @description 绑定事件
  */
 function addEvent(o, t, f) {
+    if (!o) return;
     if (o.addEventListener) {
         o.addEventListener(t, f, false);
     } else if (o.attachEvent) {
@@ -470,6 +471,22 @@ var ajax = (function(){
         xhr.send(data);
     }
 }());
+
+function getJSON(url, data, callback) {
+    if (typeof data == 'function') {
+        callback = data;
+        data = null;
+    }
+    ajax({
+        url: url
+        , data: data
+        , on: {
+            complete: function(o) {
+                callback(JSON.parse(o.responseText)); 
+            }
+        }
+    });
+}
 
 /**
  * @description 对数组的指定连续部分进行修改。

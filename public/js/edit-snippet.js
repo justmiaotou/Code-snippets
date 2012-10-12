@@ -1,5 +1,17 @@
 (function(config) {
     var form = $('#snippet-form');
+    addEvent($('#del-snippet'), 'click', function() {
+        if (window.confirm('确定删除该条目？')) {
+            getJSON(this.getAttribute('data-href'), function(data) {
+                if (data.status) {
+                    alert('删除成功！页面即将关闭！');
+                    window.close();
+                } else {
+                    alert(data.msg);
+                }
+            });
+        }
+    });
     addEvent(form, 'click', function(e) {
         var target = getTarget(getEvent(e));
         if (/del-field-btn/.test(target.className)) {
