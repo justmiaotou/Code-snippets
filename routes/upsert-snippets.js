@@ -6,6 +6,7 @@ var models = require('../models'),
     url = require('url'),
     M = require('../util.js'),
     Snippet = models.Snippet,
+    render404 = require('./exceptions')['404'],
     //DelSnippet =  models.Snippet,
     config = require('../config');
 
@@ -95,11 +96,11 @@ exports.modifyGet = function(req, res) {
                     res.render('warning', { title: '', html: '你只能修改你自己的条目啊', user:req.user});
                 }
             } else {
-                render404(res, '我说，你想修改的条目真的存在吗……')
+                render404(req, res, '我说，你想修改的条目真的存在吗……');
             }
         });
     } else {
-        render404(res);
+        render404(req, res);
     }
 };
 exports.modifyPost = function(req, res) {
@@ -153,7 +154,7 @@ exports.del = function(req, res) {
     if (req.params.id) {
         Snippet.findById(req.params.id, function(err, doc) {
             if (err) {
-                render404(res);
+                render404(req, res);
                 return;
             }
             doc.remove(function(err, product) {
@@ -165,6 +166,6 @@ exports.del = function(req, res) {
             });
         });
     } else {
-        render404(res);
+        render404(req, res);
     }
 };

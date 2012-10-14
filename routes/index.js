@@ -14,6 +14,7 @@ var rLogin = require('./login')
     , rRegister = require('./register')
     , rUpsertSnippets = require('./upsert-snippets')
     , rShowSnippets = require('./show-snippets')
+    , rUserPage = require('./userpage')
     , rExceptions = require('./exceptions');
 
 app.all('/*.html', function(req, res, next) {
@@ -22,7 +23,7 @@ app.all('/*.html', function(req, res, next) {
     if (fs.existsSync(realPath)) {
         res.end(fs.readFileSync(realPath));
     } else {
-        rExceptions['404'](res);
+        rExceptions['404'](req, res);
     }
 });
 
@@ -35,17 +36,18 @@ app.get('/register', rRegister.get);
 app.post('/register', rRegister.post);
 
 app.get('/', rShowSnippets.snippets);
-app.get('/snippets', rShowSnippets.snippets);
-app.get('/snippets/:id', rShowSnippets.snippets);
+app.get('/s/new', rUpsertSnippets.new);
+app.post('/s/upload', rUpsertSnippets.upload);
 
-app.get('/new-snippet', rUpsertSnippets.new);
-app.post('/snippet-upload', rUpsertSnippets.upload);
+app.get('/s/:id', rShowSnippets.snippet);
 
-app.get('/mod-snippet/:id', rUpsertSnippets.modifyGet);
-app.post('/mod-snippet', rUpsertSnippets.modifyPost);
+app.get('/s/mod/:id', rUpsertSnippets.modifyGet);
+app.post('/s/mod', rUpsertSnippets.modifyPost);
 
-app.post('/del/:id', rUpsertSnippets.del);
+app.post('/s/del/:id', rUpsertSnippets.del);
+
+app.get('/u/:id', rUserPage.get);
 
 app.get('*', function(req, res) {
-    rExceptions['404'](res);
+    rExceptions['404'](req, res);
 });

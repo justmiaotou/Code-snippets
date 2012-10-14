@@ -10,14 +10,14 @@ block content
                 hgroup
                     h2.entry-title
                         b &#10162;
-                        a.title(target='_blank',href='/snippets/'+snippet._id) #{snippet.title}
-                        span.author #{snippet.author.username}
+                        a.title(target='_blank',href='/s/'+snippet._id) #{snippet.title}
+                        a.author(href="/u/"+snippet.author._id, target="_blank") #{snippet.author.username}
                     - if (snippet.hasEffectBtn)
                         - var effectBtn = '<button class="effect-btn" id="' + snippet.effectBtnId + '">点击看效果</button>'
                         | !{effectBtn}
             - if (typeof user != 'undefined' && user._id == snippet.authorId)
                 .mod-btn-con
-                    a.mod-btn.tst-all-02(href='/mod-snippet/'+snippet._id, title='修改该条目', target='_blank')
+                    a.mod-btn.tst-all-02(href='/s/mod/'+snippet._id, title='修改该条目', target='_blank')
             section.entry-info
                 - if (snippet.desc)
                     p.desc #{snippet.desc}
@@ -33,6 +33,7 @@ block content
 block script_foot
     include syntaxhighlighter
     script(src='/js/snippets.js')
-    case type
-        when 1: script(src='/js/effect-snippets.js')
-        // when 3: script(src='/js/code-snippets.js')
+    if (typeof type != 'undefined')
+        case type
+            when 1: script(src='/js/effect-snippets.js')
+            // when 3: script(src='/js/code-snippets.js')

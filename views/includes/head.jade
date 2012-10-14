@@ -1,0 +1,17 @@
+header.main-header
+    hgroup
+        h1
+            a.site-title(href="/")
+                | Code Snippets }
+                //- sup v 0.1
+    ul.h-nav
+        - if (typeof user != 'undefined')
+            li.ib.tst-all-01
+                a(href="/u/"+user._id, target="_blank")= user.username
+            li.ib.tst-all-01
+                a(href="/logout") 退出
+        - else
+            li.ib.tst-all-01
+                a(href="/login") 登录
+            li.ib.tst-all-01
+                a(href="/register") 注册

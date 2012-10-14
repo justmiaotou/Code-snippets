@@ -9,50 +9,9 @@ html
         block script_head
     body
         block header
-            header.main-header
-                hgroup
-                    h1
-                        a.site-title(href="/") 
-                            | Code Snippets }
-                            //- sup v 0.1
-                ul.h-nav
-                    - if (typeof user != 'undefined')
-                        li.ib.tst-all-01
-                            a(href="#")= user.username
-                        li.ib.tst-all-01
-                            a(href="/logout") 退出
-                    - else
-                        li.ib.tst-all-01
-                            a(href="/login") 登录
-                        li.ib.tst-all-01
-                            a(href="/register") 注册
+            include includes/head
         block nav
-            nav.main-nav
-                ul.list2.list
-                    li.f4
-                        a.tst-all-02.new-btn.ib(href='/new-snippet') + New
-                    - if (typeof type != 'undefined' && type==1)
-                        li.f4.selected
-                            a.ib.tst-all-02(href='/snippets?type=effect') Effect
-                    - else
-                        li.f4
-                            a.ib.tst-all-02(href='/snippets?type=effect') Effect
-                    - if (typeof type != 'undefined' && type==3)
-                        li.f4.selected
-                            a.ib.tst-all-02(href='/snippets?type=api') Code
-                            ul.sub.list
-                                each val, key in codeTypeList
-                                    if (val)
-                                        //- className = ['selected']
-                                        li.selected
-                                            a(href='###')= key
-                                    else 
-                                        //- className = []
-                                        li
-                                            a(href='/snippets?type=api&codetype='+key)= key
-                    - else
-                        li.f4
-                            a.ib.tst-all-02(href='/snippets?type=api') Code
+            include includes/nav
         section.con
             block content
         block footer

@@ -11,7 +11,7 @@ block content
                     b &#10162;
                     | 代码片段编辑
                     - if (action == 'mod')
-                        a#del-snippet.tst-all-02(data-href='/del/'+snippet._id)
+                        a#del-snippet.tst-all-02(data-href='/s/del/'+snippet._id)
                             | &#10006;
                             span 删除
         form#snippet-form
@@ -98,9 +98,9 @@ block script_foot
         when 'new' 
             script
                 var editConfig = {};
-                editConfig.url = '/snippet-upload';
+                editConfig.url = '/s/upload';
         when 'mod'
             script
                 var editConfig = {};
-                editConfig.url = '/mod-snippet';
+                editConfig.url = '/s/mod';
     script(src='/js/edit-snippet.js')

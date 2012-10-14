@@ -2,7 +2,7 @@
 
 select { width:100px; height:34px; border:1px solid #CCC; }
 
-#del-snippet { float:right; margin:10px 10px; padding-left:3px; background:blanchedalmond; width:21px; height:24px; line-height:22px; border-radius:12px; overflow:hidden; cursor:pointer; box-shadow:inset 1px 1px 4px #555, 1px 1px 4px #FFF; text-shadow:0 0 2px #333; white-space:nowrap; }
+#del-snippet { float:right; margin:10px 10px; padding-left:2px; background:blanchedalmond; width:22px; height:24px; line-height:26px; border-radius:12px; overflow:hidden; cursor:pointer; box-shadow:inset 1px 1px 4px #555, 1px 1px 4px #FFF; text-shadow:0 0 2px #333; white-space:nowrap; }
 #del-snippet:hover { width:62px; background:#D00; color:#EEE; }
 #del-snippet span { margin-left:5px; font-size:16px; vertical-align:top; }
 

@@ -4,11 +4,40 @@ var models = require('../models'),
     Snippet = models.Snippet,
     config = require('../config');
 
+/**
+ * 显示单条记录
+ */
+exports.snippet = function(req, res) {
+    Snippet.findById(req.params.id, function(err, doc) {
+        if (doc) {
+            if (!doc.authorId) {
+                console.error(req.params.id + ' snippet was error in db.');
+            }
+            // 从缓冲池中获取用户对象
+            models.getUserById(doc.authorId, function(user) {
+                doc.author = user;
+                res.render('snippets', { title: 'Code Snippets', snippets:[doc], user: req.user});
+            });
+        } else {
+            res.render('chicken-page', {
+                title: 'Code Snippets',
+                html: 'You could <a href="/new-snippet" class="btn_2">submit</a> the first piece of code snippet!',
+                user: req.user
+            });
+        }
+
+    })
+};
+
+/**
+ * 显示多条记录
+ */
 exports.snippets = function(req, res) {
     // 若直接使用req.query，则‘c++’会被默认转换了……
     var params = M.parseQuery(url.parse(req.url).query),
         dbQuery = null,
         codeTypeList = config.getCodeTypeList();
+
     switch(params.type) {
         case 'function':
             dbQuery = {type:2};
@@ -26,11 +55,7 @@ exports.snippets = function(req, res) {
         default:
             dbQuery = {};
     }
-    // 只查看特定条目
-    if (req.params.id) {
-        dbQuery['_id'] = req.params.id;
-        delete dbQuery.type;
-    }
+
     Snippet.find(dbQuery, function(err, docs) {
         if (docs && docs.length > 0) {
             var finishedCount = 0;
@@ -39,6 +64,7 @@ exports.snippets = function(req, res) {
                     if (!docs[index].authorId) {
                         console.error('No. ' + index + ' snippet was error in db.');
                     }
+                    // 从缓冲池中获取用户对象
                     models.getUserById(docs[index].authorId, function(user) {
                         finishedCount++;
                         docs[index].author = user;
