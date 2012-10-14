@@ -1,0 +1,54 @@
+extends ../tpl
+
+block style_head
+    link(rel='stylesheet', href='/css/new-snippet.css')
+
+block nav
+    include nav
+
+block content
+    section.snippet-upload
+        header
+            hgroup
+                h2.entry-title
+                    b &#10162;
+                    | 牛逼闪闪的新周报
+                    - if (action == 'mod')
+                        a#del-snippet.tst-all-02(data-href='/netease/week-report/del/'+report._id)
+                            | &#10006;
+                            span 删除
+        form#snippet-form
+            ul.form-list
+                li
+                    label.th.ib(for='desc')
+                        b.red *
+                        | 上周回顾：
+                    - if (action=='mod')
+                        textarea.txt(name='last-week', required)= report.lastWeek
+                    - else
+                        textarea.txt(name='last-week', required)
+                li
+                    label.th.ib(for='desc')
+                        b.red *
+                        | 本周计划：
+                    - if (action=='mod')
+                        textarea.txt(name='this-week', required)= report.thisWeek
+                    - else
+                        textarea.txt(name='this-week', required)
+            .center
+                if (action=='mod')
+                    input(type='hidden', name='reportid', value=report._id)
+                input.btn_1#snippet-submit(type='submit')
+                input.btn_1(type='reset')
+
+block script_foot
+    case action
+        when 'new'
+            script
+                var editConfig = {};
+                editConfig.url = '/netease/week-report/new';
+        when 'mod'
+            script
+                var editConfig = {};
+                editConfig.url = '/netease/week-report/mod';
+    script(src='/js/edit-snippet.js')

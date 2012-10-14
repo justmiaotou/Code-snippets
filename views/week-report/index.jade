@@ -1,0 +1,35 @@
+extends ../tpl
+
+block style_head
+    link(rel='stylesheet', href='/css/snippets.css')
+
+block nav
+    include nav
+
+block content
+    - each report in reports
+        article.entry
+            header
+                hgroup
+                    h2.entry-title
+                        b &#10162;
+                        span.title #{report.author.username}的周报
+                        a.author(href="/netease/week-report/u/"+report.author._id, target="_blank") #{report.author.username}
+            - if (typeof user != 'undefined' && user._id == report.author._id)
+                .mod-btn-con
+                    a.mod-btn.tst-all-02(href='/netease/week-report/mod/'+report._id, title='修改该条目', target='_blank')
+            section.code
+                h3 上周回顾
+                - var preClass = ['brush:html;', 'toolbar:false;gutter:false;']
+                pre(class=preClass) #{report.lastWeek}
+                b.type-bg 上周回顾
+            section.code
+                h3 本周总结
+                - var preClass = ['brush:html;', 'toolbar:false;gutter:false;']
+                pre(class=preClass) #{report.thisWeek}
+                b.type-bg 本周总结
+            span.hide.snippet-id #{report._id}
+
+block script_foot
+    include ../syntaxhighlighter
+    script(src='/js/snippets.js')

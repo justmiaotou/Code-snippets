@@ -104,6 +104,11 @@ exports.modifyGet = function(req, res) {
     }
 };
 exports.modifyPost = function(req, res) {
+    if (!req.user) {
+        res.redirect('/login?redirect=' + req.url);
+        return;
+    }
+
     Snippet.findById(req.body.snippetid, function(err, doc) {
         if (!err) {
             req.body.lastUpdateDate = new Date();
@@ -147,6 +152,7 @@ exports.upload = function(req, res) {
 };
 
 exports.del = function(req, res) {
+    console.log('Del');
     if (!req.user) {
         res.end(JSON.stringify({status: 0, msg: '请先登录'}));
         return;

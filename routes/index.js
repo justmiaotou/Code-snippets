@@ -15,7 +15,8 @@ var rLogin = require('./login')
     , rUpsertSnippets = require('./upsert-snippets')
     , rShowSnippets = require('./show-snippets')
     , rUserPage = require('./userpage')
-    , rExceptions = require('./exceptions');
+    , rExceptions = require('./exceptions')
+    , rWeekReport = require('./weekreport');
 
 app.all('/*.html', function(req, res, next) {
     var realPath = __dirname + '/public/html' + url.parse(req.url).pathname;
@@ -47,6 +48,15 @@ app.post('/s/mod', rUpsertSnippets.modifyPost);
 app.post('/s/del/:id', rUpsertSnippets.del);
 
 app.get('/u/:id', rUserPage.get);
+
+// 周报处理
+app.get('/netease/week-report', rWeekReport.get);
+app.get('/netease/week-report/new', rWeekReport.newGet);
+app.post('/netease/week-report/new', rWeekReport.newPost);
+app.post('/netease/week-report/del/:id', rWeekReport.del);
+app.get('/netease/week-report/u/:id', rWeekReport.user);
+app.get('/netease/week-report/mod/:id', rWeekReport.modGet);
+app.post('/netease/week-report/mod', rWeekReport.modPost);
 
 app.get('*', function(req, res) {
     rExceptions['404'](req, res);
