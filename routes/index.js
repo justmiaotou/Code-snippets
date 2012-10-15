@@ -57,6 +57,7 @@ app.post('/netease/week-report/del/:id', rWeekReport.del);
 app.get('/netease/week-report/u/:id', rWeekReport.user);
 app.get('/netease/week-report/mod/:id', rWeekReport.modGet);
 app.post('/netease/week-report/mod', rWeekReport.modPost);
+app.get('/netease/week-report/sum', rWeekReport.sum);
 
 app.get('*', function(req, res) {
     rExceptions['404'](req, res);

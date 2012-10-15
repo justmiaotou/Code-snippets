@@ -10,7 +10,7 @@
 .entry-info .desc:before { content:"Description"; font-family:'Mr Bedfort',cursive; position:absolute; top:-10px; left:-10px; background:white; color:#555; font-weight:bold; font-size:30px; text-indent:0; }
 .code { position:relative; padding:20px 30px 40px; margin:0 22px -3px; border:3px dashed #99d035; }
 .code pre { position:relative; padding:40px 30px; line-height:1.2; word-wrap:break-word; }
-.code .type-bg { position:absolute; right:15px; bottom:5px; color:#99d035; font-weight:bold; font-family:'Codystar',cursive; font-size:50px; }
+.code .type-bg { position:absolute; right:15px; bottom:5px; color:#99d035; font-weight:bold; font-family:'Codystar',cursive,Microsoft YaHei, Arial,Helvetica,sans-serif; font-size:50px; }
 .code h3 { position:absolute; background:#99d035; width:80px; padding:3px 10px; top:-3px; left:-3px; border-radius:0 0 5px; color:white; font-size:16px; }
 
 .mod-btn-con { position:absolute; padding:3px; left:-100px; }

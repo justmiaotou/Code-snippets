@@ -1,0 +1,32 @@
+extends ../tpl
+
+block style_head
+    link(rel='stylesheet', href='/css/snippets.css')
+
+block nav
+    include nav
+
+block content
+    article.entry
+        header
+            hgroup
+                h2.entry-title
+                    b &#10162;
+                    span.title 周报汇总
+        section.code
+            h3 Summary
+            - var preClass = ['brush:html;', 'toolbar:false;gutter:false;']
+            pre(class=preClass)
+                - each report in reports
+                    h2 
+                        | /**
+                        |  * @author 
+                        =report.author.username
+                        |   
+                        |  */
+                    h4 【上周回顾】
+                    p= report.lastWeek
+                    h4 【本周总结】
+                    p= report.thisWeek
+                    br
+            b.type-bg Summary
