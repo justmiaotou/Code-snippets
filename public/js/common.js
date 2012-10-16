@@ -270,13 +270,14 @@ function getCurrentStyle(node) {
  * @description 对url进行解析并返回解析后的对象
  */
 function parseURL() {
-    var url = location.href,
-        query = url.substring(url.indexOf('?')+1),
-        params = parseQuery(query);
+    var url = location.href;
+    if (!~url.indexOf('?')) {
+        return null;
+    }
     return {
         path: location.pathname,
         protocol: location.protocol,
-        params: params
+        params: parseQuery(url.substring(url.indexOf('?') + 1))
     }
 }
 
