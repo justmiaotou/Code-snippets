@@ -6,13 +6,13 @@ nav.main-nav
             a.tst-all-02.ib(href='/netease/week-report') Week Report
         - if (typeof type != 'undefined' && type==1)
             li.f4.selected
-                a.ib.tst-all-02(href='?type=effect') Effect
+                a.ib.tst-all-02(href='/?type=effect') Effect
         - else
             li.f4
-                a.ib.tst-all-02(href='?type=effect') Effect
+                a.ib.tst-all-02(href='/?type=effect') Effect
         - if (typeof type != 'undefined' && type==3)
             li.f4.selected
-                a.ib.tst-all-02(href='?type=api') Code
+                a.ib.tst-all-02(href='/?type=api') Code
                 ul.sub.list
                     each val, key in codeTypeList
                         if (val)
@@ -22,7 +22,7 @@ nav.main-nav
                         else
                             //- className = []
                             li
-                                a(href='?type=api&codetype='+key)= key
+                                a(href='/?type=api&codetype='+key)= key
         - else
             li.f4
-                a.ib.tst-all-02(href='?type=api') Code
+                a.ib.tst-all-02(href='/?type=api') Code
