@@ -21,12 +21,15 @@ block content
                     h2 
                         | /**
                         |  * @author 
-                        =report.author.username
+                        = report.author.username
+                        | 
+                        |  * @date 
+                        = report.date.getFullYear() + '年' + (report.date.getMonth()+1) + '月' + report.date.getDate() + '日' + report.date.getHours() + ':' + report.date.getMinutes()
                         |   
                         |  */
                     h4 【上周回顾】
                     p= report.lastWeek
-                    h4 【本周总结】
+                    h4 【本周计划】
                     p= report.thisWeek
                     br
             b.type-bg Summary

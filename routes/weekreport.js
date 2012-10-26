@@ -168,7 +168,7 @@ exports.sum = function(req, res) {
         } else {
             res.render('week-report/chicken-page', {
                 title: 'oh shit……',
-                html: '一份报告都木有啊亲，<a href="/netease/week-report/new">提交</a>一个呗~',
+                html: '今天一份报告都木有啊亲，<a href="/netease/week-report/new">提交</a>一个呗~',
                 user: req.user
             });
         }
