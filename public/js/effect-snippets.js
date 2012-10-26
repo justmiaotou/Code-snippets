@@ -1,5 +1,7 @@
 // 遮罩效果演示
-(function() {
+define(function(require, exports, module) {
+    var _ = require('common'),
+        addEvent = _.addEvent;
     var fragment = document.createDocumentFragment();
     var elt = document.createElement('div');
     elt.innerHTML = '<div class="mask hide">\
@@ -10,14 +12,14 @@
     var mask = $('.mask')[0],
         btn = $('#mask-btn');
     // 针对不支持position:fixed的情况
-    if (getCurrentStyle(mask).position == "absolute"){
-        mask.style.height = getViewportHeight()+'px';
+    if (_.getCurrentStyle(mask).position == "absolute"){
+        mask.style.height = _.getViewportHeight()+'px';
         addEvent(window, 'scroll', function() {
-            mask.style.top = getScrollTop();
-            mask.style.left = getScrollLeft();
+            mask.style.top = _.getScrollTop();
+            mask.style.left = _.getScrollLeft();
         });
         addEvent(window, 'resize', function() {
-            mask.style.height = getViewportHeight()+'px';
+            mask.style.height = _.getViewportHeight()+'px';
         });
     }
     addEvent(btn, 'click', function() {
@@ -27,4 +29,3 @@
         hide(mask);
     });
 })();
-

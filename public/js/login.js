@@ -1,11 +1,13 @@
-(function() {
+define(function(require, exports, module) {
+    var _ = require('common'),
+        $ = _.$;
     var form = $('#main-form'),
         passwd = $('#passwd');
-        params = parseURL().params;
+        params = _.parseURL().params;
 
-    addEvent(form, 'submit', function(e) {
+    _.addEvent(form, 'submit', function(e) {
         if (!checkForm()) {
-            preventDefault(e);
+            _.preventDefault(e);
             return false;
         }
     });
@@ -34,4 +36,4 @@
     function showError(msg) {
         alert(msg);
     }
-})();
+});

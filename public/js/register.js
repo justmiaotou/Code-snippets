@@ -1,14 +1,16 @@
-(function() {
+define(function(require, exports, module) {
+    var _ = require('common'),
+        $ = _.$;
     var form = $('#main-form');
-    addEvent($('.submit')[0], 'click', function(e) {
-        preventDefault(e);
+    _.addEvent($('.submit')[0], 'click', function(e) {
+        _.preventDefault(e);
 
         form.username.checkValidity && form.username.checkValidity();
         if (form.username.validity && form.username.validity.patternMismatch) {
             alert('用户名格式不正确！看不懂正则？那这里不适合你……');
             return;
         }
-        checkForm() && ajax({
+        _.checkForm() && _.ajax({
               url: '/register'
             , form: $('#main-form')
             , blackList: ['pw-confirm']
@@ -25,4 +27,4 @@
             }
         });
     });
-})();
+});

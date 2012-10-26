@@ -1,8 +1,12 @@
-(function(config) {
-    var form = $('#snippet-form');
+define(function(require, exports, module) {
+    var _ = require('./common'),
+        $ = _.$,
+        addEvent = _.addEvent,
+        config = editConfig,
+        form = $('#snippet-form');
     addEvent($('#del-snippet'), 'click', function() {
         if (window.confirm('确定删除该条目？')) {
-            getJSON(this.getAttribute('data-href'), function(data) {
+            _.getJSON(this.getAttribute('data-href'), function(data) {
                 if (data.status) {
                     alert('删除成功！页面即将关闭！');
                     window.close();
@@ -13,14 +17,14 @@
         }
     });
     addEvent(form, 'click', function(e) {
-        var target = getTarget(getEvent(e));
+        var target = _getTarget(_getEvent(e));
         if (/del-field-btn/.test(target.className)) {
             var p = target.parentNode;
             p.parentNode.removeChild(p);
         }
     });
     addEvent($('.add-code-btn', form)[0], 'click', function(e) {
-        preventDefault(e);
+        _.preventDefault(e);
         var fragment = document.createDocumentFragment(),
             li = document.createElement('li'),
             type = form.codetype.value;
@@ -39,8 +43,8 @@
     });
 
     addEvent($('#snippet-submit'), 'click', function(e) {
-        preventDefault(e);
-        checkForm() && ajax({
+        _.preventDefault(e);
+        _.checkForm() && _.ajax({
             // url: '/snippet-upload'
             url: config.url
             , form: form
@@ -72,4 +76,4 @@
             }
         });
     });
-})(editConfig);
+});

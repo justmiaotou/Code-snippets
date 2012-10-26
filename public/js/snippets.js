@@ -1,9 +1,11 @@
-(function() {
+define(function(require, exports, module) {
+    var _ = require('common'),
+        $ = _.$;
     var preSnippet = null;
-    addEvent($('.con')[0], 'mouseover', function(e) {
-        e = getEvent(e);
-        var target = getTarget(e),
-            snippet = parent(target, '.entry') || target
+    _.addEvent($('.con')[0], 'mouseover', function(e) {
+        e = _.getEvent(e);
+        var target = _.getTarget(e),
+            snippet = _.parent(target, '.entry') || target,
             modBtn = null;
         if (snippet === preSnippet) {
             return;
@@ -21,4 +23,4 @@
         modBtn.style.visibility = 'visible';
         preSnippet = snippet;
     });
-})();
+});

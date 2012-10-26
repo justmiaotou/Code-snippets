@@ -32,8 +32,11 @@ block content
 
 block script_foot
     include syntaxhighlighter
-    script(src='/js/snippets.js')
+    script
+        seajs.use('snippets');
     if (typeof type != 'undefined')
         case type
-            when 1: script(src='/js/effect-snippets.js')
+            when 1
+                script
+                    seajs.use('effect-snippets');
             // when 3: script(src='/js/code-snippets.js')

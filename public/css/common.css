@@ -30,13 +30,13 @@
   font-family: 'Codystar';
   font-style: normal;
   font-weight: 400;
-  src: local('Codystar'), url(http://themes.googleusercontent.com/static/fonts/codystar/v1/BraFEMRumMsVbWgqTQIWRPesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+  src: local('Codystar'), url(/fonts/Codystar.woff) format('woff');
 }
 @font-face {
   font-family: 'Merienda One';
   font-style: normal;
   font-weight: 400;
-  src: local('Merienda One'), local('MeriendaOne-Regular'), url(http://themes.googleusercontent.com/static/fonts/meriendaone/v4/bCA-uDdUx6nTO8SjzCLXvXhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+  src: local('Merienda One'), local('MeriendaOne-Regular'), url(/fonts/MeriendaOne.woff) format('woff');
 }
 
 html { min-height:100%; }
