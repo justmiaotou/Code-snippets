@@ -143,6 +143,13 @@ body {
 .main-nav .list2 .new-btn:hover { box-shadow: inset 0 0 8px #333; }
 .main-nav .list2 .new-btn:active { box-shadow: inset 0 0 10px #000; }
 
+.others { width:800px; margin:15px auto; }
+
+.paginator { float:right; }
+.paginator li { display:inline-block; *display:inline; *zoom:1; margin:0 3px; }
+.paginator a { display:block; width:30px; height:30px; line-height:30px; text-align:center; text-decoration:none; }
+.paginator a:hover, .paginator .current a { background:white; border-radius:5px; box-shadow:inset 0px 0px 8px #333; }
+
 /* 小块样式 */
 .warning-tip { margin:10px 20px; line-height:2; }
 
