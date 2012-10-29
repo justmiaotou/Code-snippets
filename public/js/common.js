@@ -1,36 +1,4 @@
 define(function (require, exports, module) {
-    exports.getByTag = getByTag;
-    exports.addEvent = addEvent;
-    exports.getEvent = getEvent;
-    exports.getTarget = getTarget;
-    exports.getRelatedTarget = getRelatedTarget;
-    exports.contain = contain;
-    exports.parent = parent;
-    exports.append = append;
-    exports.prepend = prepend;
-    exports.hide = hide;
-    exports.show = show;
-    exports.$ = $;
-    exports.getByClass = getByClass;
-    exports.replaceClass = replaceClass;
-    exports.preventDefault = preventDefault;
-    exports.stopPropagation = stopPropagation;
-    exports.removeClass = removeClass;
-    exports.addClass = addClass;
-    exports.hasClass = hasClass;
-    exports.replaceClass = replaceClass;
-    exports.getViewportHeight = getViewportHeight;
-    exports.getScrollTop = getScrollTop;
-    exports.getScrollLeft = getScrollLeft;
-    exports.getTotalTop = getTotalTop;
-    exports.getCurrentStyle = getCurrentStyle;
-    exports.parseURL = parseURL;
-    exports.parseQuery = parseQuery;
-    exports.checkForm = checkForm;
-    exports.ajax = ajax;
-    exports.getJSON = getJSON;
-    exports.modArrItem = modArrItem;
-
     function Cookie() {
     }
     Cookie.prototype.isEnabled = navigator.cookieEnabled;
@@ -553,4 +521,36 @@ define(function (require, exports, module) {
         }
         return o;
     }
+
+    exports.addEvent = addEvent;
+    exports.getEvent = getEvent;
+    exports.preventDefault = preventDefault;
+    exports.stopPropagation = stopPropagation;
+    exports.getTarget = getTarget;
+    exports.getRelatedTarget = getRelatedTarget;
+    exports.contain = contain;
+    exports.parent = parent;
+    exports.append = append;
+    exports.prepend = prepend;
+    exports.hide = hide;
+    exports.show = show;
+    exports.$ = $;
+    exports.getByTag = getByTag;
+    exports.getByClass = getByClass;
+    exports.replaceClass = replaceClass;
+    exports.removeClass = removeClass;
+    exports.addClass = addClass;
+    exports.hasClass = hasClass;
+    exports.replaceClass = replaceClass;
+    exports.getViewportHeight = getViewportHeight;
+    exports.getScrollTop = getScrollTop;
+    exports.getScrollLeft = getScrollLeft;
+    exports.getTotalTop = getTotalTop;
+    exports.getCurrentStyle = getCurrentStyle;
+    exports.parseURL = parseURL;
+    exports.parseQuery = parseQuery;
+    exports.checkForm = checkForm;
+    exports.ajax = ajax;
+    exports.getJSON = getJSON;
+    exports.modArrItem = modArrItem;
 });

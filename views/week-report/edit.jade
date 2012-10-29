@@ -51,4 +51,5 @@ block script_foot
             script
                 var editConfig = {};
                 editConfig.url = '/netease/week-report/mod';
-    script(src='/js/edit-snippet.js')
+    script
+        seajs.use('edit-snippet');

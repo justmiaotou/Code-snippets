@@ -17,7 +17,7 @@ define(function(require, exports, module) {
         }
     });
     addEvent(form, 'click', function(e) {
-        var target = _getTarget(_getEvent(e));
+        var target = _.getTarget(_.getEvent(e));
         if (/del-field-btn/.test(target.className)) {
             var p = target.parentNode;
             p.parentNode.removeChild(p);
