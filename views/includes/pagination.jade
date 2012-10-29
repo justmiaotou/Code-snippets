@@ -1,0 +1,35 @@
+- if (typeof pagination != 'undefined')
+    ul.paginator
+        - if (pagination.count < 8)
+            - for (var i = 1, l = pagination.count; i <= l; ++i)
+                - if (pagination.current == i)
+                    li.current
+                        a.tst-all-02(href='###')= i
+                - else
+                    li
+                        a.tst-all-02(href=pagination.baseURL + '&page=' + i)= i
+        - else
+            - if (pagination.current == 1)
+                li.current
+                    a.tst-all-02(href=pagination.baseURL + '&page=1') 1
+            - else
+                li
+                    a.tst-all-02(href=pagination.baseURL + '&page=1') 1
+            - if (pagination.current - 2 > 2)
+                li: span ...
+            - for (var i = pagination.current - 2; i < pagination.current + 3; ++i)
+                - if (i > 1 && i < pagination.count)
+                    - if (pagination.current == i)
+                        li.current
+                            a(href='###')= i
+                    - else
+                        li
+                            a(href=pagination.baseURL + '&page=' + i)= i
+            - if (pagination.current + 2 < pagination.count - 1)
+                li: span ...
+            - if (pagination.current == pagination.count)
+                li.current
+                    a.tst-all-02(href=pagination.baseURL + '&page=' + pagination.count)= pagination.count
+            - else
+                li
+                    a.tst-all-02(href=pagination.baseURL + '&page=' + pagination.count)= pagination.count
