@@ -5,8 +5,6 @@ var models = require('../models'),
     EventProxy = require('eventproxy'),
     config = require('../config');
 
-var proxy = new EventProxy();
-
 /**
  * 显示单条记录
  */
@@ -39,7 +37,7 @@ exports.snippets = function(req, res) {
     // 若直接使用req.query，则‘c++’会被默认转换了……
     var params = M.parseQuery(url.parse(req.url).query),
         dbQuery = null,
-        page = isNaN(params.page) ? 0 : (params.page > 0 ? params.page - 1 : 0);
+        page = isNaN(params.page) ? 0 : (params.page > 0 ? params.page - 1 : 0),
         option = {
             skip: page * config.page_size,
             limit: config.page_size,
@@ -76,9 +74,13 @@ exports.snippets = function(req, res) {
             dbQuery = {};
     }
 
+
+    var proxy = new EventProxy();
+
     proxy.assign('userLoadedFinished', 'count', allDone);
     function allDone(docs, snippetCount) {
         pagination.count = Math.ceil(snippetCount / config.page_size);
+        console.log('index');
         res.render('snippets', { title: 'Code Snippets', snippets:docs, pagination: pagination, type:dbQuery.type, codeTypeList: codeTypeList, user: req.user});
     }
 
