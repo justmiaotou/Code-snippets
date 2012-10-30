@@ -30,6 +30,9 @@ block content
                     b.type-bg #{code.type}
             span.hide.snippet-id #{snippet._id}
 
+block others
+    include includes/pagination
+
 block script_foot
     include syntaxhighlighter
     script
