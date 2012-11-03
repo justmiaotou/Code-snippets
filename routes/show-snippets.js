@@ -1,8 +1,11 @@
+'use strict';
+
 var models = require('../models'),
     url = require('url'),
     M = require('../util.js'),
     Snippet = models.Snippet,
     EventProxy = require('eventproxy'),
+    helper = require('./helper'),
     config = require('../config');
 
 /**
@@ -37,24 +40,7 @@ exports.snippets = function(req, res) {
     // 若直接使用req.query，则‘c++’会被默认转换了……
     var params = M.parseQuery(url.parse(req.url).query),
         dbQuery = null,
-        page = isNaN(params.page) ? 0 : (params.page > 0 ? params.page - 1 : 0),
-        option = {
-            skip: page * config.page_size,
-            limit: config.page_size,
-            sort: [['date', 'desc']]
-        },
-        pagination = {
-            current: page + 1,
-        },
         codeTypeList = config.getCodeTypeList();
-
-    var tmpArr = [];
-    for (var i in params) {
-        if (i != 'page') {
-            tmpArr.push(i + '=' + params[i]);
-        }
-    }
-    pagination.baseURL = '?' + tmpArr.join('&');
 
     switch(params.type) {
         case 'function':
@@ -74,45 +60,42 @@ exports.snippets = function(req, res) {
             dbQuery = {};
     }
 
-
-    var proxy = new EventProxy();
-
-    proxy.assign('userLoadedFinished', 'count', allDone);
-    function allDone(docs, snippetCount) {
-        pagination.count = Math.ceil(snippetCount / config.page_size);
-        console.log('index');
-        res.render('snippets', { title: 'Code Snippets', snippets:docs, pagination: pagination, type:dbQuery.type, codeTypeList: codeTypeList, user: req.user});
-    }
-
-    Snippet.count(dbQuery, function(err, count) {
-        proxy.emit('count', count);
-    });
-    Snippet.find(dbQuery, null, option, function(err, docs) {
-        if (docs && docs.length > 0) {
-            proxy.after('userLoaded', docs.length, function() {
-                proxy.emit('userLoadedFinished', docs);
-            });
-            for (var i = 0, l = docs.length; i < l; ++i) {
-                (function(index) {
-                    if (!docs[index].authorId) {
-                        console.error('No. ' + index + ' snippet was error in db.');
-                        proxy.emit('userLoaded');
-                    }
-                    // 从缓冲池中获取用户对象
-                    models.getUserById(docs[index].authorId, function(user) {
-                        docs[index].author = user;
-                        proxy.emit('userLoaded');
-                    });
-                })(i);
+    helper.getPage({
+        model: Snippet,
+        params: params,
+        query: dbQuery,
+        proxyAssign: ['userLoadedFinished'],
+        onDocsReady: function(err, docs, proxy) {
+            if (docs && docs.length > 0) {
+                proxy.after('userLoaded', docs.length, function() {
+                    proxy.emit('userLoadedFinished');
+                });
+                for (var i = 0, l = docs.length; i < l; ++i) {
+                    (function(index) {
+                        if (!docs[index].authorId) {
+                            console.error('No. ' + index + ' snippet was error in db.');
+                            proxy.emit('userLoaded');
+                        }
+                        // 从缓冲池中获取用户对象
+                        models.getUserById(docs[index].authorId, function(user) {
+                            docs[index].author = user;
+                            proxy.emit('userLoaded');
+                        });
+                    })(i);
+                }
+            } else {
+                res.render('chicken-page', {
+                    title: 'Code Snippets',
+                    type: dbQuery.type,
+                    codeTypeList: codeTypeList,
+                    html: 'You could <a href="/new-snippet" class="btn_2">submit</a> the first piece of code snippet!',
+                    user: req.user
+                });
             }
-        } else {
-            res.render('chicken-page', {
-                title: 'Code Snippets',
-                type: dbQuery.type,
-                codeTypeList: codeTypeList,
-                html: 'You could <a href="/new-snippet" class="btn_2">submit</a> the first piece of code snippet!',
-                user: req.user
-            });
+        },
+        done: function (docs, pagination) {
+            res.render('snippets', { title: 'Code Snippets', snippets:docs, pagination: pagination, type:dbQuery.type, codeTypeList: codeTypeList, user: req.user});
         }
     });
+
 }

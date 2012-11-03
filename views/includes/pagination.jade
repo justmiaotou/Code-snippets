@@ -1,7 +1,7 @@
 - if (typeof pagination != 'undefined')
     ul.paginator
-        - if (pagination.count < 8)
-            - for (var i = 1, l = pagination.count; i <= l; ++i)
+        - if (pagination.total < 8)
+            - for (var i = 1, l = pagination.total; i <= l; ++i)
                 - if (pagination.current == i)
                     li.current
                         a.tst-all-02(href='###')= i
@@ -18,18 +18,18 @@
             - if (pagination.current - 2 > 2)
                 li: span ...
             - for (var i = pagination.current - 2; i < pagination.current + 3; ++i)
-                - if (i > 1 && i < pagination.count)
+                - if (i > 1 && i < pagination.total)
                     - if (pagination.current == i)
                         li.current
                             a(href='###')= i
                     - else
                         li
                             a(href=pagination.baseURL + '&page=' + i)= i
-            - if (pagination.current + 2 < pagination.count - 1)
+            - if (pagination.current + 2 < pagination.total - 1)
                 li: span ...
-            - if (pagination.current == pagination.count)
+            - if (pagination.current == pagination.total)
                 li.current
-                    a.tst-all-02(href=pagination.baseURL + '&page=' + pagination.count)= pagination.count
+                    a.tst-all-02(href=pagination.baseURL + '&page=' + pagination.total)= pagination.total
             - else
                 li
-                    a.tst-all-02(href=pagination.baseURL + '&page=' + pagination.count)= pagination.count
+                    a.tst-all-02(href=pagination.baseURL + '&page=' + pagination.total)= pagination.total

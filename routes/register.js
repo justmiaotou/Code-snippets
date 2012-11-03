@@ -1,3 +1,5 @@
+'use strict';
+
 var models = require('../models'),
     url = require('url'),
     M = require('../util'),

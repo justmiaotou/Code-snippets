@@ -1,3 +1,5 @@
+'use strict';
+
 var config = require('../config'),
     M = require('../util'),
     models = require('../models');
