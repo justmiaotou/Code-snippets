@@ -15,7 +15,7 @@ block content
                             - var effectBtn = '<button class="effect-btn" id="' + snippet.effectBtnId + '">点击看效果</button>'
                             | !{effectBtn}
                         a.author(href="/u/"+snippet.author._id, target="_blank") #{snippet.author.username}
-                        span.date #{snippet.date.getFullYear() + '年' + (snippet.date.getMonth()+1) + '月' + snippet.date.getDate() + '日' + snippet.date.getHours() + ':' + snippet.date.getMinutes()}
+                        span.date #{snippet.date.getFullYear() + '-' + (snippet.date.getMonth()+1) + '-' + snippet.date.getDate() + ' ' + snippet.date.getHours() + ':' + snippet.date.getMinutes()}
             - if (typeof user != 'undefined' && user._id == snippet.authorId)
                 .mod-btn-con
                     a.mod-btn.tst-all-02(href='/s/mod/'+snippet._id, title='修改该条目', target='_blank')
