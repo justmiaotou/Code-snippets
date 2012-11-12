@@ -2,32 +2,39 @@ var models = require('../models'),
     url = require('url'),
     M = require('../util.js'),
     WeekReport = models.WeekReport,
+    helper = require('./helper'),
     config = require('../config');
 
 exports.get = function(req, res) {
-    WeekReport.find({}, function(err, docs) {
-        console.log(docs);
-        if (docs && docs.length > 0) {
-            var finishedCount = 0;
-            for (var i = 0, l = docs.length; i < l; ++i) {
-                (function(index) {
-                    // 从缓冲池中获取用户对象
-                    models.getUserById(docs[index].authorId, function(user) {
-                        finishedCount++;
-                        docs[index].author = user;
-                        // 全部数据获取完毕，则可发送给用户
-                        if (finishedCount == docs.length) {
-                            res.render('week-report/index', { title: 'Week Report', reports:docs, user: req.user});
-                        }
-                    });
-                })(i);
+    helper.getPage({
+        model: WeekReport,
+        params: M.parseQuery(url.parse(req.url).query),
+        query: {},
+        proxyAssign: ['userLoadedFinished'],
+        onDocsReady: function(err, docs, proxy) {
+            if (docs && docs.length > 0) {
+                proxy.after('userLoaded', docs.length, function() {
+                    proxy.emit('userLoadedFinished');
+                });
+                for (var i = 0, l = docs.length; i < l; ++i) {
+                    (function(index) {
+                        // 从缓冲池中获取用户对象
+                        models.getUserById(docs[index].authorId, function(user) {
+                            docs[index].author = user;
+                            proxy.emit('userLoaded');
+                        });
+                    })(i);
+                }
+            } else {
+                res.render('week-report/chicken-page', {
+                    title: 'Week Report',
+                    html: '还木有人提交！你可以<a href="/netease/week-report/new" class="btn_2">提交</a>第一份报告哦亲~',
+                    user: req.user
+                });
             }
-        } else {
-            res.render('week-report/chicken-page', {
-                title: 'Week Report',
-                html: '还木有人提交！你可以<a href="/netease/week-report/new" class="btn_2">提交</a>第一份报告哦亲~',
-                user: req.user
-            });
+        },
+        done: function(docs, pagination) {
+            res.render('week-report/index', { title: 'Week Report', reports:docs, user: req.user, pagination: pagination});
         }
     });
 };
@@ -40,6 +47,7 @@ exports.newGet = function(req, res) {
 
     res.render('week-report/edit', {title: 'Week Report', user:req.user, action:'new', showReportsBtn: true});
 };
+
 exports.newPost = function(req, res) {
     if (!req.user) {
         res.redirect('/login?error=not_login&redirect='+req.url);
@@ -65,21 +73,24 @@ exports.newPost = function(req, res) {
 exports.user = function(req, res) {
     var uid = req.params.id;
     models.getUserById(uid, function(owner) {
-        WeekReport.find({
-            authorId: uid
-        }, function(err, docs) {
-            if (docs && docs.length > 0) {
-                for (var i in docs) {
-                    docs[i].author = owner;
+        helper.getPage({
+            model: WeekReport,
+            params: M.parseQuery(url.parse(req.url).query),
+            query: {authorId: uid},
+            done: function (docs, pagination) {
+                if (docs && docs.length > 0) {
+                    for (var i in docs) {
+                        docs[i].author = owner;
+                    }
+                    res.render('week-report/index', { title: 'Week Report', reports:docs, user: req.user, showReportsBtn: true, pagination: pagination});
+                } else {
+                    res.render('week-report/chicken-page', {
+                        title: 'Code Snippets',
+                        html: 'Shit！这个用户一份周报都没有发布！！',
+                        user: req.user,
+                        showReportsBtn: true
+                    });
                 }
-                res.render('week-report/index', { title: 'Week Report', reports:docs, user: req.user, showReportsBtn: true});
-            } else {
-                res.render('week-report/chicken-page', {
-                    title: 'Code Snippets',
-                    html: 'Shit！这个用户一份周报都没有发布！！',
-                    user: req.user,
-                    showReportsBtn: true
-                });
             }
         });
     }, function() {

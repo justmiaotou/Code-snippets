@@ -14,7 +14,7 @@ module.exports = {
 		// [ path, title, [target=''] ]
 		[ '/about', '关于' ],
 	],
-    page_size: 5,
+    page_size: 10,
 	site_static_host: '', // 静态文件存储域名
 
 	db: 'mongodb://localhost/code_snippet',

@@ -12,6 +12,7 @@ exports.auth = function (req, res, next) {
             models.getUserById(authInfos[3], function(user) {
                 if (authInfos[2] == user.password) {
                     req.user = user;
+                    console.log('[ ' + user.username + ' ] : ' + req.url);
                 }
                 next();
             }, function() {
