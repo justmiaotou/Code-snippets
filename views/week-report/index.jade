@@ -15,7 +15,7 @@ block content
                         b &#10162;
                         span.title #{report.author.username}的周报
                         a.author(href="/netease/week-report/u/"+report.author._id, target="_blank") #{report.author.username}
-                        span.date #{report.date.getFullYear() + '年' + (report.date.getMonth()+1) + '月' + report.date.getDate() + '日' + report.date.getHours() + ':' + report.date.getMinutes()}
+                        span.date #{report.date.getFullYear() + '-' + (report.date.getMonth()+1) + '-' + report.date.getDate() + ' ' + report.date.getHours() + ':' + report.date.getMinutes()}
             - if (typeof user != 'undefined' && user._id == report.author._id)
                 .mod-btn-con
                     a.mod-btn.tst-all-02(href='/netease/week-report/mod/'+report._id, title='修改该条目', target='_blank')
