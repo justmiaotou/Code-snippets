@@ -2,8 +2,9 @@
 
 .entry-title .title { text-decoration:none; }
 .entry-title .title:hover { text-decoration:underline; }
-.entry .author { margin-left:20px; font-size:18px; color:#555; text-decoration:underline; }
-.entry .effect-btn { float:right; margin:-46px 0 0; background:#CB8F42; border:0; cursor:pointer; height:46px; font-size:14px; color:#333; width:100px; }
+.entry .author { float:right; margin:8px 8px 0 0; padding:0 5px; line-height:1.8; background:#FFDEA3; border-radius:5px; box-shadow:inset 0 1px 5px #999; font-size:16px; color:#555; text-decoration:underline; }
+.entry .date { float:right; margin:8px 0; padding:0 5px; font-size:14px; border-radius:5px; background:#EEE; box-shadow:inset 0 0 5px #555; line-height:2; }
+.entry .effect-btn { float:right; background:#CB8F42; border:0; cursor:pointer; height:46px; font-size:14px; color:#333; width:100px; }
 .entry .effect-btn:hover { background:#c58c42; }
 .entry .effect-btn:active { background:#ac814a; }
 .entry-info .desc { position:relative; margin:22px 22px 10px; padding:36px 10px 10px; border:3px solid #D6D4AE; text-indent:2em; line-height:1.5; }
