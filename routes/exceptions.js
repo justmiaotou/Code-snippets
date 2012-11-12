@@ -1,3 +1,5 @@
+'use strict';
+
 exports['404'] = function (req, res, html) {
     res.render('chicken-page', {
         title: 'Code Snippets',

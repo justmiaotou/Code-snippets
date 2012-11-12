@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 采用LRU最近最久未使用策略的对象缓冲池
  * @param {Object} option 对缓冲池的配置对象
