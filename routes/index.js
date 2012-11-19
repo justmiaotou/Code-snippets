@@ -9,6 +9,7 @@ var app = require('../app'),
     models = require('../models'),
     url = require('url'),
     M = require('../util.js'),
+    config = require('../config'),
     Snippet = models.Snippet;
 
 var rLogin = require('./login')
@@ -17,7 +18,8 @@ var rLogin = require('./login')
     , rUpsertSnippets = require('./upsert-snippets')
     , rShowSnippets = require('./show-snippets')
     , rUserPage = require('./userpage')
-    , rExceptions = require('./exceptions');
+    , rExceptions = require('./exceptions')
+    , Combo = require('../submod/combo');
 
 app.all('/*.html', function(req, res, next) {
     var realPath = __dirname + '/public/html' + url.parse(req.url).pathname;
@@ -28,6 +30,8 @@ app.all('/*.html', function(req, res, next) {
         rExceptions['404'](req, res);
     }
 });
+
+app.get('/combo', (new Combo(config.combo)).handler);
 
 app.get('/login', rLogin.get);
 app.post('/login', rLogin.post);
