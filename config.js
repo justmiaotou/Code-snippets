@@ -31,7 +31,7 @@ module.exports = {
 	plugins: [],
 
     combo: {
-        basePath: '',
+        basePath: './files/',
         alias: '',
         delimiter: ','
     },

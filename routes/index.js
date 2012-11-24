@@ -31,6 +31,18 @@ app.all('/*.html', function(req, res, next) {
     }
 });
 
+// 统一处理异常
+process.on('uncaughtException', function(err) {
+    console.error(err.code + ': ' + err.msg);
+    if (err.res) {
+        err.res.status(err.code);
+        err.res.render('chicken-page', {
+            title: 'Code Snippets',
+            html: '<h3>Error:' + err.code + '</h3><p>' + err.msg + '</p>'
+        });
+    }
+});
+
 app.get('/combo', (new Combo(config.combo)).handler);
 
 app.get('/login', rLogin.get);
