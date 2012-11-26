@@ -5,10 +5,6 @@
  */
 
 var express = require('express')
-    , mongoose = require('mongoose')
-    , path = require('path')
-    , fs = require('fs')
-    , url = require('url')
     , config = require('./config');
 
 var app = module.exports = express.createServer();
@@ -53,5 +49,5 @@ app.configure('production', function(){
 require('./routes');
 
 app.listen(3000, function(){
-    console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+    console.log("Snippet It server listening on port %d in %s mode", app.address().port, app.settings.env);
 });

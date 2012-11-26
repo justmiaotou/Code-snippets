@@ -9,6 +9,7 @@ var app = require('../app'),
     models = require('../models'),
     url = require('url'),
     M = require('../util.js'),
+    config = require('../config'),
     Snippet = models.Snippet;
 
 var rLogin = require('./login')
@@ -18,7 +19,8 @@ var rLogin = require('./login')
     , rShowSnippets = require('./show-snippets')
     , rUserPage = require('./userpage')
     , rExceptions = require('./exceptions')
-    , rWeekReport = require('./weekreport');
+    , rWeekReport = require('./weekreport')
+    , Combo = require('../submod/combo');
 
 app.all('/*.html', function(req, res, next) {
     var realPath = __dirname + '/public/html' + url.parse(req.url).pathname;
@@ -29,6 +31,20 @@ app.all('/*.html', function(req, res, next) {
         rExceptions['404'](req, res);
     }
 });
+
+// 统一处理异常
+process.on('uncaughtException', function(err) {
+    console.error(err.code + ': ' + err.msg);
+    if (err.res) {
+        err.res.status(err.code);
+        err.res.render('chicken-page', {
+            title: 'Code Snippets',
+            html: '<h3>Error:' + err.code + '</h3><p>' + err.msg + '</p>'
+        });
+    }
+});
+
+app.get('/combo', (new Combo(config.combo)).handler);
 
 app.get('/login', rLogin.get);
 app.post('/login', rLogin.post);

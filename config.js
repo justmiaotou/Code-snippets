@@ -30,6 +30,12 @@ module.exports = {
 	// [ [ plugin_name, options ], ... ]
 	plugins: [],
 
+    combo: {
+        basePath: './files/',
+        alias: '',
+        delimiter: ','
+    },
+
     // 用户缓冲池配置
     // 效果应该有比MongoDb的索引好吧……
     userPool: {
