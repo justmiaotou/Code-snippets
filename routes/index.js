@@ -12,16 +12,16 @@ var app = require('../app'),
     config = require('../config'),
     Snippet = models.Snippet;
 
-var rLogin = require('./login')
-    , rLogout = require('./logout')
-    , rRegister = require('./register')
-    , rUpsertSnippets = require('./upsert-snippets')
-    , rShowSnippets = require('./show-snippets')
-    , rUserPage = require('./userpage')
-    , rExceptions = require('./exceptions')
-    , Combo = require('../submod/combo');
+var rLogin = require('./login'),
+    rLogout = require('./logout'),
+    rRegister = require('./register'),
+    rUpsertSnippets = require('./upsert-snippets'),
+    rShowSnippets = require('./show-snippets'),
+    rUserPage = require('./userpage'),
+    rExceptions = require('./exceptions'),
+    Combo = require('../submod/combo');
 
-app.all('/*.html', function(req, res, next) {
+app.get('/*.html', function(req, res, next) {
     var realPath = __dirname + '/public/html' + url.parse(req.url).pathname;
     //console.log('real path:'+realPath);
     if (fs.existsSync(realPath)) {
@@ -33,7 +33,7 @@ app.all('/*.html', function(req, res, next) {
 
 // 统一处理异常
 process.on('uncaughtException', function(err) {
-    console.error(err.code + ': ' + err.msg);
+    console.error(err);
     if (err.res) {
         err.res.status(err.code);
         err.res.render('chicken-page', {
