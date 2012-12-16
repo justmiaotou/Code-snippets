@@ -8,10 +8,15 @@ define(function (require, exports, module) {
      * 注：Array.prototype.slice.call(document.getElementsByTagName(tagName)) IE6/7不支持
      */
     function getByTag(tagName) {
-        var arr = [],
-            tags = document.getElementsByTagName(tagName);
-        for (var i = 0, l = tags.length; i < l; ++i) {
-            arr.push(tags[i]);
+        var arr = [];
+        try {
+            arr = Array.prototype.slice.call(document.getElementsByTagName(tagName));
+        } catch(e) {
+            var tags = document.getElementsByTagName(tagName);
+            for (var i = 0, l = tags.length; i < l; ++i) {
+                arr.push(tags[i]);
+            }
+            return arr;
         }
         return arr;
     }
@@ -33,9 +38,9 @@ define(function (require, exports, module) {
 
     /**
      * 获得mouseover、mouseout事件中的关联元素
-     * @param {Event} e
+     * @param {Event} event
      */
-    function getRelatedTarget(e) {
+    function getRelatedTarget(event) {
         if (event.relatedTarget) {
             return event.relatedTarget;
         } else if (event.toElement) {

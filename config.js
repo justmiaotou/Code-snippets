@@ -32,8 +32,16 @@ module.exports = {
 
     combo: {
         basePath: './files/',
-        alias: '',
-        delimiter: ','
+        alias: {
+            'q': 'E:\\svn\\FE\\xm\\faxmail\\electronic-signature\\js\\qunit',
+            'b': 'E:\\svn\\FE\\xm\\faxmail\\electronic-signature\\js\\base',
+            'c': 'E:\\svn\\FE\\xm\\faxmail\\electronic-signature\\js\\core',
+            'p': 'E:\\svn\\FE\\xm\\faxmail\\electronic-signature\\js\\pages',
+            'w': 'E:\\svn\\FE\\xm\\faxmail\\electronic-signature\\js\\widget',
+            'm': 'E:\\svn\\FE\\xm\\faxmail\\electronic-signature\\js\\modules'
+        },
+        delimiter: ',',
+        compress: false
     },
 
     // 用户缓冲池配置
