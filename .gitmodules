@@ -1,3 +1,6 @@
 [submodule "submod/combo"]
 	path = submod/combo
 	url = https://github.com/justmiaotou/combo.git
+[submodule "lib/js"]
+	path = lib/js
+	url = https://github.com/justmiaotou/O_O.JS.git

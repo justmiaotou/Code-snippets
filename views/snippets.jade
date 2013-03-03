@@ -21,7 +21,8 @@ block content
                     a.mod-btn.tst-all-02(href='/s/mod/'+snippet._id, title='修改该条目', target='_blank')
             section.entry-info
                 - if (snippet.desc)
-                    p.desc #{snippet.desc}
+                    div.desc 
+                        | !{snippet.desc}
             - each code in snippet.codes
                 - var secClass = ['code', code.type + '-code']
                 section(class=secClass)

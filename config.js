@@ -1,3 +1,4 @@
+var LIB_PATH = 'E:\\svn\\FE\\xm\\faxmail\\electronic-signature\\branch\\';
 module.exports = {
 	name: 'Code Snippets',
     author: 'Memo Zhou',
@@ -33,12 +34,12 @@ module.exports = {
     combo: {
         basePath: './files/',
         alias: {
-            'q': 'E:\\svn\\FE\\xm\\faxmail\\electronic-signature\\js\\qunit',
-            'b': 'E:\\svn\\FE\\xm\\faxmail\\electronic-signature\\js\\base',
-            'c': 'E:\\svn\\FE\\xm\\faxmail\\electronic-signature\\js\\core',
-            'p': 'E:\\svn\\FE\\xm\\faxmail\\electronic-signature\\js\\pages',
-            'w': 'E:\\svn\\FE\\xm\\faxmail\\electronic-signature\\js\\widget',
-            'm': 'E:\\svn\\FE\\xm\\faxmail\\electronic-signature\\js\\modules'
+            'q': LIB_PATH + 'qunit',
+            's': LIB_PATH + 'service',
+            'c': LIB_PATH + 'core',
+            'p': LIB_PATH + 'pages',
+            'w': LIB_PATH + 'widget',
+            'm': LIB_PATH + 'modules'
         },
         delimiter: ',',
         compress: false

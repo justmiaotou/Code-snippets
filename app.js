@@ -32,7 +32,7 @@ app.configure(function(){
     app.use(express.static(path.join(__dirname, '/public')));
 
     // 日志。不记录静态文件请求。
-    app.use(express.logger());
+    //app.use(express.logger());
     // 验证用户
     app.use(middleware.authUser);
     // 500等错误的处理
