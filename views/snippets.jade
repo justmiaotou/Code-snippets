@@ -37,8 +37,7 @@ block others
 
 block script_foot
     include syntaxhighlighter
-    script
-        seajs.use('snippets');
+    script(src='/js/snippets.js')
     if (typeof type != 'undefined')
         case type
             when 1

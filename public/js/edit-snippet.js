@@ -1,79 +1,116 @@
-define(function(require, exports, module) {
-    var _ = require('./common'),
-        $ = _.$,
-        addEvent = _.addEvent,
-        config = editConfig,
-        form = $('#snippet-form');
-    addEvent($('#del-snippet'), 'click', function() {
-        if (window.confirm('确定删除该条目？')) {
-            _.getJSON(this.getAttribute('data-href'), function(data) {
-                if (data.status) {
-                    alert('删除成功！页面即将关闭！');
-                    window.close();
-                } else {
-                    alert(data.msg);
-                }
-            });
-        }
-    });
-    addEvent(form, 'click', function(e) {
-        var target = _.getTarget(_.getEvent(e));
-        if (/del-field-btn/.test(target.className)) {
-            var p = target.parentNode;
-            p.parentNode.removeChild(p);
-        }
-    });
-    addEvent($('.add-code-btn', form)[0], 'click', function(e) {
-        _.preventDefault(e);
-        var fragment = document.createDocumentFragment(),
-            li = document.createElement('li'),
-            type = form.codetype.value;
-        li.innerHTML = '<label class="ib th">' + type + '：</label><textarea name="' + type.toLowerCase() + '-code" class="code txt"></textarea><span class="del-field-btn">x</span>';
-        fragment.appendChild(li);
-        $('.form-list', form)[0].insertBefore(fragment, this.parentNode);
-    });
+(function() {
+    var define = M.define,
+        require = M.require;
+define('snippet-common', function(require, exports, module) {
+    var $ = M.dom;
 
-    addEvent($('#show-effect'), 'click', function() {
-        var idInput = $('#effect-btn-id');
-        if (this.checked) {
-            idInput.disabled = false;
-        } else {
-            idInput.disabled = true;
-        }
-    });
+    module.exports = {
+        checkForm: checkForm
+    };
 
-    addEvent($('#snippet-submit'), 'click', function(e) {
-        _.preventDefault(e);
-        _.checkForm() && _.ajax({
-            // url: '/snippet-upload'
-            url: config.url
-            , form: form
-            , blackList: ['codetype']
-            , on : {
-                // TODO 无效
-                start: function(o, data, args) {
-                    console.log('start');
-                    var tmpFieldArr = data.split('&'),
-                        hasCode = false,
-                        tmpField;
-                    for (var i = 0, l = tmpFieldArr.length; i < l; ++i) {
-                        tmpField = tmpFieldArr[i].split('=');
-                        console.log(tmpField);
-                    }
-                },
-                complete: function(o, args) {
-                    var res = JSON.parse(o.responseText);
-                    switch(res.status) {
-                        case 0:
-                            alert(res.msg);
-                            break;
-                        case 1:
-                            alert('提交成功！');
-                            //form.reset();
-                            break;
-                    }
-                }
+    /**
+     * 对表单的简单验证
+     */
+    function checkForm() {
+        var elements = $('input[required], textarea[required]'),
+            error = [];
+
+        M._.each(elements, function(ele) {
+            if (/^\s*$/.test(ele.value)) {
+                error.push('请将必填项补充完整。');
             }
         });
+
+        var pws = $('input[type=password]');
+        if (pws.length == 2) {
+            if (pws[0].value !== pws[1].value) {
+                error.push('两次密码输入不一致');
+            }
+        }
+
+        if (error.length) {
+            alert(error[0]);
+            return false;
+        }
+
+        return true;
+    }
+});
+})();
+(function() {
+    var define = M.define,
+        require = M.require;
+var $ = M.dom,
+    ajax = M.ajax,
+    E = M.event,
+    config = editConfig,
+    common = require('snippet-common'),
+    form = $('#snippet-form');
+
+var btnDelSnippet = $('#del-snippet');
+btnDelSnippet.length && btnDelSnippet.on('click', function() {
+    if (window.confirm('确定删除该条目？')) {
+        ajax.getJSON(this.getAttribute('data-href'), function(data) {
+            if (data.status) {
+                alert('删除成功！页面即将关闭！');
+                window.close();
+            } else {
+                alert(data.msg);
+            }
+        });
+    }
+});
+
+form.delegate('.del-field-btn', 'click', function(e) {
+    $(this).parent().remove();
+});
+
+$('.add-code-btn', form).on('click', function(e) {
+    E.preventDefault(e);
+    var type = form[0].codetype.value;
+
+    $(this).parent().before($.create('<li><label class="ib th">' + type + '：</label><textarea name="' + type.toLowerCase() + '-code" class="code txt"></textarea><span class="del-field-btn">x</span></li>'));
+});
+
+$('#show-effect').on('click', function() {
+    var idInput = $('#effect-btn-id')[0];
+    if (this.checked) {
+        idInput.disabled = false;
+    } else {
+        idInput.disabled = true;
+    }
+});
+
+$('#snippet-submit').on('click', function(e) {
+    E.preventDefault(e);
+    common.checkForm() && ajax({
+        url: config.url
+        , form: form[0]
+        , blackList: ['codetype']
+        , on : {
+            // TODO 无效
+            /*start: function(o, data, args) {
+                console.log('start');
+                var tmpFieldArr = data.split('&'),
+                    hasCode = false,
+                    tmpField;
+                for (var i = 0, l = tmpFieldArr.length; i < l; ++i) {
+                    tmpField = tmpFieldArr[i].split('=');
+                    console.log(tmpField);
+                }
+            },*/
+            complete: function(res, xhr) {
+                switch(res.status) {
+                    case 0:
+                        alert(res.msg);
+                        break;
+                    case 1:
+                        alert('提交成功！');
+                        //form.reset();
+                        break;
+                }
+            }
+        }
     });
 });
+})();

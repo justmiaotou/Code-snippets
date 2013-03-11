@@ -1,0 +1,8 @@
+nav.main-nav
+    ul.list2.list
+        - if (typeof showNewBtn !== 'undefined' && showNewBtn)
+            li.f4
+                a.tst-all-02.new-btn.ib(href='/vote/new') + New Report
+        - if (typeof showListBtn != 'undefined' && showListBtn)
+            li.f4
+                a.ib.tst-all-02(href='/vote') Votes

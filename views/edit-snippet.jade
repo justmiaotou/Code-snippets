@@ -32,19 +32,12 @@ block content
                         - if (action=='mod')
                             -if (snippet.type==1)
                                 option(value='1', selected) 效果实现
-                                option(value='2') 功能函数
-                                option(value='3') 基本API
-                            -else if (snippet.type==2)
-                                option(value='1') 效果实现
-                                option(value='2', selected) 功能函数
                                 option(value='3') 基本API
                             -else if (snippet.type==3)
                                 option(value='1') 效果实现
-                                option(value='2') 功能函数
                                 option(value='3', selected) 基本API
                         - else
                             option(value='1', selected) 效果实现
-                            option(value='2') 功能函数
                             option(value='3') 基本API
                     label.ib.v-divide
                     - if (action=='mod' && snippet.hasEffectBtn)
@@ -86,7 +79,7 @@ block content
                     select(name='codetype')
                         each val, key in codeTypeList
                             option= key
-                    button.add-code-btn 添加
+                    button.add-code-btn.flat-btn 添加
             .center
                 if (action=='mod')
                     input(type='hidden', name='snippetid', value=snippet._id)

@@ -20,6 +20,7 @@ var rLogin = require('./login'),
     rUserPage = require('./userpage'),
     rExceptions = require('./exceptions'),
     rWeekReport = require('./weekreport'),
+    rVote = require('./vote'),
     Combo = require('../submod/combo');
 
 app.get('/*.html', function(req, res, next) {
@@ -76,6 +77,14 @@ app.get('/netease/week-report/u/:id', rWeekReport.user);
 app.get('/netease/week-report/mod/:id', rWeekReport.modGet);
 app.post('/netease/week-report/mod', rWeekReport.modPost);
 app.get('/netease/week-report/sum', rWeekReport.sum);
+
+// 投票
+app.get('/vote', rVote.get);
+app.get('/vote/new', rVote.getNew);
+app.post('/vote/new', rVote.postNew);
+app.get('/vote/mod', rVote.getMod);
+app.post('/vote/mod', rVote.postMod);
+app.get('/vote/result/:id', rVote.getResult);
 
 app.get('*', function(req, res) {
     rExceptions['404'](req, res);

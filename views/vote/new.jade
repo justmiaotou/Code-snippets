@@ -1,0 +1,75 @@
+extends ../tpl
+
+block style_head
+    link(rel='stylesheet', href='/css/new-snippet.css')
+
+block nav
+    include nav
+
+block content
+    section.snippet-upload
+        header
+            hgroup
+                h2.entry-title
+                    b &#10162;
+                    | 亮瞎眼的投票
+        form#snippet-form
+            ul.form-list
+                li 
+                    label.th.ib(for='title')
+                        b.red *
+                        | 标题：
+                    input.txt#title(type='text', name='title', required)
+                li
+                    label.th.ib(for='desc')
+                        b.red *
+                        | 描述：
+                    textarea.txt#desc(name='description', required)
+                li
+                    label.th.ib(for='fromDate')
+                        b.red *
+                        | 开始日期：
+                    span.td.ib
+                        input.txt#fromDate(type='date', name='fromDate', required)
+                    label.th.ib(for='toDate')
+                        b.red *
+                        | 结束日期：
+                    span.td.ib
+                        input.txt#toDate(type='date', name='toDate', required)
+                li
+                    label.th.ib
+                        b.red *
+                        | 类型：
+                    input#radio-single(type="radio", name="selecttype", value="single")
+                    label(for='radio-single', checked) 单选
+                    input#radio-multi(type="radio", name="selecttype", value="multi")
+                    label(for='radio-multi') 多选
+                    span.multi-option.hide
+                        span.v-divide.ib
+                        label(for='min-selected-count') 最少选择个数：
+                        input#min-selected-count.txt(type='number', name='minselected', value='1')
+                        span.v-divide.ib
+                        label(for='max-selected-count') 最多可选个数：
+                        input#max-selected-count.txt(type='number', name='maxselected')
+
+                li
+                    label.th.ib
+                        b.red *
+                        | 选项：
+                    ul#opt-list.ib
+                        li
+                            input.txt(name='opt-0', required)
+                            span.del-opt.tst-all-01 x
+                        li
+                            input.txt(name='opt-1', required)
+                            span.del-opt.tst-all-01 x
+                        li
+                            button.add-opt-btn.flat-btn(type='button') 添加选项 +
+                li 
+                    label.th.ib(for='tags') tags：
+                    input.txt#tags(type='text', name='tags')
+            .center
+                input.btn_1#snippet-submit.tst-all-01(type='submit')
+
+block script_foot
+    script(src='/js/vote-new.js')

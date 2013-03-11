@@ -32,6 +32,8 @@ exports.getPage = function(option) {
             current: page + 1,
         };
 
+    option.query || (option.query = {});
+
     var tmpArr = [];
     for (var i in params) {
         if (i != 'page') {

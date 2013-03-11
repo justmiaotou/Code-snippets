@@ -11,11 +11,21 @@ select { width:100px; height:34px; border:1px solid #CCC; }
 #snippet-form li .del-field-btn { display:inline-block; *display:inline; *zoom:1; margin-left:-18px; width:18px; height:18px; line-height:15px; background:#555; color:white; text-align:center; border-radius:0 0 0 8px; opacity:.6; cursor:pointer; }
 #snippet-form li .del-field-btn:hover { opacity:.8; }
 #snippet-form li .del-field-btn:active { opacity:1; }
-#snippet-form .th { width:100px; text-align:right; }
+#snippet-form .th { width:100px; height:36px; line-height:36px; text-align:right; }
+#snippet-form .td { width:270px; text-align:left; }
 #snippet-form textarea { width:600px; min-height:100px; vertical-align:top; }
 #author { width:200px; }
-#title, #tags { width:400px; }
-#snippet-form .add-code-btn { border:none; background:#555; padding:0 14px; height:34px; color:white; cursor:pointer; }
+#title, #tags { width:600px; }
+#snippet-form .flat-btn { border:none; background:#555; padding:0 14px; height:34px; color:white; cursor:pointer; }
 #show-effect { margin-right:10px; }
 
 .v-divide { margin:0 35px; background:#999; background:linear-gradient(top, white, #999 50%, white); background:-webkit-linear-gradient(top, white, #999 50%, white); background:-moz-linear-gradient(top, white, #999 50%, white); background:-o-linear-gradient(top, white, #999 50%, white); background:-ms-linear-gradient(top, white, #999 50%, white); width:2px; height:34px; vertical-align:top; }
+
+#max-selected-count, #min-selected-count { width:50px; }
+#opt-list { vertical-align:top; }
+#opt-list li { margin:0 0 10px; }
+#opt-list li input { width:600px; }
+#fromDate, #toDate { width:232px; }
+#opt-list .del-opt { display: inline-block; width: 20px; height: 20px; line-height: 20px; text-align: center; margin-left: -27px; border: 1px dashed #CCC; color: #999; cursor:pointer; }
+#opt-list .del-opt:hover { color:#333; border-color:#555; }
+#opt-list .del-opt:active { background:#CCC; }
