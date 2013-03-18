@@ -76,6 +76,9 @@ button, input, select { font-family:Microsoft YaHei,Arial,Helvetica,sans-serif; 
 .w400 { width:400px; }
 .w600 { width:600px; }
 
+/* 小图标 */
+.warning-icon:after { content: "!"; width: 30px; display: inline-block; height: 30px; text-align: center; line-height: 30px; font-size: 24px; background: orange; border-radius: 18px 18px 18px 0; color: black; border: 2px solid black; font-weight: bold; }
+
 /* 文本框样式 */
 .txt { height:30px; padding-left:3px; border:1px solid #CCC; }
 .txt:focus { background:#FFFCE5; }
@@ -168,3 +171,25 @@ body {
     -ms-transition: all .2s ease-in-out;
     -o-transition: all .2s ease-in-out;
 }
+
+.mask, #mask, #brick-mask { position: fixed; _position: absolute; height: 100%; width: 100%; top: 0; background: black; opacity: .4; filter: alpha(opacity=40); z-index: 25; }
+
+/* pop style in eFax service */
+.pop { background:white; border:1px solid #6F93B2; display:none; position:fixed; _position:absolute; top:100px; left:100px; top:50%; left:50%; margin: -200px 0 0 -220px; z-index:9999; width:440px; overflow:hidden; }
+.pop-header { height:24px; border-top:1px solid #555; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; -o-user-select:none; user-select:none; background:#A0DAE8; box-shadow:0 3px 5px #CCC; }
+.pop-header h4 { margin-left:10px; line-height:24px; font-weight:normal; }
+.pop-header .pop-cls { position:absolute; top:6px; right:5px; width:17px; height:17px; text-decoration:none; text-align:center; border-radius:17px; line-height:14px; }
+.pop-header .pop-cls:after { content:'x'; }
+.pop-header .pop-cls:hover { box-shadow:inset 0px 0px 4px; }
+.pop .footer-btn { padding: 0 20px; margin-left: 20px; height: 22px; line-height: 20px; text-decoration: none; border: 1px solid #999; color: #555; font-size: 14px; background: orange; border-radius: 2px; }
+.pop .footer-btn:active { box-shadow:0 1px 1px #CCC; }
+.pop-footer { position:relative; height:40px; background:#ECF5FD; }
+.pop-footer .ext-content { margin-left:25px; line-height:44px; font-size:12px; }
+.pop-footer .btns { position:absolute; top:0; right:0; margin-right:14px; padding-top:8px; }
+.pop-footer .footer-btn:first-child { font-weight:bold; }
+.pop-body { position:relative; }
+.pop .suc-icon, .pop .warning-icon { float:left; margin:-3px 15px 0px 0; width:36px; height:50px; }
+.pop .suc-icon { background-position:-249px -142px; }
+.pop .warning-tip { padding:25px; font-size:14px; color:#3A7AAA; }
+.pop .warning-tip .tip, .pop .warning-tip .msg { vertical-align:middle; line-height:1.8; }
+.pop .waiting-icon { margin-right:10px; vertical-align:middle; width:32px; height:32px; }

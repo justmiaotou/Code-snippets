@@ -82,9 +82,10 @@ app.get('/netease/week-report/sum', rWeekReport.sum);
 app.get('/vote', rVote.get);
 app.get('/vote/new', rVote.getNew);
 app.post('/vote/new', rVote.postNew);
-app.get('/vote/mod', rVote.getMod);
 app.post('/vote/mod', rVote.postMod);
-app.get('/vote/result/:id', rVote.getResult);
+app.get('/vote/mod/:id', rVote.getMod);
+app.get('/vote/:id', rVote.getVote);
+app.post('/vote/vote', rVote.postVote);
 
 app.get('*', function(req, res) {
     rExceptions['404'](req, res);

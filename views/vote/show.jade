@@ -1,0 +1,81 @@
+extends ../tpl
+
+block style_head
+    link(rel='stylesheet', href='/css/snippets.css')
+
+block nav
+    include nav
+
+block content
+    - each vote in votes
+        article.entry
+            header
+                hgroup
+                    h2.entry-title
+                        b &#10162;
+                        - if (global.singleVote || global.showResult)
+                            span.title #{vote.title}
+                        - else
+                            a.title(href="/vote/" + vote._id, target="_blank") #{vote.title}
+                        span.author #{vote.author.username}
+                        span.date #{vote.date.getFullYear() + '-' + (vote.date.getMonth()+1) + '-' + vote.date.getDate() + ' ' + vote.date.getHours() + ':' + vote.date.getMinutes()}
+            //- - if (typeof user != 'undefined' && user._id == vote.author._id)
+                //- .mod-btn-con
+                    //-a.mod-btn.tst-all-02(href='/vote/mod/'+vote._id, title='修改该条目', target='_blank')
+            section.entry-info
+                div.desc 
+                    | !{vote.description}
+            - if (typeof singleVote != 'undefined' && singleVote)
+                section.code
+                    form#vote-form
+                        - if (vote.type == 2)
+                            p.tips
+                                | 您至少需要选择
+                                span #{vote.minToSelect}
+                                | 个选项，且最多可选择
+                                span #{vote.maxToSelect}
+                                | 个选项
+                        input(type="hidden", name="vote-id", value=vote._id)
+                        ul.opt-list
+                            - vote.opts.forEach(function(opt, index) {
+                                li
+                                    - if (vote.type == 1)
+                                        input(type="radio", name="opt", value=index, id="opt" + index)
+                                    - else
+                                        input(type="checkbox", name="opt", value=index, id="opt" + index)
+                                    label.description(for="opt" + index)= opt.description
+                            - })
+                        input.submit-btn.btn_1(type="submit") 提交
+            - if (typeof showResult != 'undefined' && showResult)
+                section.code.result-section
+                    - if (state == -1) 
+                        p.red 投票时间从#{vote.fromDate.getFullYear()}年#{vote.fromDate.getMonth() + 1}月#{vote.fromDate.getDate()}日开始，敬请期待！
+                    - if (state == 1) 
+                        p.red 投票已结束，下面是投票结果：
+                    ul.result-list
+                        - vote.opts.forEach(function(opt, index) {
+                            li
+                                - if (opt.hasVoted)
+                                    - var className = 'red description'
+                                - else
+                                    - var className = 'description'
+                                span(class=className, title=opt.description)= opt.description
+                                div.ib
+                                    span.per-blk.ib
+                                    span.vote-count= opt.voters.length
+                        - })
+                        li
+                            p.tips · 橙红色高亮选项为您投票选项
+            span.hide.snippet-id #{vote._id}
+
+block script_foot
+    - if (typeof singleVote != 'undefined' && singleVote && votes[0].type == 2) {
+        script
+            var minToSelect = #{votes[0].minToSelect},
+                maxToSelect = #{votes[0].maxToSelect};
+    - }
+    -if (typeof showResult != 'undefined' && showResult)
+        script
+            var totalVotes = #{votes[0].voters.length};
+    script(src='/js/voting.js')
+    script(src='/js/snippets.js')

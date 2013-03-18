@@ -29,6 +29,7 @@
              hasExec: false
          };
     };
+    // CMD子集
     M.define.cmd = true;
 
     var require = M.require = function(modName) {
@@ -3019,20 +3020,71 @@ define('event', function(require, exports, module) {
             node.removeEventListener(type, callback, false);
         };
     } else if (elTester.attachEvent) {
+        /**
+         * IE6/7/8下，attachEvent和detachEvent的回调函数的作用域为window
+         * 为了使作用域为触发节点，可以使用这样的方法：
+         *      node.attachEvent(type, function() {
+         *          callback.apply(node, arguments);
+         *      });
+         * 但作为匿名函数，则无法将该回调函数detach
+         * 于是这里使用这样数据结构来保存用户定义的回调函数与包装后的回调函数的引用：
+         * node[ieEventPatchName] = {
+         *      click: {
+         *          origin: [callback1, callback2],
+         *          wrapped: [wrapped1, wrapped2]
+         *      },
+         *      mouseup: {
+         *          origin: [],
+         *          wrapped: []
+         *      }
+         * }
+         * origin与wrapped数组中的对象分别对应用户定义的与包装后的回调函数，且顺序保持一致
+         * attach的时候使用的是wrapped函数
+         * 这样在detach的时候只要找到origin函数在origin数组中的位置
+         * 就能找到wrapped函数在wrapped数组中的位置
+         * 从而将wrapped函数detach
+         */
+        var ieEventPatchName = 'ieEventHandlerContextPatch';
         addEvent = function(node, type, callback) {
-            node.attachEvent('on' + type, callback);
+            var wrapped = function() {
+                // IE6 的callback函数体内，通过this无法引用到node
+                // 故这里使用apply来修复
+                callback.apply(node, arguments);
+            };
+
+            !node[ieEventPatchName] && (node[ieEventPatchName] = {});
+            !node[ieEventPatchName][type] && (node[ieEventPatchName][type] = {});
+            !node[ieEventPatchName][type]['origin'] && (node[ieEventPatchName][type]['origin'] = []);
+            !node[ieEventPatchName][type]['wrapped'] && (node[ieEventPatchName][type]['wrapped'] = []);
+
+            // 保存用户定义callback以及包装函数wrapped，且他们在各自数组中的索引位置是一样的
+            node[ieEventPatchName][type]['origin'].push(callback);
+            node[ieEventPatchName][type]['wrapped'].push(wrapped);
+
+            node.attachEvent('on' + type, wrapped);
         };
         removeEvent = function(node, type, callback) {
-            node.detachEvent('on' + type, callback);
+            var patch = node[ieEventPatchName],
+                originArr, wrappedArr, index;
+
+            // 没有函数备份说明还未attach这个event，直接返回
+            if (!patch || !patch[type] || !patch[type]['origin']) return;
+
+            originArr = patch[type]['origin'];
+            wrappedArr = patch[type]['wrapped'];
+            for (index = 0, l = originArr.length; index < l; ++index) {
+                if (originArr[index] === callback) break;
+            }
+
+            // origin数组中找不到callback的引用，说明还没有为这个事件类型attach这个callback
+            if (index == originArr.length) return;
+
+            node.detachEvent('on' + type, wrappedArr[index]);
+
+            // detach后将引用删除
+            wrappedArr.splice(index, 1);
+            originArr.splice(index, 1);
         };
-    } else {
-        console.error('do not support addEventListener or attachEvent');
-        /*addEvent = function(node, type, callback) {
-            node['on' + type] = callback;
-        };
-        removeEvent = function(node, type, callback) {
-            node['on' + type] = null;
-        };*/
     }
 
     elTester = null;
@@ -3294,7 +3346,7 @@ define('dom', function(require, exports, module) {
             if (parent.childNodes.length) {
                 parent.insertBefore(node, parent.childNodes[0]);
             } else {
-                this.append(parent, node);
+                common.append(parent, node);
             }
             return this;
         },
@@ -3433,9 +3485,9 @@ define('dom', function(require, exports, module) {
          * @return {Array}
          */
         children: function(node, selector) {
-            var arr = [];
             if (typeof selector == 'undefined') {
-                var cn = node.childNodes;
+                var cn = node.childNodes,
+                    arr = [];
                 _.each(cn, function(item) {
                     // 剔除text节点、comment等
                     if (item.nodeType == 1) {
@@ -3447,11 +3499,79 @@ define('dom', function(require, exports, module) {
             return $(selector, node);
         },
         /**
+         * 获得兄弟节点
+         */
+        siblings: function(node, selector) {
+            var matches = [],
+                sibling = (node.parentNode || {}).firstChild;
+
+            for (; sibling; sibling = sibling.nextSibling) {
+                if (sibling.nodeType == 1 && sibling !== node) {
+                    if (selector) {
+                        if ($.matchesSelector(sibling, selector)) {
+                            matches.push(sibling);
+                        }
+                    } else {
+                        matches.push(sibling);
+                    }
+                }
+            }
+
+            return matches;
+        },
+        /**
+         * 获得下一个兄弟节点
+         */
+        next: function(node) {
+            while( (node = node.nextSibling) && node.nodeType !== 1 ) {}
+
+            return node;
+        },
+        /**
+         * 获得前一个兄弟节点
+         */
+        prev: function(node) {
+            while( (node = node.previousSibling) && node.nodeType !== 1 ) {}
+
+            return node;
+        },
+        /**
+         *  获取或设置首元素的innerHTML
+         *  @param {String} content [Optional] 若传入此参数，则将innerHTML设为该值
+         */
+        html: function(node, content) {
+            if (node.nodeType == 1 || node.nodeType == 9 || node.nodeType == 11) {
+                if (typeof content != 'undefined') {
+                    node.innerHTML = content;
+                    return this;
+                }
+                return node.innerHTML;
+            }
+        },
+        /**
+         * 获取text值
+         */
+        text: function(node, content) {
+            if (node.nodeType === 1 || node.nodeType === 9 || node.nodeType === 11) {
+                if (typeof content != 'undefined') {
+                    node.textContent = content;
+                    return this;
+                }
+                return node.textContent;
+            } else if (node.nodeType === 3 || node.nodeType === 4) {
+                if (typeof content != 'undefined') {
+                    node.nodeValue = content;
+                    return this;
+                }
+                return node.nodeValue;
+            }
+        },
+        /**
          * 设置节点属性
          */
         attr: function(node, key, val) {
             if (node.nodeType == 1 || node.nodeType == 9 || node.nodeType == 11) {
-                if (val) {
+                if (typeof val != 'undefined') {
                     node.setAttribute(key, val);
                     return this;
                 } else {
@@ -3496,39 +3616,36 @@ define('dom', function(require, exports, module) {
          * 若不存在要替换的class，则添加新class
          */
         replaceClass: function(node, className, newClassName) {
-            var fullClass = node.className,
-                reg0 = new RegExp(' ' + className + ' '),
-                reg1 = new RegExp('^' + className + '$'),
-                reg2 = new RegExp(' ' + className + '$'),
-                reg3 = new RegExp('^' + className + ' ');
-            if (!~fullClass.indexOf(className) && !~fullClass.indexOf(newClassName)) {
-                fullClass += ' ' + newClassName;
-            } else if (reg0.test(fullClass)) {
-                fullClass = fullClass.replace(reg0, ' ' + newClassName + ' ');
-            } else if (reg1.test(fullClass)) {
-                fullClass = fullClass.replace(reg1, newClassName);
-            } else if (reg2.test(fullClass)) {
-                fullClass = fullClass.replace(reg2, ' ' + newClassName);
-            } else if (reg3.test(fullClass)) {
-                fullClass = fullClass.replace(reg3, newClassName + ' ');
-            }
-            node.className = fullClass;
+            common.removeClass(node, className).addClass(node, newClassName);
             return this;
         },
         /**
          * 移除某[几]个class
          */
         removeClass: function(node, className) {
-            common.replaceClass(node, className, '');
+            var reg,
+                fullClass = node.className,
+                classes = className.split(/\s+/);
+            _.each(classes, function(className) {
+                // 对应四种情况：'a', 'a b', 'b a', 'b a c'
+                // 如果要remove的class有重复，将一并去掉
+                reg = new RegExp(' ' + className + ' |' + '^' + className + '$|' + ' ' + className + '$|' + '^' + className + ' ', 'g');
+                fullClass = fullClass.replace(reg, ' ');
+            });
+
+            node.className = fullClass;
             return this;
         },
         /**
          * 添加class
          */
         addClass: function(node, className) {
-            if (!common.hasClass(node, className)) {
-                node.className = node.className + ' ' + className;
-            }
+            var classes = className.split(/\s+/);
+            _.each(classes, function(className) {
+                if (!common.hasClass(node, className)) {
+                    node.className = node.className + ' ' + className;
+                }
+            });
             return this;
         },
         /**
@@ -3556,7 +3673,7 @@ define('dom', function(require, exports, module) {
                 offsetParent = common.offsetParent(node);
 
                 // Get correct offsets
-                offset = this.offset(node);
+                offset = common.offset(node);
                 if (!(offsetParent.nodeName == 'html')) {
                     parentOffset = common.offset(offsetParent);
                 }
@@ -3579,7 +3696,7 @@ define('dom', function(require, exports, module) {
          */
         offsetParent: function(node) {
             var offsetParent = node.offsetParent || document.documentElement;
-            while (offsetParent && (!(offsetParent.nodeName == 'html') && this.css(offsetParent, 'position' === 'static'))) {
+            while (offsetParent && (!(offsetParent.nodeName == 'html') && common.css(offsetParent, 'position') === 'static')) {
                 offsetParent = offsetParent.offsetParent;
             }
             return offsetParent || document.documentElement;
@@ -3600,7 +3717,7 @@ define('dom', function(require, exports, module) {
             docElem = doc.documentElement;
 
             // Make sure it's not a disconnected DOM node
-            if (!this.contains(docElem, elem)) {
+            if (!common.contains(docElem, elem)) {
                 return box;
             }
 
@@ -3626,171 +3743,10 @@ define('dom', function(require, exports, module) {
                 false;
     }
 
-    // 对原生对象进行封装，不修改原生对象
-    // 接口以jQuery为参考
-    function FakeNodeList(nodeList) {
-        // TODO 支持window对象的封装，以重用Event方法。或者不支持window，需要则直接使用event模块？
-        if (nodeList.nodeType == 1 || nodeList.nodeType == 9 || nodeList.nodeType == 11 || nodeList === window) {
-            this[0] = nodeList;
-            this.length = 1;
-        } else {
-            for (var i = 0, l = nodeList.length; i < l; i++) {
-                this[i] = nodeList[i];
-            }
-            this.length = nodeList.length;
-        }
-    }
-
-    FakeNodeList.prototype = {
-        constructor: FakeNodeList,
-        // TODO 添加事件方法 代码太难看
-        on: function(type, callback) {
-            E.on(this[0], type, callback);
-            return this;
-        },
-        once: function(type, callback) {
-            E.once(this[0], type, callback);
-            return this;
-        },
-        off: function(type, callback) {
-            E.off(this[0], type, callback);
-            return this;
-        },
-        delegate: function(selector, type, callback) {
-            E.delegate(this[0], selector, type, callback);
-            return this;
-        },
-        onAll: function(type, callback) {
-            for (var i = 0, l = this.length; i < l; i++) {
-                E.on(this[i], type, callback);
-            }
-            return this;
-        },
-        // 辅助方法
-        /**
-         *  获得包装对象
-         *  @param {Number} index 要获取的包装对象的序号
-         */
-        eq: function(index) {
-            return new FakeNodeList(this[index]);
-        },
-        /**
-         *  获取或设置首元素的innerHTML
-         *  @param {String} content [Optional] 若传入此参数，则将innerHTML设为该值
-         */
-        html: function(content) {
-            if (typeof content != 'undefined') {
-                this[0].innerHTML = content;
-                return this;
-            }
-            return this[0].innerHTML;
-        },
-        /**
-         * 显示元素
-         */
-        show: function() {
-            DOM.show(this);
-            return this;
-        },
-        /**
-         * 隐藏元素
-         */
-        hide: function() {
-            DOM.hide(this);
-            return this;
-        },
-        isShow: function() {
-            return DOM.isShow(this);
-        },
-        visibility: function(trigger) {
-            DOM.visibility(this, trigger);
-            return this;
-        },
-        parent: function(selector) {
-            return DOM(DOM.parent(this, selector));
-        },
-        children: function(selector) {
-            return DOM(DOM.children(this, selector));
-        },
-        contains: function(node) {
-            return DOM.contains(this, node);
-        },
-        append: function(node) {
-            DOM.append(this, node);
-            return this;
-        },
-        prepend: function(node) {
-            DOM.prepend(this, node);
-            return this;
-        },
-        before: function(node) {
-            DOM.before(this, node);
-            return this;
-        },
-        after: function(node) {
-            DOM.after(this, node);
-            return this;
-        },
-        remove: function() {
-            DOM.remove(this);
-            return this;
-        },
-        removeAll: function() {
-            for (var i = 0, l = this.length; i < l; i++) {
-                DOM.remove(this[i]);
-            }
-            return this;
-        },
-        replace: function(node) {
-            DOM.replace(node, this);
-            return this;
-        },
-        attr: function(key, val) {
-            return DOM.attr(this, key, val);
-        },
-        hasClass: function(className) {
-            return DOM.hasClass(this, className);
-        },
-        addClass: function(className) {
-            return _.bind(DOM.addClass, this)(this, className);
-        },
-        removeClass: function(className) {
-            return _.bind(DOM.removeClass, this)(this, className);
-        },
-        replaceClass: function(desClass, newClass) {
-            return _.bind(DOM.replaceClass, this)(this, desClass, newClass);
-        },
-        /**
-         * node.css()
-         * node.css(styleObj)
-         * node.css(attr, value)
-         * node.css(attr)
-         */
-        css: function(attr, value) {
-            return _.bind(DOM.css, this)(this, attr, value);
-        },
-        val: function(str) {
-            if (typeof str == 'string' || typeof str == 'number') {
-                this[0].value = str;
-                return this;
-            } else if (!str) {
-                return this[0].value;
-            }
-        },
-        focus: function() {
-            try {
-                this[0].focus();
-            } catch (e) {}
-            return this;
-        },
-        position: function() {
-            return DOM.position(this);
-        },
-        offset: function() {
-            return DOM.offset(this);
-        }
-    };
-
+    /**
+     * 不将common方法直接在DOM上实现，是为了可以在下面通过一个函数将参数中的FakeNodeList对象过滤
+     * 而不用在每个函数中都过滤一次，从而保持common方法足够干净
+     */
     function DOM(selector, ctx) {
         var nodes;
         if (selector instanceof FakeNodeList) {
@@ -3812,6 +3768,7 @@ define('dom', function(require, exports, module) {
     }
 
     // 为DOM扩展common的静态方法
+    // 通过过滤参数来实现原生对象与FakeNodeList对象的统一支持
     _.each(common, function(func, funName, collect) {
         DOM[funName] = function() {
             var args = _.toArray(arguments);
@@ -3824,6 +3781,137 @@ define('dom', function(require, exports, module) {
             return func.apply(this, args);
         };
     });
+
+    // 对原生对象进行封装，不修改原生对象
+    // 接口以jQuery为参考
+    function FakeNodeList(nodeList) {
+        // TODO 支持window对象的封装，以重用Event方法。或者不支持window，需要则直接使用event模块？
+        if (nodeList.nodeType == 1 || nodeList.nodeType == 9 || nodeList.nodeType == 11 || nodeList === window) {
+            this[0] = nodeList;
+            this.length = 1;
+        } else {
+            for (var i = 0, l = nodeList.length; i < l; i++) {
+                this[i] = nodeList[i];
+            }
+            this.length = nodeList.length;
+        }
+    }
+
+    FakeNodeList.prototype = {
+        constructor: FakeNodeList,
+        /**
+         *  获得包装对象
+         *  @param {Number} index 要获取的包装对象的序号
+         */
+        eq: function(index) {
+            return new FakeNodeList(this[index]);
+        },
+        /**
+         * 迭代数组中的元素。若其中一个元素在迭代时返回了false，则结束迭代
+         * callback(index)：callback的context就是当前迭代元素
+         */
+        each: function(callback) {
+            for (var i = 0, l = this.length; i < l; ++i) {
+                if (callback.call(this[i], i, this[i]) === false) {
+                    break;
+                }
+            }
+            return this;
+        },
+        val: function(str) {
+            if (typeof str == 'string' || typeof str == 'number') {
+                this[0].value = str;
+                return this;
+            } else if (!str) {
+                return this[0].value;
+            }
+        },
+        /**
+         * 使元素聚焦
+         */
+        focus: function() {
+            try {
+                this[0].focus();
+            } catch (e) {}
+            return this;
+        },
+        /**
+         * 获得对象中第一个元素的某个样式值，或给所有元素应用一个或一组样式
+         * css(attr)
+         * css(attr, value)
+         * css({attr1: value1, attr2: value2})
+         */
+        css: function(attr, value) {
+            if (arguments.length == 0) {
+                return DOM.css(this);
+            } else if (arguments.length == 1) {
+                if (_.isObject(attr)) {
+                    // 所有元素都应用这一组样式
+                    this.each(function() {
+                        var _this = this;
+                        _.each(_.pairs(attr), function(attrPairs) {
+                            common.css(_this, attrPairs[0], attrPairs[1]);
+                        });
+                    });
+                    return this;
+                } else {
+                    // 获得某个样式的属性值
+                    return DOM.css(this, attr);
+                }
+            } else {
+                // 所有元素都应用这一条样式
+                this.each(function() {
+                    common.css(this, attr, value);
+                });
+                return this;
+            }
+
+        }
+    };
+
+    // 添加事件方法 *对集合中左右元素进行操作* *支持链式调用*
+    _.each('on once off delegate'.split(' '), function(evt) {
+        FakeNodeList.prototype[evt] = iterateAll(E, evt);
+    });
+
+    // *对集合中左右元素进行操作* *支持链式调用*
+    _.each('show hide visibility remove addClass removeClass replaceClass'.split(' '), function(func) {
+        FakeNodeList.prototype[func] = iterateAll(DOM, func);
+    });
+
+    // 只为第一个元素应用某个方法，支持链式调用
+    _.each('append prepend before after replace'.split(' '), function(func) {
+        FakeNodeList.prototype[func] = function() {
+            DOM[func].apply(DOM, [this].concat(_.toArray(arguments)));
+            return this;
+        };
+    });
+
+    // 只为第一个元素应用某个方法，若该方法返回this，则支持链式调用
+    _.each('isShow contains attr hasClass position offset html text'.split(' '), function(func) {
+        FakeNodeList.prototype[func] = function() {
+            return DOM[func].apply(this, [this].concat(_.toArray(arguments)));
+        };
+    });
+
+    // 通过FakeNodeList的对象获得的对象都是FakeNodeList对象
+    _.each('parent children offsetParent siblings next prev'.split(' '), function(func) {
+        FakeNodeList.prototype[func] = function() {
+            // 用DOM进行包装
+            return DOM(DOM[func].apply(DOM, [this].concat(_.toArray(arguments))));
+        };
+    });
+
+    // 为所有元素应用某个方法
+    function iterateAll(funcParent, func) {
+        return function() {
+            var args = _.toArray(arguments);
+            _.each(this, function(ele) {
+                funcParent[func].apply(funcParent, [ele].concat(args));
+            });
+            return this;
+        };
+    }
 
     module.exports = DOM;
 });
@@ -4319,8 +4407,7 @@ if (typeof JSON !== 'object') {
 }());
 
 define('ajax', function(require, exports, module) {
-    var _ = M._,
-        hasOwn = Object.prototype.hasOwnProperty;
+    var _ = M._;
 
     /*========================
      * Ajax 相关
@@ -4356,22 +4443,18 @@ define('ajax', function(require, exports, module) {
         var xhr = createXHR();
 
         return function (config) {
-            config.method ? (config.method = config.method.toLowerCase()) : (config.method = 'post');
-            config.async || (config.async = true);
-            config.on || (config.on = {});
-            config.arguments || (config.arguments = {});
+            config.method = config.method ? config.method.toLowerCase() : 'post';
+            _.defaults(config, {
+                async: true,
+                on: {},
+                arguments: {}
+            });
 
             var form = config.form,
                 data = form ? serialize(form, config.useDisabled, config.blackList) : '';
             if (config.data) {
-               if (_.isObject(config.data)) {
-                    var tmp = [];
-                    for (var i in config.data) {
-                        if (hasOwn.call(config.data, i)) {
-                            tmp.push(i + '=' + config.data[i]);
-                        }
-                    }
-                    config.data = tmp.join('&');
+                if (_.isObject(config.data)) {
+                    config.data = ajax.param(config.data);
                 }
                 data === '' ? (data = config.data) : (data += '&' + config.data);
             }
@@ -4387,7 +4470,7 @@ define('ajax', function(require, exports, module) {
 
             if (config.requestHeader) {
                 for (var j in config.requestHeader) {
-                    if (hasOwn.call(config.requestHeader, j)) {
+                    if (_.has(config.requestHeader, j)) {
                         xhr.setRequestHeader(j, config.requestHeader[j]);
                     }
                 }
@@ -4515,7 +4598,7 @@ define('ajax', function(require, exports, module) {
             if (_.isString(obj)) return obj;
             if (_.isObject(obj) && !_.isArray(obj) && !_.isFunction(obj)) {
                 for (var i in obj) {
-                    if (hasOwn.call(obj, i)) {
+                    if (_.has(obj, i)) {
                         tmp.push(i + '=' + obj[i]);
                     }
                 }
@@ -4649,8 +4732,12 @@ define('util', function(require, exports, module) {
          * To format the query and return as Object
          * @return {Object} the query Object
          */
-        getQuery: function() {
-            var query = !!location.search && location.search.substring(1).split('&'),
+        getQuery: function(search) {
+            if (typeof search == 'undefined') {
+                search = location.search;
+            }
+
+            var query = search && search.substring(1).split('&'),
                 result = {};
 
             if (query) {
@@ -4704,7 +4791,10 @@ define('util', function(require, exports, module) {
          * @param {Number} num the phone number to validate
          */
         isValidMobileNumber: function(num) {
-            return /^0?(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$/.test(num);
+            return /^0?(13[0-9]|15[012356789]|18[02356789]|14[57])[0-9]{8}$/.test(num);
+        },
+        isValidMailAddress: function(addr) {
+            return  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(addr);
         },
         /**
          *  判断浏览器是否安装了flash，安装了则返回版本号
@@ -4750,8 +4840,8 @@ define('util', function(require, exports, module) {
 // 注意：不要改顺序
 M._ = require('underscore');
 M.sizzle = require('sizzle');
-M.event = require('event'),
+M.event = require('event');
 M.dom = require('dom');
-M.ajax = require('ajax'),
-M.util = require('util')
+M.ajax = require('ajax');
+M.util = require('util');
 })();

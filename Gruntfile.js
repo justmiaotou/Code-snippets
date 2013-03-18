@@ -33,12 +33,13 @@ module.exports = function(grunt) {
                 }
             },
             snippet: {
-                src: './lib/js/pages/snippet/',
+                src: ['./lib/js/pages/snippet/', './lib/js/widget/'],
                 files: {
                     'snippets.js': 'snippets.js',
                     'vote-new.js': 'vote-new.js',
                     'edit-snippet.js': 'edit-snippet.js',
                     'login.js': 'login.js',
+                    'voting.js': 'voting.js',
                     'register.js': 'register.js'
                 }
             }

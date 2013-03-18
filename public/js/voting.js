@@ -444,49 +444,6 @@ define('pop', function(require, exports, module) {
 (function() {
     var define = M.define,
         require = M.require;
-define('snippet-common', function(require, exports, module) {
-    var $ = M.dom;
-
-var pops = require('common-pops'),
-    popAlert = new pops.AlertPop();
-
-    module.exports = {
-        checkForm: checkForm
-    };
-
-
-    /**
-     * 对表单的简单验证
-     */
-    function checkForm() {
-        var elements = $('input[required], textarea[required]'),
-            error = [];
-
-        M._.each(elements, function(ele) {
-            if (/^\s*$/.test(ele.value)) {
-                error.push('请将必填项补充完整。');
-            }
-        });
-
-        var pws = $('input[type=password]');
-        if (pws.length == 2) {
-            if (pws[0].value !== pws[1].value) {
-                error.push('两次密码输入不一致');
-            }
-        }
-
-        if (error.length) {
-            popAlert.show(error[0]);
-            return false;
-        }
-
-        return true;
-    }
-});
-})();
-(function() {
-    var define = M.define,
-        require = M.require;
 define('common-pops', function(require, exports, module) {
     var $ = M.dom,
         Pop = require('pop');
@@ -637,40 +594,80 @@ define('common-pops', function(require, exports, module) {
 (function() {
     var define = M.define,
         require = M.require;
-var common = require('snippet-common'),
-    ajax = M.ajax,
+var $ = M.dom,
     E = M.event,
-    $ = M.dom;
+    _ = M._,
+    ajax = M.ajax;
 
-var pops = require('common-pops'),
-    popAlert = new pops.AlertPop();
+var commonPops = require('common-pops'),
+    popAlert = new commonPops.AlertPop();
 
-var form = $('#main-form');
+var voteForm = $('#vote-form'),
+    resultList= $('.result-list');
 
-form.on('submit', function(e) {
-    E.preventDefault(e);
+if (voteForm.length) {
+    voteForm.on('submit', function(e) {
+        E.preventDefault(e);
 
-    form[0].username.checkValidity && form[0].username.checkValidity();
-    if (form[0].username.validity && form[0].username.validity.patternMismatch) {
-        popAlert.show('用户名格式不正确！看不懂正则？那这里不适合你……');
+        var optChecked = $('input:checked');
+
+        if (!optChecked.length) {
+            popAlert.show('请选择您要投票的选项');
+            return;
+        }
+
+        if (window.minToSelect) {
+            if (optChecked.length < minToSelect) {
+                popAlert.show('请至少选择' + minToSelect + '个选项');
+                return;
+            } else if (optChecked.length > maxToSelect) {
+                popAlert.show('选择个数不能超过' + minToSelect + '个');
+                return;
+            }
+        }
+        ajax({
+            url: '/vote/vote',
+            form: voteForm[0],
+            on: {
+                complete: function(data) {
+                    if (data.type == 200) {
+                        location.reload();
+                    } else {
+                        popAlert.show(data.msg);
+                    }
+                }
+            }
+        });
+    });
+}
+
+if (resultList.length) {
+    resetPerRow();
+}
+
+function resetPerRow() {
+    var rows = resultList.children('li'),
+        MAX_WIDTH = 300;
+
+    if (typeof totalVotes == 'undefined') {
+        popAlert.show('额，页面出错，请刷新一下试试……');
         return;
     }
-    common.checkForm() && ajax({
-          url: '/register'
-        , form: $('#main-form')[0]
-        , blackList: ['pw-confirm']
-        , on: {
-            complete: function(res, xhr) {
-                if (res.type != 0) {
-                    popAlert.show(res.msg);
-                } else {
-                    popAlert.show('恭喜注册成功~将转至登录页登录！');
-                    window.setTimeout(function() {
-                        location.href = '/login';
-                    }, 2000);
-                }
+
+    rows.each(function(index) {
+        var row = $(this),
+            ndPerBlk = $('.per-blk', row),
+            count = row.children('.vote-count').html(),
+            width = Math.floor(count / totalVotes * MAX_WIDTH);
+
+        timer = window.setInterval(increaseWidth, 10);
+        function increaseWidth() {
+            if (ndPerBlk[0].clientWidth  < width) {
+                ndPerBlk.css('width', ndPerBlk[0].clientWidth + 5 + 'px');
+            } else {
+                window.clearInterval(timer);
             }
         }
     });
-});
+}
 })();

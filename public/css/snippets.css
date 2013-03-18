@@ -19,7 +19,24 @@
 .mod-btn-con .mod-btn:hover { box-shadow:inset 0 0 10px; }
 .mod-btn-con .mod-btn:active { box-shadow:inset 0 0 15px; }
 
+.tips { color:#777; font-size:14px; }
+
 /* 遮罩效果 */
 .mask { position:fixed; *position:absolute; height:100%; width:100%; top:0; background:black; opacity:.4; filter:alpha(opacity=40); z-index:5; }
 .mask p { padding:0 20px; font-size:50px; color:#CCC; width:320px; line-height:1.5; border:5px solid; text-align:center; }
 .av-center { position:absolute; left:50%; top:50%; margin:-44px 0 0 -165px; }
+
+/* 投票页 */
+.opt-list { margin:15px 0; }
+.opt-list li { line-height:2; border-bottom:2px dashed #CCC; }
+.opt-list li:hover { box-shadow:0 0 8px #999; border-bottom-color:white; }
+.opt-list input[name=opt] { margin-top:10px; vertical-align:top; }
+.opt-list li .description { display:inline-block; margin-left:5px; width:660px; cursor:pointer; word-break:break-all; }
+
+/* 投票结果页 */
+.result-list { margin-top:15px; }
+.result-list li { line-height:2; margin-bottom:5px; }
+.result-list .description { display:inline-block; width:345px; text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.result-list .per-blk { margin:0 5px; vertical-align:bottom; height:32px; background:lightblue; border:2px solid #555; border-top:none; border-bottom:none; }
+.result-list .tips { margin-top:30px; border-top:1px dashed #CCC; }
+.result-section { padding-bottom:10px; }
