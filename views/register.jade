@@ -6,6 +6,11 @@ html
         link(rel='stylesheet', href='/css/reset.css')
         link(rel='stylesheet', href='/css/common.css')
         link(rel='stylesheet', href='/css/single-form.css')
+        script
+            var html5Tag = ["aside","footer","header","hgroup","nav","section","article","figcaption","figure"];
+            for (var i in html5Tag) {
+                document.createElement(html5Tag[i]);
+            }
     body
         section.wrapper
             header.main-hd

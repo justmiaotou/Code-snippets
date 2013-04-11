@@ -13,7 +13,7 @@ block content
                 hgroup
                     h2.entry-title
                         b &#10162;
-                        - if (global.singleVote || global.showResult)
+                        - if ((typeof singleVote != 'undefined' && singleVote) || (typeof showResult != 'undefined' && showResult))
                             span.title #{vote.title}
                         - else
                             a.title(href="/vote/" + vote._id, target="_blank") #{vote.title}
@@ -23,8 +23,7 @@ block content
                 //- .mod-btn-con
                     //-a.mod-btn.tst-all-02(href='/vote/mod/'+vote._id, title='修改该条目', target='_blank')
             section.entry-info
-                div.desc 
-                    | !{vote.description}
+                div.desc !{vote.description}
             - if (typeof singleVote != 'undefined' && singleVote)
                 section.code
                     form#vote-form
@@ -67,6 +66,10 @@ block content
                         li
                             p.tips · 橙红色高亮选项为您投票选项
             span.hide.snippet-id #{vote._id}
+
+block others
+    - if (typeof singleVote == 'undefined'|| typeof showResult == 'undefined')
+        include ../includes/pagination
 
 block script_foot
     - if (typeof singleVote != 'undefined' && singleVote && votes[0].type == 2) {

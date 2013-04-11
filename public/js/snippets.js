@@ -448,8 +448,8 @@ define('common-pops', function(require, exports, module) {
     var $ = M.dom,
         Pop = require('pop');
 
-    exports.AlertPop = AlertPop;
-    exports.ConfirmPop = ConfirmPop;
+    exports.popAlert = new AlertPop();
+    exports.popConfirm = new ConfirmPop();
 
     // 模拟alert弹出框
     // popAlert.show('msg');
@@ -598,7 +598,7 @@ define('snippet-common', function(require, exports, module) {
     var $ = M.dom;
 
 var pops = require('common-pops'),
-    popAlert = new pops.AlertPop();
+    popAlert = pops.popAlert;
 
     module.exports = {
         checkForm: checkForm

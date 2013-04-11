@@ -448,8 +448,8 @@ define('common-pops', function(require, exports, module) {
     var $ = M.dom,
         Pop = require('pop');
 
-    exports.AlertPop = AlertPop;
-    exports.ConfirmPop = ConfirmPop;
+    exports.popAlert = new AlertPop();
+    exports.popConfirm = new ConfirmPop();
 
     // 模拟alert弹出框
     // popAlert.show('msg');
@@ -599,7 +599,7 @@ var $ = M.dom,
     ajax = M.ajax;
 
 var pops = require('common-pops'),
-    popAlert = new pops.AlertPop();
+    popAlert = pops.popAlert;
 
 var multiOption = $('.multi-option'),
     optList = $('#opt-list'),

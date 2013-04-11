@@ -5,6 +5,11 @@ html
         title #{title}
         link(rel='stylesheet', href='/css/reset.css')
         link(rel='stylesheet', href='/css/common.css')
+        script
+            var html5Tag = ["aside","footer","header","hgroup","nav","section","article","figcaption","figure"];
+            for (var i in html5Tag) {
+                document.createElement(html5Tag[i]);
+            }
         block style_head
         block script_head
     body

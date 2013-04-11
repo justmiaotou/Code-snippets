@@ -3328,6 +3328,7 @@ define('dom', function(require, exports, module) {
          * @param {Element} childNode
          */
         contains: function(parentNode, childNode) {
+            if (!childNode) return;
             return parentNode.contains ?
                 parentNode != childNode && parentNode.contains(childNode) :
                     !!(parentNode.compareDocumentPosition(childNode) & 16);
@@ -3422,7 +3423,7 @@ define('dom', function(require, exports, module) {
          * @param {Element} newNode
          * @param {Element} oldNode
          */
-        replace: function(newNode, oldNode) {
+        replace: function(oldNode, newNode) {
             return oldNode.parentNode.replaceChild(newNode, oldNode);
         },
         /**
@@ -3522,18 +3523,14 @@ define('dom', function(require, exports, module) {
         /**
          * 获得下一个兄弟节点
          */
-        next: function(node) {
-            while( (node = node.nextSibling) && node.nodeType !== 1 ) {}
-
-            return node;
+        next: function(node, selector) {
+            return getSibling(node, 'nextSibling', selector);
         },
         /**
-         * 获得前一个兄弟节点
+         * 获得上一个兄弟节点
          */
-        prev: function(node) {
-            while( (node = node.previousSibling) && node.nodeType !== 1 ) {}
-
-            return node;
+        prev: function(node, selector) {
+            return getSibling(node, 'previousSibling', selector);
         },
         /**
          *  获取或设置首元素的innerHTML
@@ -3734,6 +3731,24 @@ define('dom', function(require, exports, module) {
         }
     };
 
+    /**
+     * 若没有提供selector，则直接获得前一个nodeType为1的元素
+     * 否则一直往前找与selector相match的元素
+     */
+    function getSibling(node, siblingType, selector) {
+        while(node = node[siblingType]) {
+            if (selector) {
+                if ( $.matchesSelector(node, selector)) {
+                    break;
+                }
+            } else if (node.nodeType === 1) {
+                break;
+            }
+        }
+
+        return node;
+    }
+
     function getWindow(elem) {
                 // isWindow
         return elem != null && elem.window === window ?
@@ -3749,19 +3764,24 @@ define('dom', function(require, exports, module) {
      */
     function DOM(selector, ctx) {
         var nodes;
-        if (selector instanceof FakeNodeList) {
-            return selector;
-        }
-        if (typeof selector == 'string') {
-            if (ctx instanceof FakeNodeList) {
-                ctx = ctx[0];
+
+        if (!selector) {
+            nodes = [];
+        } else {
+            if (selector instanceof FakeNodeList) {
+                return selector;
             }
-            nodes = $(selector, ctx);
-        } else if (typeof selector == 'object' &&
-                   (selector.nodeType == 1 || selector.nodeType == 9 || selector.nodeType == 11)) {
-            nodes = selector;
-        } else if (_.isArray(selector)) {
-            nodes = selector;
+            if (typeof selector == 'string') {
+                if (ctx instanceof FakeNodeList) {
+                    ctx = ctx[0];
+                }
+                nodes = $(selector, ctx);
+            } else if (typeof selector == 'object' &&
+                       (selector.nodeType == 1 || selector.nodeType == 9 || selector.nodeType == 11)) {
+                nodes = selector;
+            } else if (_.isArray(selector)) {
+                nodes = selector;
+            }
         }
         // 返回包装对象
         return new FakeNodeList(nodes);
@@ -3874,7 +3894,7 @@ define('dom', function(require, exports, module) {
         FakeNodeList.prototype[evt] = iterateAll(E, evt);
     });
 
-    // *对集合中左右元素进行操作* *支持链式调用*
+    // *对集合中所有元素进行操作* *支持链式调用*
     _.each('show hide visibility remove addClass removeClass replaceClass'.split(' '), function(func) {
         FakeNodeList.prototype[func] = iterateAll(DOM, func);
     });

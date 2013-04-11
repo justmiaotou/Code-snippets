@@ -17,6 +17,7 @@ block content
             h3 Summary
             - var preClass = ['brush:html;', 'toolbar:false;gutter:false;']
             pre(class=preClass)
+                p Total submission number: #{reports.length}
                 - each report in reports
                     h2 
                         | /**
