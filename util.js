@@ -1,6 +1,3 @@
-// test merge
-
-
 'use strict';
 
 var crypto = require('crypto'),
